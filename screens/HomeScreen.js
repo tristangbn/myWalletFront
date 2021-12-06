@@ -142,7 +142,9 @@ function HomeScreen(props) {
       {/* </ZStack> */}
       <Box alignSelf="flex-end" m="6">
         <HStack>
-          <Text fontSize="md" fontWeight="medium" textAlign="center" my='auto'>Ajouter une cryptomonnaie  </Text>
+          <Text fontSize="md" fontWeight="medium" textAlign="center" my="auto">
+            Ajouter une cryptomonnaie{" "}
+          </Text>
           <Button
             onPress={() => props.navigation.navigate("AddCrypto")}
             variant="rounded"

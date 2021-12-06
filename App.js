@@ -1,62 +1,45 @@
 import React from "react";
-import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
-  Box,
-} from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
-import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import { NativeBaseProvider, extendTheme, StatusBar } from "native-base";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
-
+import { Platform } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import AddCrypto from "./screens/AddCrypto";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-import { Ionicons } from "@expo/vector-icons";
-
 
 const bottomNav = () => {
   return (
     <Tab.Navigator
-    screenOptions={({ route }) => ({
-      tabBarIcon: ({ color }) => {
-        let iconName;
-        if (route.name === "Home") {
-          iconName = "ios-information-circle";
-        // } else if (route.name === "AddCrypto") {
-        //   iconName = "ios-options";
-        }
-        return <Ionicons name={iconName} size={25} color={color} />;
-      },
-      tabBarActiveTintColor: "#FFFFFF",
-      tabBarInactiveTintColor: "#3E363F",
-      tabBarStyle: { backgroundColor: "#1e293b" },
-      headerShown: false,
-    })}
-  >
-    <Tab.Screen name="Home" component={HomeScreen} />
-    {/* <Tab.Screen name="AddCrypto" component={AddCrypto} /> */}
-  </Tab.Navigator>
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          let iconName;
+          if (route.name === "Home") {
+            iconName = "ios-information-circle";
+            // } else if (route.name === "AddCrypto") {
+            //   iconName = "ios-options";
+          }
+          return <Ionicons name={iconName} size={25} color={color} />;
+        },
+        tabBarActiveTintColor: "#FFFFFF",
+        tabBarInactiveTintColor: "#3E363F",
+        tabBarStyle: { backgroundColor: "#1e293b" },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      {/* <Tab.Screen name="AddCrypto" component={AddCrypto} /> */}
+    </Tab.Navigator>
   );
 };
 
-
-
 // extend the theme
- const customTheme = extendTheme({
+const customTheme = extendTheme({
   config: {
     useSystemColorMode: false,
     initialColorMode: "dark",
@@ -79,19 +62,13 @@ const bottomNav = () => {
   },
 });
 
-
 function App() {
   return (
-    // <NativeBaseProvider theme={theme}>
-    //   <NavigationContainer>
-    //     <Stack.Navigator screenOptions={{ headerShown: false }}>
-    //       <Stack.Screen name="Home" component={HomeScreen} />
-    //       <Stack.Screen name="AddCrypto" component={AddCrypto} />
-    //       <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
-    // </NativeBaseProvider>
     <NativeBaseProvider theme={customTheme}>
+      <StatusBar
+        barStyle={Platform.OS === "android" && "light-content"}
+        backgroundColor={"#0f172a"}
+      />
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -112,7 +89,6 @@ function App() {
           />
         </Stack.Navigator>
       </NavigationContainer>
-
     </NativeBaseProvider>
   );
 }
