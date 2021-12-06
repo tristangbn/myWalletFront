@@ -15,6 +15,8 @@ import {
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const axios = require("axios").default;
 
 const SignUpScreen = ({ navigation }) => {
@@ -31,7 +33,9 @@ const SignUpScreen = ({ navigation }) => {
         email: email,
         password: password,
       })
-      .then((res) => console.log(res.data));
+      .then((response) => {
+        AsyncStorage.setItem("userToken", response.data.userToken);
+      });
   };
 
   return (

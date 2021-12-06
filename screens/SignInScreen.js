@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -13,11 +13,18 @@ import {
   Icon,
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const axios = require("axios").default;
 
 const SignInScreen = (props) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+
+  useEffect(() => {
+    AsyncStorage.getItem("userToken", function (err, data) {
+      if (data) navigation.navigate("bottomNav");
+    });
+  }, []);
 
   const login = () => {
     axios
@@ -25,10 +32,11 @@ const SignInScreen = (props) => {
         email: email,
         password: password,
       })
-      .then((res) => {
-        console.log(res.data);
-        console.log("clic");
-        props.navigation.navigate("HomeScreen");
+      .then((response) => {
+        if (response.data.result) {
+          AsyncStorage.setItem("userToken", response.data.userToken);
+          navigation.navigate("bottomNav");
+        }
       });
   };
 

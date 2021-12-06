@@ -1,31 +1,18 @@
-import React from "react";
-import {
-  Text,
-  Link,
-  HStack,
-  Center,
-  Heading,
-  Switch,
-  useColorMode,
-  NativeBaseProvider,
-  extendTheme,
-  VStack,
-  Code,
-  Box,
-} from "native-base";
-import NativeBaseIcon from "./components/NativeBaseIcon";
-import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import React, { useEffect } from "react";
+import { NativeBaseProvider, extendTheme, StatusBar } from "native-base";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import { Platform } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import AddCrypto from "./screens/AddCrypto";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
-import { Ionicons } from "@expo/vector-icons";
 
 const bottomNav = () => {
   return (
@@ -78,16 +65,11 @@ const customTheme = extendTheme({
 
 function App() {
   return (
-    // <NativeBaseProvider theme={theme}>
-    //   <NavigationContainer>
-    //     <Stack.Navigator screenOptions={{ headerShown: false }}>
-    //       <Stack.Screen name="Home" component={HomeScreen} />
-    //       <Stack.Screen name="AddCrypto" component={AddCrypto} />
-    //       <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
-    //     </Stack.Navigator>
-    //   </NavigationContainer>
-    // </NativeBaseProvider>
     <NativeBaseProvider theme={customTheme}>
+      <StatusBar
+        barStyle={Platform.OS === "android" && "light-content"}
+        backgroundColor={"#0f172a"}
+      />
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
@@ -114,6 +96,7 @@ function App() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen name="bottomNav" component={bottomNav} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
