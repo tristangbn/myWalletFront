@@ -11,22 +11,61 @@ import {
   extendTheme,
   VStack,
   Code,
+  Box,
 } from "native-base";
 import NativeBaseIcon from "./components/NativeBaseIcon";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SignInScreen from "./screens/SignInScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
+const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
+const bottomNav = () => {
+  return (
+    <Tab.Navigator>
+      <Tab.Screen name="News"></Tab.Screen>
+      <Tab.Screen name="Wallet"></Tab.Screen>
+      <Tab.Screen name="Stock"></Tab.Screen>
+    </Tab.Navigator>
+  );
 };
 
 // extend the theme
-export const theme = extendTheme({ config });
+const customTheme = extendTheme({
+  config: {
+    // Changing initialColorMode to 'dark'
+    initialColorMode: "dark",
+  },
+});
 
 export default function App() {
   return (
-    <NativeBaseProvider>
-      <Center
+    <NativeBaseProvider theme={customTheme}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="Sign-in"
+            component={SignInScreen}
+            options={{
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
+          <Stack.Screen
+            name="Sign-up"
+            component={SignUpScreen}
+            options={{
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+
+      {/* <Center
         _dark={{ bg: "blueGray.900" }}
         _light={{ bg: "blueGray.50" }}
         px={4}
@@ -47,7 +86,7 @@ export default function App() {
           </Link>
           <ToggleDarkMode />
         </VStack>
-      </Center>
+      </Center> */}
     </NativeBaseProvider>
   );
 }
