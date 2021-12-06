@@ -14,58 +14,126 @@ import {
 } from "native-base";
 import NativeBaseIcon from "./components/NativeBaseIcon";
 
-// Define the config
-const config = {
-  useSystemColorMode: false,
-  initialColorMode: "dark",
-};
+import HomeScreen from "./screens/HomeScreen";
+import AddCrypto from "./screens/AddCrypto";
+
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
+import { Ionicons } from "@expo/vector-icons";
 
 // extend the theme
-export const theme = extendTheme({ config });
+export const theme = extendTheme({
+  config: {
+    useSystemColorMode: false,
+    initialColorMode: "dark",
+  },
+  components: {
+    Button: {
+      baseStyle: {},
+      defaultProps: {},
+      variants: {
+        rounded: () => {
+          return {
+            bg: "violet.900",
+            rounded: "full",
+            colorScheme: "violet",
+          };
+        },
+      },
+      sizes: {},
+    },
+  },
+});
 
-export default function App() {
+const BottomNavigator = () => {
   return (
-    <NativeBaseProvider>
-      <Center
-        _dark={{ bg: "blueGray.900" }}
-        _light={{ bg: "blueGray.50" }}
-        px={4}
-        flex={1}
-      >
-        <VStack space={5} alignItems="center">
-          <NativeBaseIcon />
-          <Heading size="lg">Welcome to NativeBase</Heading>
-          <HStack space={2} alignItems="center">
-            <Text>Edit</Text>
-            <Code>App.js</Code>
-            <Text>and save to reload.</Text>
-          </HStack>
-          <Link href="https://docs.nativebase.io" isExternal>
-            <Text color="primary.500" underline fontSize={"xl"}>
-              Learn NativeBase
-            </Text>
-          </Link>
-          <ToggleDarkMode />
-        </VStack>
-      </Center>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          let iconName;
+          if (route.name === "Home") {
+            iconName = "ios-information-circle";
+          // } else if (route.name === "AddCrypto") {
+          //   iconName = "ios-options";
+          }
+          return <Ionicons name={iconName} size={25} color={color} />;
+        },
+        tabBarActiveTintColor: "#FFFFFF",
+        tabBarInactiveTintColor: "#3E363F",
+        tabBarStyle: { backgroundColor: "#1e293b" },
+        headerShown: false,
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
+      {/* <Tab.Screen name="AddCrypto" component={AddCrypto} /> */}
+    </Tab.Navigator>
+  );
+};
+
+function App() {
+  return (
+    <NativeBaseProvider theme={theme}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="AddCrypto" component={AddCrypto} />
+          <Stack.Screen name="BottomNavigator" component={BottomNavigator} />
+        </Stack.Navigator>
+        {/* <Tab.Navigator
+          screenOptions={({ route }) => ({
+            tabBarIcon: ({ color }) => {
+              let iconName;
+              if (route.name === "Home") {
+                iconName = "ios-information-circle";
+              } else if (route.name === "AddCrypto") {
+                iconName = "ios-options";
+              }
+              return <Ionicons name={iconName} size={25} color={color} />;
+            },
+            tabBarActiveTintColor: "#FFFFFF",
+            tabBarInactiveTintColor: "#3E363F",
+            tabBarStyle: { backgroundColor: "#1e293b" },
+            headerShown: false,
+          })}
+        >
+          <Tab.Screen name="Home" component={HomeScreen} />
+          <Tab.Screen name="AddCrypto" component={AddCrypto} />
+        </Tab.Navigator> */}
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
 
-// Color Switch Component
-function ToggleDarkMode() {
-  const { colorMode, toggleColorMode } = useColorMode();
-  return (
-    <HStack space={2} alignItems="center">
-      <Text>Dark</Text>
-      <Switch
-        isChecked={colorMode === "light" ? true : false}
-        onToggle={toggleColorMode}
-        aria-label={
-          colorMode === "light" ? "switch to dark mode" : "switch to light mode"
-        }
-      />
-      <Text>Light</Text>
-    </HStack>
-  );
-}
+// // Color Switch Component
+// function ToggleDarkMode() {
+//   const { colorMode, toggleColorMode } = useColorMode();
+//   return (
+//     <HStack space={2} alignItems="center">
+//       <Text>Dark</Text>
+//       <Switch
+//         isChecked={colorMode === "light" ? true : false}
+//         onToggle={toggleColorMode}
+//         aria-label={
+//           colorMode === "light" ? "switch to dark mode" : "switch to light mode"
+//         }
+//       />
+//       <Text>Light</Text>
+//     </HStack>
+//   );
+// }
+
+// const theme = extendTheme({
+//   components: {
+//     Button: {
+//       baseStyle: {},
+//       defaultProps: {},
+//       variants: {},
+//       sizes: {},
+//     },
+//   },
+// });
+
+export default App;
