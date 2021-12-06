@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NativeBaseProvider, extendTheme, StatusBar } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -87,6 +87,7 @@ function App() {
               animation: "slide_from_right",
             }}
           />
+          <Stack.Screen name="bottomNav" component={bottomNav} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
