@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Center,
@@ -12,7 +12,17 @@ import {
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 
+const axios = require("axios");
+
+const coinGeckoAPI = axios.create({
+  baseURL: "http://172.17.1.143:3000", // Adresse IP du PC qui host le backend
+  timeout: 1000,
+});
+
 function HomeScreen(props) {
+  const [ownedCryptos, setOwnedCryptos] = useState([]);
+  console.log(ownedCryptos);
+
   const data = [
     {
       uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
@@ -21,49 +31,17 @@ function HomeScreen(props) {
       currentPrice: 50000.23,
       variation: "+300 +30.75%",
     },
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
   ];
+
+  useEffect(() => {
+    coinGeckoAPI
+      .get(`/list-crypto/iMN5147zIkVux9Q6NUDStM48kLfFIV-K`)
+      .then((response) => {
+        setOwnedCryptos(response.data);
+      });
+  }, []);
+
+  // console.log(ownedCryptos);
 
   const cartes = data.map((crypto, i) => (
     <Box
@@ -142,7 +120,9 @@ function HomeScreen(props) {
       {/* </ZStack> */}
       <Box alignSelf="flex-end" m="6">
         <HStack>
-          <Text fontSize="md" fontWeight="medium" textAlign="center" my='auto'>Ajouter une cryptomonnaie  </Text>
+          <Text fontSize="md" fontWeight="medium" textAlign="center" my="auto">
+            Ajouter une cryptomonnaie{" "}
+          </Text>
           <Button
             onPress={() => props.navigation.navigate("AddCrypto")}
             variant="rounded"

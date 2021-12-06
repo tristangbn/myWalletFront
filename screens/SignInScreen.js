@@ -15,7 +15,7 @@ import {
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 const axios = require("axios").default;
 
-const SignInScreen = ({ navigation }) => {
+const SignInScreen = (props) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
@@ -25,7 +25,11 @@ const SignInScreen = ({ navigation }) => {
         email: email,
         password: password,
       })
-      .then((res) => console.log(res.data));
+      .then((res) => {
+        console.log(res.data);
+        console.log("clic");
+        props.navigation.navigate("HomeScreen");
+      });
   };
 
   return (
@@ -115,7 +119,7 @@ const SignInScreen = ({ navigation }) => {
                 fontWeight: "medium",
                 fontSize: "sm",
               }}
-              onPress={() => navigation.navigate("Sign-up")}
+              onPress={() => props.navigation.navigate("Sign-up")}
             >
               Sign up
             </Link>
