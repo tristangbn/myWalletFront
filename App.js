@@ -11,8 +11,14 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import AddCryptoScreen from "./screens/AddCryptoScreen";
 
+import { connect } from "react-redux";
+import authData from "./reducers/auth.reducer";
+import { Provider } from "react-redux";
+import { createStore, combineReducers } from "redux";
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+const store = createStore(combineReducers({ authData }));
 
 const bottomNav = () => {
   return (
@@ -64,22 +70,27 @@ const customTheme = extendTheme({
 
 function App() {
   return (
-    <NativeBaseProvider theme={customTheme}>
-      <StatusBar
-        barStyle={Platform.OS === "android" && "light-content"}
-        backgroundColor={"#0f172a"}
-      />
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{ headerShown: false, animation: "slide_from_right" }}
-        >
-          <Stack.Screen name="Sign-in" component={SignInScreen} />
-          <Stack.Screen name="Sign-up" component={SignUpScreen} />
-          <Stack.Screen name="bottomNav" component={bottomNav} />
-          <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </NativeBaseProvider>
+    <Provider store={store}>
+      <NativeBaseProvider theme={customTheme}>
+        <StatusBar
+          barStyle={Platform.OS === "android" && "light-content"}
+          backgroundColor={"#0f172a"}
+        />
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+              animation: "slide_from_right",
+            }}
+          >
+            <Stack.Screen name="Sign-in" component={SignInScreen} />
+            <Stack.Screen name="Sign-up" component={SignUpScreen} />
+            <Stack.Screen name="bottomNav" component={bottomNav} />
+            <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </NativeBaseProvider>
+    </Provider>
   );
 }
 

@@ -19,37 +19,47 @@ import coinGeckoAPI from "../api/coinGecko";
 
 function AddCrypto(props) {
   let [service, setService] = React.useState("");
+const [coinList, setCoinList] = useState([])
 
+useEffect(() => {
   coinGeckoAPI.get("/coins/list").then((response) => {
-    console.log(response);
+    console.log(response.data[0].name + " réponse API" );
+    setCoinList(response.data[0]);
   });
+
+}, [])
+
+console.log(coinList);
+
   // .catch((error) => {console.log(error)})
 
   //Valider l'ajout de la crypto et ajout dans une liste
   const addCrypto = async () => {
-    //route backend
+    console.log("crypto ajoutée")
   };
 
-  // let coinList = response.map((),i) => {
-  //   return(
-  //     <VStack mt="20px" alignItems="center" space={4}>
-  //       <Select
-  //         selectedValue={service}
-  //         minWidth="90%"
-  //         accessibilityLabel="Select a crypto"
-  //         placeholder="Please select a crypto"
-  //         _selectedItem={{
-  //           bg: "teal.600",
-  //           endIcon: <CheckIcon size="5" />,
-  //         }}
-  //         mt={1}
-  //         onValueChange={(itemValue) => addCrypto(itemValue)}
-  //       >
-  //         <Select.Item key={i} label="Bitcoin" value="ux" />
-  //       </Select>
-  //     </VStack>
-  //   )
-  // }
+  /* ----Test ----
+  let coinList = response.map((),i) => {
+    return(
+      <VStack mt="20px" alignItems="center" space={4}>
+        <Select
+          selectedValue={service}
+          minWidth="90%"
+          accessibilityLabel="Select a crypto"
+          placeholder="Please select a crypto"
+          _selectedItem={{
+            bg: "teal.600",
+            endIcon: <CheckIcon size="5" />,
+          }}
+          mt={1}
+          onValueChange={(itemValue) => addCrypto(itemValue)}
+        >
+          <Select.Item key={i} label="Bitcoin" value="ux" />
+        </Select>
+      </VStack>
+    )
+  }
+*/
 
   return (
     <Box
@@ -81,7 +91,6 @@ function AddCrypto(props) {
         Add a crypto
       </Box>
 
-      {coinList}
       <VStack mt="20px" alignItems="center" space={4}>
         <Select
           selectedValue={service}
@@ -93,9 +102,11 @@ function AddCrypto(props) {
             endIcon: <CheckIcon size="5" />,
           }}
           mt={1}
-          onValueChange={(itemValue) => addCrypto(itemValue)}
+          onValueChange={(itemValue) => setService(itemValue)}
         >
-          <Select.Item key={i} label="Bitcoin" value="ux" />
+          <Select.Item label="Bitcoin" value="bitcoin" />
+          <Select.Item label="Ethereum" value="ethereum" />
+          <Select.Item label="Cardano" value="cardano" />
         </Select>
       </VStack>
 

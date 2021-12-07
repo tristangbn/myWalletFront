@@ -11,69 +11,89 @@ import {
   Image,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
-
-const axios = require("axios");
+import coinGeckoAPI from "../api/coinGecko";
 
 function HomeScreen(props) {
   const [ownedCryptos, setOwnedCryptos] = useState([]);
-  console.log(ownedCryptos);
-
-  const data = [
-    {
-      uri: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Bitcoin.svg/1024px-Bitcoin.svg.png",
-      cryptoTitle: "BTC Bitcoin",
-      ownedQty: 0.0025,
-      currentPrice: 50000.23,
-      variation: "+300 +30.75%",
-    },
-  ];
+  const [currentPrice, setCurrentPrice] = useState([]);
+  // console.log(ownedCryptos);
+  // console.log(currentPrice)
+  console.log(props.authData);
 
   useEffect(() => {
-    coinGeckoAPI
-      .get(`/list-crypto/iMN5147zIkVux9Q6NUDStM48kLfFIV-K`)
+    myWalletAPI
+      .get(`/list-crypto/iMN5147zIkVux9Q6NUDStM48kLfFIV-K`) // Ajouter le token du store dans l'url
       .then((response) => {
-        setOwnedCryptos(response.data);
+        setOwnedCryptos(response.data.ownedCryptos);
       });
   }, []);
 
-  // console.log(ownedCryptos);
+  // function printCurrentPrice(current_price) {
+  //   console.log(current_price)
+  //   return current_price
+  // }
 
-  const cartes = data.map((crypto, i) => (
+  // function getCurrentPrice(id, i) {
+  //   coinGeckoAPI.get("/coins/markets", {
+  //     params: { vs_currency: "eur", ids: id },
+  //     })
+  //     .then(async function (response) {
+  //       // setCurrentPrice([...currentPrice, response.data[0].current_price])
+  //     })
+  // }
+
+  const cryptos = ownedCryptos.map((crypto, i) => (
     <Box
       _dark={{ bg: "blueGray.800" }}
-      // width="95%"
+      // w="100%"
       rounded="xl"
-      py="7"
+      py="2"
+      // mx="2"
       my="1"
       key={i}
     >
-      <HStack space={3} justifyContent="space-around" alignItems="center">
-        <Center w="16" px="0" ml="5">
+      <HStack justifyContent="space-around" alignItems="center">
+        <Center w="15%">
           <Image
+            resizeMode="cover"
             source={{
-              uri: crypto.uri,
+              uri: crypto.image,
             }}
-            alt={crypto.cryptoTitle}
-            size="sm"
+            alt={crypto.name + " logo"}
+            size="xs"
           />
         </Center>
-        <Center w="40" px="0" mx="0">
+        <Box w="45%">
           <Text fontSize="xl" fontWeight="medium">
-            {crypto.cryptoTitle}
+            {crypto.symbol.toUpperCase() + " " + crypto.name}
           </Text>
-          <Text fontSize="sm">
-            {crypto.ownedQty} | € {crypto.currentPrice}
+          <Text fontSize="sm" fontWeight="light">
+            {"0.0025"} | €{/* {getCurrentPrice(crypto.id, i)} */}
           </Text>
-        </Center>
-        <Center w="32" px="0" mx="0">
-          <Text fontSize="xl" fontWeight="medium">
-            € {Math.round(crypto.ownedQty * crypto.currentPrice * 100) / 100}
-          </Text>
-          <Text fontSize="sm" color="#20BF55">
-            {crypto.variation}
-          </Text>
-        </Center>
+        </Box>
+        <Box
+          w="33%"
+          mr="3"
+          _text={{ fontSize: "xl", fontWeight: "medium", textAlign: "right" }}
+        >
+          €{" "}
+          {/* {Math.round(crypto.ownedQty * crypto.currentPrice * 100) / 100}  */}
+          <Box
+            _text={{
+              fontSize: "sm",
+              fontWeight: "light",
+              textAlign: "right",
+              color: true ? "#20BF55" : "#EF233C",
+            }}
+            mt="-20px"
+          >
+            {" "}
+            {/* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */}
+            {"+300 +30.75%"}
+          </Box>
+        </Box>
       </HStack>
     </Box>
   ));
@@ -82,21 +102,21 @@ function HomeScreen(props) {
     <Box flex={1} alignItems="center" _dark={{ bg: "blueGray.900" }} px="0">
       <Box
         _dark={{ bg: "blueGray.800" }}
-        width="100%"
+        w="100%"
         rounded="xl"
-        py="7"
-        mb="10"
-        mt="5"
+        p="5"
+        mb="5"
+        // mt="5"
       >
         <Text fontSize="4xl" fontWeight="bold" textAlign="center">
           Portfolio
         </Text>
-        <Text fontSize="xl" fontWeight="medium" textAlign="center">
+        <Text fontSize="3xl" fontWeight="bold" textAlign="center">
           € 1825.56
         </Text>
         <Text
           fontSize="md"
-          fontWeight="medium"
+          fontWeight="light"
           textAlign="center"
           color="#20BF55"
         >
@@ -111,10 +131,10 @@ function HomeScreen(props) {
           // minW: "72",
         }}
       >
-        {cartes}
+        {cryptos}
       </ScrollView>
       {/* </ZStack> */}
-      <Box alignSelf="flex-end" m="6">
+      <Box alignSelf="flex-end" m="3">
         <HStack>
           <Text fontSize="md" fontWeight="medium" textAlign="center" my="auto">
             Ajouter une cryptomonnaie{" "}
@@ -130,4 +150,8 @@ function HomeScreen(props) {
   );
 }
 
-export default HomeScreen;
+function mapStateToProps(state) {
+  return { authData: state.authData };
+}
+
+export default connect(mapStateToProps, null)(HomeScreen);
