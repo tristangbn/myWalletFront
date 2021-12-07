@@ -15,14 +15,10 @@ import {
   Heading,
   Spacer,
 } from "native-base";
+import coinGeckoAPI from "../api/coinGecko";
 
 function AddCrypto(props) {
   let [service, setService] = React.useState("");
-
-  // Import des cryptos de Coingecko
-  const coinGeckoAPI = axios.create(
-    (baseUrl = "https://api.coingecko.com/api/v3")
-  );
 
   coinGeckoAPI.get("/coins/list").then((response) => {
     console.log(response);

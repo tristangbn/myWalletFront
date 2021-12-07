@@ -11,13 +11,9 @@ import {
   Image,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
+import myWalletAPI from "../api/myWallet";
 
 const axios = require("axios");
-
-const coinGeckoAPI = axios.create({
-  baseURL: "http://192.168.1.25:3000", // Adresse IP du PC qui host le backend
-  timeout: 1000,
-});
 
 function HomeScreen(props) {
   const [ownedCryptos, setOwnedCryptos] = useState([]);

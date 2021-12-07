@@ -16,10 +16,11 @@ import {
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import myWalletAPI from "../api/myWallet";
 
 const axios = require("axios").default;
 
-const SignUpScreen = ({ navigation }) => {
+const SignUpScreen = (props) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -160,7 +161,7 @@ const SignUpScreen = ({ navigation }) => {
                   fontWeight: "medium",
                   fontSize: "sm",
                 }}
-                onPress={() => navigation.navigate("Sign-in")}
+                onPress={() => props.navigation.navigate("Sign-in")}
               >
                 Sign in
               </Link>
