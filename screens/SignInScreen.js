@@ -16,7 +16,7 @@ import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import myWalletAPI from "../api/myWallet";
 
-const axios = require("axios").default;
+// const axios = require("axios").default;
 
 const SignInScreen = (props) => {
   const [email, setEmail] = useState(null);
@@ -29,15 +29,15 @@ const SignInScreen = (props) => {
   }, []);
 
   const login = () => {
-    axios
-      .post("http://172.17.1.170:3000/sign-in", {
+    myWalletAPI
+      .post("/sign-in", {
         email: email,
         password: password,
       })
       .then((response) => {
         if (response.data.result) {
           AsyncStorage.setItem("userToken", response.data.userToken);
-          navigation.navigate("bottomNav");
+          props.navigation.navigate("bottomNav");
         }
       });
   };
