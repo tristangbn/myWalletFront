@@ -71,12 +71,11 @@ function App() {
         backgroundColor={"#0f172a"}
       />
       <NavigationContainer>
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen
             name="Sign-in"
             component={SignInScreen}
             options={{
-              headerShown: false,
               animation: "slide_from_right",
             }}
           />
@@ -84,7 +83,6 @@ function App() {
             name="Sign-up"
             component={SignUpScreen}
             options={{
-              headerShown: false,
               animation: "slide_from_right",
             }}
           />
@@ -92,7 +90,6 @@ function App() {
             name="HomeScreen"
             component={HomeScreen}
             options={{
-              headerShown: false,
               animation: "slide_from_right",
             }}
           />

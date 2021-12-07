@@ -22,20 +22,20 @@ const SignInScreen = (props) => {
 
   useEffect(() => {
     AsyncStorage.getItem("userToken", function (err, data) {
-      if (data) navigation.navigate("bottomNav");
+      if (data) props.navigation.navigate("bottomNav");
     });
   }, []);
 
   const login = () => {
     axios
-      .post("http://172.17.1.170:3000/sign-in", {
+      .post("http://192.168.1.25:3000/sign-in", {
         email: email,
         password: password,
       })
       .then((response) => {
         if (response.data.result) {
           AsyncStorage.setItem("userToken", response.data.userToken);
-          navigation.navigate("bottomNav");
+          props.navigation.navigate("bottomNav");
         }
       });
   };
