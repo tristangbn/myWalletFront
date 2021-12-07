@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   Button,
   Center,
@@ -17,36 +18,43 @@ import coinGeckoAPI from "../api/coinGecko";
 
 function HomeScreen(props) {
   const [ownedCryptos, setOwnedCryptos] = useState([]);
-  const [currentPrice, setCurrentPrice] = useState([]);
-  console.log(ownedCryptos);
-  // console.log(currentPrice)
+  const token = props.authData[0].token;
+  const user = props.authData[0].firstName;
 
-  useEffect(() => {
-    myWalletAPI
-      .get(`/list-crypto/iMN5147zIkVux9Q6NUDStM48kLfFIV-K`) // Ajouter le token du store dans l'url
+  useFocusEffect(
+    React.useCallback(() => {
+      myWalletAPI
+        .get(`/list-crypto/${token}`) // Ajouter le token du store dans l'url
+        .then((response) => {
+          setOwnedCryptos(response.data.ownedCryptos);
+        });
+
+      let ids = "";
+      for (let i = 0; i < ownedCryptos.length; i++) {
+        ids += ownedCryptos[i].id + ",";
+
+      }
+
+      coinGeckoAPI
+      .get("/simple/price", {
+        params: { vs_currencies: "eur", ids},
+      })
       .then((response) => {
-        setOwnedCryptos(response.data.ownedCryptos);
+        // const newOwnedCryptosList = [...ownedCryptos];
+        // newOwnedCryptosList[i].current_price =
+        //   response.data[0].current_price;
+        // setOwnedCryptos(newOwnedCryptosList);
+        const id = "ethereum"
+        console.log(response.data.ethereum)
       });
-  }, []);
+    }, [])
+  );
 
-  // function printCurrentPrice(current_price) {
-  //   console.log(current_price)
-  //   return current_price
-  // }
-
-  // function getCurrentPrice(id, i) {
-  //   coinGeckoAPI.get("/coins/markets", {
-  //     params: { vs_currency: "eur", ids: id },
-  //     })
-  //     .then(async function (response) {
-  //       // setCurrentPrice([...currentPrice, response.data[0].current_price])
-  //     })
-  // }
-
-  const cryptos = ownedCryptos.map((crypto, i) => (
+  let cryptos;
+  // if (isFocused) {
+  cryptos = ownedCryptos.map((crypto, i) => (
     <Box
       _dark={{ bg: "blueGray.800" }}
-      // w="100%"
       rounded="xl"
       py="2"
       // mx="2"
@@ -56,7 +64,7 @@ function HomeScreen(props) {
       <HStack justifyContent="space-around" alignItems="center">
         <Center w="15%">
           <Image
-            resizeMode='cover'
+            resizeMode="cover"
             source={{
               uri: crypto.image,
             }}
@@ -69,7 +77,7 @@ function HomeScreen(props) {
             {crypto.symbol.toUpperCase() + " " + crypto.name}
           </Text>
           <Text fontSize="sm" fontWeight="light">
-             {"0.0025"} | €{/* {getCurrentPrice(crypto.id, i)} */}
+            {"0.0025"} | € {crypto.current_price}
           </Text>
         </Box>
         <Box
@@ -77,7 +85,7 @@ function HomeScreen(props) {
           mr="3"
           _text={{ fontSize: "xl", fontWeight: "medium", textAlign: "right" }}
         >
-          € {/* {Math.round(crypto.ownedQty * crypto.currentPrice * 100) / 100}  */}
+          € {/* {Math.round(0.0025 * crypto.current_price * 100) / 100}  */}
           <Box
             _text={{
               fontSize: "sm",
@@ -86,13 +94,16 @@ function HomeScreen(props) {
               color: true ? "#20BF55" : "#EF233C",
             }}
             mt="-20px"
-          > {/* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */}
+          >
+            {" "}
+            {/* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */}
             {"+300 +30.75%"}
           </Box>
         </Box>
       </HStack>
     </Box>
   ));
+  // }
 
   return (
     <Box flex={1} alignItems="center" _dark={{ bg: "blueGray.900" }} px="0">
@@ -132,8 +143,14 @@ function HomeScreen(props) {
       {/* </ZStack> */}
       <Box alignSelf="flex-end" m="3">
         <HStack>
-          <Text fontSize="md" fontWeight="medium" textAlign="center" my="auto">
-            Ajouter une cryptomonnaie{" "}
+          <Text
+            fontSize="md"
+            fontWeight="medium"
+            textAlign="center"
+            my="auto"
+            mr="3"
+          >
+            Ajouter une cryptomonnaie
           </Text>
           <Button
             onPress={() => props.navigation.navigate("AddCrypto")}
