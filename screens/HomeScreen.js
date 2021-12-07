@@ -18,8 +18,9 @@ import coinGeckoAPI from "../api/coinGecko";
 function HomeScreen(props) {
   const [ownedCryptos, setOwnedCryptos] = useState([]);
   const [currentPrice, setCurrentPrice] = useState([]);
-  console.log(ownedCryptos);
+  // console.log(ownedCryptos);
   // console.log(currentPrice)
+  console.log(props.authData);
 
   useEffect(() => {
     myWalletAPI
@@ -56,7 +57,7 @@ function HomeScreen(props) {
       <HStack justifyContent="space-around" alignItems="center">
         <Center w="15%">
           <Image
-            resizeMode='cover'
+            resizeMode="cover"
             source={{
               uri: crypto.image,
             }}
@@ -69,7 +70,7 @@ function HomeScreen(props) {
             {crypto.symbol.toUpperCase() + " " + crypto.name}
           </Text>
           <Text fontSize="sm" fontWeight="light">
-             {"0.0025"} | €{/* {getCurrentPrice(crypto.id, i)} */}
+            {"0.0025"} | €{/* {getCurrentPrice(crypto.id, i)} */}
           </Text>
         </Box>
         <Box
@@ -77,7 +78,8 @@ function HomeScreen(props) {
           mr="3"
           _text={{ fontSize: "xl", fontWeight: "medium", textAlign: "right" }}
         >
-          € {/* {Math.round(crypto.ownedQty * crypto.currentPrice * 100) / 100}  */}
+          €{" "}
+          {/* {Math.round(crypto.ownedQty * crypto.currentPrice * 100) / 100}  */}
           <Box
             _text={{
               fontSize: "sm",
@@ -86,7 +88,9 @@ function HomeScreen(props) {
               color: true ? "#20BF55" : "#EF233C",
             }}
             mt="-20px"
-          > {/* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */}
+          >
+            {" "}
+            {/* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */}
             {"+300 +30.75%"}
           </Box>
         </Box>

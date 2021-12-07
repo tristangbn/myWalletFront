@@ -11,6 +11,7 @@ import {
   HStack,
   Center,
   Icon,
+  WarningOutlineIcon,
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -20,12 +21,19 @@ import myWalletAPI from "../api/myWallet";
 const SignInScreen = (props) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
+  const [errorMessage, setErrorMessage] = useState([]);
+
+  const handleErrorMessage = (field, errorArray) => {
+    return errorArray.length > 0 && errorArray.find((el) => el.param === field)
+      ? errorArray.find((el) => el.param === field).msg
+      : null;
+  };
 
   useEffect(() => {
     AsyncStorage.getItem("userData", function (err, data) {
       let userData = JSON.parse(data);
       if (userData) {
-        props.onLogin(userData);
+        if (props.authData.length === 0) props.onLogin(userData);
         props.navigation.navigate("bottomNav");
       }
     });
@@ -39,13 +47,15 @@ const SignInScreen = (props) => {
         password: password,
       })
       .then((response) => {
-        if (response.data.result) {
+        if (response.data.errors) {
+          setErrorMessage(response.data.errors);
+        } else if (response.data.result) {
           const userData = {
             firstName: response.data.firstName,
             token: response.data.userToken,
           };
           AsyncStorage.setItem("userData", JSON.stringify(userData));
-          props.onLogin(userData);
+          if (props.authData.length === 0) props.onLogin(userData);
           props.navigation.navigate("bottomNav");
         }
       });
@@ -81,7 +91,10 @@ const SignInScreen = (props) => {
         </Heading>
 
         <VStack space={3} mt="5">
-          <FormControl isRequired>
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("email", errorMessage) ? true : false}
+          >
             <Input
               InputLeftElement={
                 <Icon
@@ -96,8 +109,18 @@ const SignInScreen = (props) => {
               value={email}
               onChangeText={(email) => setEmail(email)}
             />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("email", errorMessage)}
+            </FormControl.ErrorMessage>
           </FormControl>
-          <FormControl isRequired>
+          <FormControl
+            isRequired
+            isInvalid={
+              handleErrorMessage("password", errorMessage) ? true : false
+            }
+          >
             <Input
               type="password"
               InputLeftElement={
@@ -113,6 +136,11 @@ const SignInScreen = (props) => {
               value={password}
               onChangeText={(password) => setPassword(password)}
             />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("password", errorMessage)}
+            </FormControl.ErrorMessage>
           </FormControl>
           <Button
             mt="2"
@@ -149,6 +177,10 @@ const SignInScreen = (props) => {
   );
 };
 
+function mapStateToProps(state) {
+  return { authData: state.authData };
+}
+
 function mapDispatchToProps(dispatch) {
   return {
     onLogin: function (userData) {
@@ -157,4 +189,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(null, mapDispatchToProps)(SignInScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(SignInScreen);

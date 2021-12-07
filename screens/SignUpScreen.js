@@ -10,6 +10,7 @@ import {
   Button,
   HStack,
   Center,
+  WarningOutlineIcon,
   Icon,
   KeyboardAvoidingView,
 } from "native-base";
@@ -24,6 +25,13 @@ const SignUpScreen = (props) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState([]);
+
+  const handleErrorMessage = (field, errorArray) => {
+    return errorArray.length > 0 && errorArray.find((el) => el.param === field)
+      ? errorArray.find((el) => el.param === field).msg
+      : null;
+  };
 
   const signUp = () => {
     myWalletAPI
@@ -34,7 +42,9 @@ const SignUpScreen = (props) => {
         password: password,
       })
       .then((response) => {
-        if (response.data.result) {
+        if (response.data.errors) {
+          setErrorMessage(response.data.errors);
+        } else if (response.data.result) {
           const userData = JSON.stringify({
             firstName: response.data.firstName,
             token: response.data.userToken,
@@ -45,6 +55,8 @@ const SignUpScreen = (props) => {
         }
       });
   };
+
+  // console.log(errorMessage);
 
   return (
     <Center
@@ -78,7 +90,12 @@ const SignUpScreen = (props) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <VStack space={3} mt="5">
-            <FormControl isRequired>
+            <FormControl
+              isRequired
+              isInvalid={
+                handleErrorMessage("firstName", errorMessage) ? true : false
+              }
+            >
               <Input
                 InputLeftElement={
                   <Icon
@@ -93,8 +110,18 @@ const SignUpScreen = (props) => {
                 value={firstName}
                 onChangeText={(firstName) => setFirstName(firstName)}
               />
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}
+              >
+                {handleErrorMessage("firstName", errorMessage)}
+              </FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired>
+            <FormControl
+              isRequired
+              isInvalid={
+                handleErrorMessage("lastName", errorMessage) ? true : false
+              }
+            >
               <Input
                 InputLeftElement={
                   <Icon
@@ -109,8 +136,18 @@ const SignUpScreen = (props) => {
                 value={lastName}
                 onChangeText={(lastName) => setLastName(lastName)}
               />
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}
+              >
+                {handleErrorMessage("lastName", errorMessage)}
+              </FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired>
+            <FormControl
+              isRequired
+              isInvalid={
+                handleErrorMessage("email", errorMessage) ? true : false
+              }
+            >
               <Input
                 type="email"
                 InputLeftElement={
@@ -126,8 +163,18 @@ const SignUpScreen = (props) => {
                 value={email}
                 onChangeText={(email) => setEmail(email)}
               />
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}
+              >
+                {handleErrorMessage("email", errorMessage)}
+              </FormControl.ErrorMessage>
             </FormControl>
-            <FormControl isRequired>
+            <FormControl
+              isRequired
+              isInvalid={
+                handleErrorMessage("password", errorMessage) ? true : false
+              }
+            >
               <Input
                 type="password"
                 InputLeftElement={
@@ -143,6 +190,11 @@ const SignUpScreen = (props) => {
                 value={password}
                 onChangeText={(password) => setPassword(password)}
               />
+              <FormControl.ErrorMessage
+                leftIcon={<WarningOutlineIcon size="xs" />}
+              >
+                {handleErrorMessage("password", errorMessage)}
+              </FormControl.ErrorMessage>
             </FormControl>
             <Button
               mt="2"
