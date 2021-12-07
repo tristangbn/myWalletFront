@@ -14,52 +14,49 @@ import {
   VStack,
   Heading,
   Spacer,
+  Typeahead,
+  Icon,
 } from "native-base";
+import { connect } from "react-redux";
 import coinGeckoAPI from "../api/coinGecko";
+import myWalletAPI from "../api/myWallet";
 
 function AddCrypto(props) {
-  let [service, setService] = React.useState("");
-const [coinList, setCoinList] = useState([])
+  const [service, setService] = useState("");
+  const [coinList, setCoinList] = useState([]);
+  const token = props.authData[0].token;
 
-useEffect(() => {
-  coinGeckoAPI.get("/coins/list").then((response) => {
-    console.log(response.data[0].name + " réponse API" );
-    setCoinList(response.data[0]);
+  useEffect(() => {
+    coinGeckoAPI
+      .get(
+        "/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+      )
+      .then(async (response) => {
+        setCoinList(response.data);
+      });
+    // .catch((error) => {console.log(error)})
+  }, []);
+
+  //Listing des principales cryptos pour affichage
+  const listCoin = coinList.map((coin, i) => {
+    return <Select.Item key={i} label={coin.name} value={coin.id} />;
   });
 
-}, [])
-
-console.log(coinList);
-
-  // .catch((error) => {console.log(error)})
 
   //Valider l'ajout de la crypto et ajout dans une liste
   const addCrypto = async () => {
-    console.log("crypto ajoutée")
-  };
+    console.log(service + " ajoutée");
+    myWalletAPI
+      .post("/add-crypto", {
+        id : service,
+        token,
+      })
+      .then(async function (response) {
+        console.log(response.data);
+      });
 
-  /* ----Test ----
-  let coinList = response.map((),i) => {
-    return(
-      <VStack mt="20px" alignItems="center" space={4}>
-        <Select
-          selectedValue={service}
-          minWidth="90%"
-          accessibilityLabel="Select a crypto"
-          placeholder="Please select a crypto"
-          _selectedItem={{
-            bg: "teal.600",
-            endIcon: <CheckIcon size="5" />,
-          }}
-          mt={1}
-          onValueChange={(itemValue) => addCrypto(itemValue)}
-        >
-          <Select.Item key={i} label="Bitcoin" value="ux" />
-        </Select>
-      </VStack>
-    )
-  }
-*/
+      props.navigation.navigate("bottomNav");
+  };
 
   return (
     <Box
@@ -104,9 +101,7 @@ console.log(coinList);
           mt={1}
           onValueChange={(itemValue) => setService(itemValue)}
         >
-          <Select.Item label="Bitcoin" value="bitcoin" />
-          <Select.Item label="Ethereum" value="ethereum" />
-          <Select.Item label="Cardano" value="cardano" />
+          {listCoin}
         </Select>
       </VStack>
 
@@ -132,4 +127,8 @@ console.log(coinList);
   );
 }
 
-export default AddCrypto;
+function mapStateToProps(state) {
+  return { authData: state.authData };
+}
+
+export default connect(mapStateToProps, null)(AddCrypto);
