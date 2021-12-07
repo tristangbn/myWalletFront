@@ -14,6 +14,8 @@ import {
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import myWalletAPI from "../api/myWallet";
+
 const axios = require("axios").default;
 
 const SignInScreen = (props) => {
@@ -22,7 +24,7 @@ const SignInScreen = (props) => {
 
   useEffect(() => {
     AsyncStorage.getItem("userToken", function (err, data) {
-      if (data) navigation.navigate("bottomNav");
+      if (data) props.navigation.navigate("bottomNav");
     });
   }, []);
 

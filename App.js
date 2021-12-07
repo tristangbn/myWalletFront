@@ -9,7 +9,7 @@ import SignUpScreen from "./screens/SignUpScreen";
 import { Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
-import AddCrypto from "./screens/AddCrypto";
+import AddCryptoScreen from "./screens/AddCryptoScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -34,7 +34,6 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      {/* <Tab.Screen name="AddCrypto" component={AddCrypto} /> */}
     </Tab.Navigator>
   );
 };
@@ -71,32 +70,13 @@ function App() {
         backgroundColor={"#0f172a"}
       />
       <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen
-            name="Sign-in"
-            component={SignInScreen}
-            options={{
-              headerShown: false,
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="Sign-up"
-            component={SignUpScreen}
-            options={{
-              headerShown: false,
-              animation: "slide_from_right",
-            }}
-          />
-          <Stack.Screen
-            name="HomeScreen"
-            component={HomeScreen}
-            options={{
-              headerShown: false,
-              animation: "slide_from_right",
-            }}
-          />
+        <Stack.Navigator
+          screenOptions={{ headerShown: false, animation: "slide_from_right" }}
+        >
+          <Stack.Screen name="Sign-in" component={SignInScreen} />
+          <Stack.Screen name="Sign-up" component={SignUpScreen} />
           <Stack.Screen name="bottomNav" component={bottomNav} />
+          <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </NativeBaseProvider>
