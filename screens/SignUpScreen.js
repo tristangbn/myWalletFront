@@ -16,9 +16,8 @@ import {
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
-
-const axios = require("axios").default;
 
 const SignUpScreen = (props) => {
   const [firstName, setFirstName] = useState("");
@@ -27,15 +26,23 @@ const SignUpScreen = (props) => {
   const [password, setPassword] = useState("");
 
   const signUp = () => {
-    axios
-      .post("http://172.17.1.170:3000/sign-up", {
+    myWalletAPI
+      .post("/sign-up", {
         firstName: firstName,
         lastName: lastName,
         email: email,
         password: password,
       })
       .then((response) => {
-        AsyncStorage.setItem("userToken", response.data.userToken);
+        if (response.data.result) {
+          const userData = JSON.stringify({
+            firstName: response.data.firstName,
+            token: response.data.userToken,
+          });
+          AsyncStorage.setItem("userData", userData);
+          props.onLogin(JSON.parse(userData));
+          props.navigation.navigate("bottomNav");
+        }
       });
   };
 
@@ -173,4 +180,12 @@ const SignUpScreen = (props) => {
   );
 };
 
-export default SignUpScreen;
+function mapDispatchToProps(dispatch) {
+  return {
+    onLogin: function (userData) {
+      dispatch({ type: "LOGIN", userData });
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SignUpScreen);

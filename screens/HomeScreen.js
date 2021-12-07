@@ -11,13 +11,13 @@ import {
   Image,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
+import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
-
-const axios = require("axios");
 
 function HomeScreen(props) {
   const [ownedCryptos, setOwnedCryptos] = useState([]);
-  console.log(ownedCryptos);
+  // console.log(ownedCryptos);
+  console.log("STATE REDUX", props.authData);
 
   const data = [
     {
@@ -30,7 +30,7 @@ function HomeScreen(props) {
   ];
 
   useEffect(() => {
-    coinGeckoAPI
+    myWalletAPI
       .get(`/list-crypto/iMN5147zIkVux9Q6NUDStM48kLfFIV-K`)
       .then((response) => {
         setOwnedCryptos(response.data);
@@ -130,4 +130,8 @@ function HomeScreen(props) {
   );
 }
 
-export default HomeScreen;
+function mapStateToProps(state) {
+  return { authData: state.authData };
+}
+
+export default connect(mapStateToProps, null)(HomeScreen);

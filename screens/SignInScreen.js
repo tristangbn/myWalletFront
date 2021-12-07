@@ -14,30 +14,39 @@ import {
 } from "native-base";
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
-
-const axios = require("axios").default;
 
 const SignInScreen = (props) => {
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
 
   useEffect(() => {
-    AsyncStorage.getItem("userToken", function (err, data) {
-      if (data) props.navigation.navigate("bottomNav");
+    AsyncStorage.getItem("userData", function (err, data) {
+      let userData = JSON.parse(data);
+      if (userData) {
+        props.onLogin(userData);
+        props.navigation.navigate("bottomNav");
+      }
     });
+    // AsyncStorage.clear();
   }, []);
 
   const login = () => {
-    axios
-      .post("http://172.17.1.170:3000/sign-in", {
+    myWalletAPI
+      .post("/sign-in", {
         email: email,
         password: password,
       })
       .then((response) => {
         if (response.data.result) {
-          AsyncStorage.setItem("userToken", response.data.userToken);
-          navigation.navigate("bottomNav");
+          const userData = {
+            firstName: response.data.firstName,
+            token: response.data.userToken,
+          };
+          AsyncStorage.setItem("userData", JSON.stringify(userData));
+          props.onLogin(userData);
+          props.navigation.navigate("bottomNav");
         }
       });
   };
@@ -140,4 +149,12 @@ const SignInScreen = (props) => {
   );
 };
 
-export default SignInScreen;
+function mapDispatchToProps(dispatch) {
+  return {
+    onLogin: function (userData) {
+      dispatch({ type: "LOGIN", userData });
+    },
+  };
+}
+
+export default connect(null, mapDispatchToProps)(SignInScreen);
