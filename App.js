@@ -35,7 +35,11 @@ const bottomNav = () => {
         },
         tabBarActiveTintColor: "#FFFFFF",
         tabBarInactiveTintColor: "#3E363F",
-        tabBarStyle: { backgroundColor: "#1e293b" },
+        tabBarStyle: {
+          backgroundColor: "#0f172a",
+          borderTopWidth: 3,
+          borderTopColor: "#1e293b",
+        },
         headerShown: false,
       })}
     >
