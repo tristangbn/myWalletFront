@@ -41,7 +41,7 @@ function HomeScreen(props) {
   useEffect(() => {
     console.log("------------LOADING-----------");
     myWalletAPI
-      .get(`/list-crypto/${token}`) // Ajouter le token du store dans l'url
+      .get(`/list-crypto/${token}`)
       .then((response) => {
         console.log(response.data.ownedCryptos);
 
