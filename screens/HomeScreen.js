@@ -43,8 +43,6 @@ function HomeScreen(props) {
     myWalletAPI
       .get(`/list-crypto/${token}`) // Ajouter le token du store dans l'url
       .then((response) => {
-        console.log(response.data.ownedCryptos);
-
         let total = 0;
         for (let i = 0; i < response.data.ownedCryptos.length; i++) {
           let qty = 1;
@@ -62,7 +60,7 @@ function HomeScreen(props) {
     cryptos = ownedCryptos.map((crypto, i) => (
       <Box
         _dark={{ bg: "blueGray.800" }}
-        rounded="xl"
+        rounded="2xl"
         py="2"
         my="1"
         ml="1"
@@ -189,7 +187,7 @@ function HomeScreen(props) {
             onRefresh={onRefresh}
             tintcolor="#ffffff"
             title="Slide to refresh"
-            titleColor='#ffffff'
+            titleColor="#ffffff"
             // colors=["#ffffff"]
           />
         }
@@ -216,7 +214,7 @@ function HomeScreen(props) {
             //   elevation: 1,
             // }}
           >
-            Ajouter une cryptomonnaie
+            Add cryptocurrency
           </Text>
           <Button
             onPress={() => props.navigation.navigate("AddCrypto")}
@@ -224,16 +222,16 @@ function HomeScreen(props) {
             px="1"
             py="1"
             leftIcon={<Entypo name="plus" size={50} color="white" />}
-            shadow={{
-              shadowColor: "#4c1d95",
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 5.0,
-              elevation: 1,
-            }}
+            // shadow={{
+            //   shadowColor: "#4c1d95",
+            //   shadowOffset: {
+            //     width: 0,
+            //     height: 0,
+            //   },
+            //   shadowOpacity: 1,
+            //   shadowRadius: 5.0,
+            //   elevation: 1,
+            // }}
           />
         </HStack>
       </Box>

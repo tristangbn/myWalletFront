@@ -10,6 +10,10 @@ import { Platform } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import AddCryptoScreen from "./screens/AddCryptoScreen";
+import TransactionsScreen from "./screens/TransactionsScreen";
+import BuyTransactionsScreen from "./screens/BuyTransactionScreen";
+import SellTransactionsScreen from "./screens/SellTransactionScreen";
+import TransferTransactionsScreen from "./screens/TransferTransactionScreen";
 
 import { connect } from "react-redux";
 import authData from "./reducers/auth.reducer";
@@ -30,16 +34,23 @@ const bottomNav = () => {
             iconName = "wallet";
             // } else if (route.name === "AddCrypto") {
             //   iconName = "ios-options";
+          } else if (route.name === "Transactions") {
+            iconName = "ios-options";
+          } else if (route.name === "BuyTransaction") {
+            iconName = "ios-options";
           }
           return <Ionicons name={iconName} size={25} color={color} />;
         },
+
         tabBarActiveTintColor: "#FFFFFF",
         tabBarInactiveTintColor: "#3E363F",
-        tabBarStyle: { backgroundColor: "#1e293b" },
+        tabBarStyle: { backgroundColor: "#1e293b", borderTopWidth: 0 },
         headerShown: false,
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
+      <Tab.Screen name="Transactions" component={TransactionsScreen} />
+      <Tab.Screen name="BuyTransaction" component={BuyTransactionsScreen} />
     </Tab.Navigator>
   );
 };
@@ -60,6 +71,21 @@ const customTheme = extendTheme({
             bg: "violet.900",
             rounded: "full",
             colorScheme: "violet",
+          };
+        },
+        inactive: () => {
+          return {
+            bg: "blueGray.900",
+            rounded: "full",
+            colorScheme: "violet",
+          };
+        },
+        bordered: () => {
+          return {
+            bg: "blueGray.900",
+            rounded: "sm",
+            colorScheme: "violet",
+            // border: "1px solid",
           };
         },
       },
@@ -87,6 +113,14 @@ function App() {
             <Stack.Screen name="Sign-up" component={SignUpScreen} />
             <Stack.Screen name="bottomNav" component={bottomNav} />
             <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
+            <Stack.Screen
+              name="SellTransaction"
+              component={SellTransactionsScreen}
+            />
+            <Stack.Screen
+              name="TransferTransaction"
+              component={TransferTransactionsScreen}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </NativeBaseProvider>
