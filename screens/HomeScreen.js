@@ -8,10 +8,8 @@ import {
   Text,
   ScrollView,
   HStack,
-  VStack,
-  ZStack,
   Image,
-  Heading,
+  Flex,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 import { connect } from "react-redux";
@@ -43,8 +41,6 @@ function HomeScreen(props) {
     myWalletAPI
       .get(`/list-crypto/${token}`)
       .then((response) => {
-        console.log(response.data.ownedCryptos);
-
         let total = 0;
         for (let i = 0; i < response.data.ownedCryptos.length; i++) {
           let qty = 1;
@@ -62,7 +58,7 @@ function HomeScreen(props) {
     cryptos = ownedCryptos.map((crypto, i) => (
       <Box
         _dark={{ bg: "blueGray.800" }}
-        rounded="xl"
+        rounded="2xl"
         py="2"
         my="1"
         ml="1"
@@ -132,7 +128,7 @@ function HomeScreen(props) {
   }
 
   return (
-    <Box flex={1} alignItems="center" _dark={{ bg: "blueGray.900" }} px="0">
+    <Box flex="1" _dark={{ bg: "blueGray.900" }} px="2">
       <Box
         _dark={{ bg: "blueGray.800" }}
         w="100%"
@@ -178,64 +174,47 @@ function HomeScreen(props) {
           {"+550,09 +44,12%"}
         </Text>
       </Box>
-      {/* <ZStack alignItems="center"> */}
-      <ScrollView
-        _contentContainerStyle={{
-          px: "0px",
-        }}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={onRefresh}
-            tintcolor="#ffffff"
-            title="Slide to refresh"
-            titleColor='#ffffff'
-            // colors=["#ffffff"]
-          />
-        }
-      >
-        {cryptos}
-      </ScrollView>
-      {/* </ZStack> */}
-      <Box alignSelf="flex-end" m="3">
-        <HStack>
-          <Text
-            fontSize="md"
-            fontWeight="medium"
-            textAlign="center"
-            my="auto"
-            mr="3"
-            // shadow={{
-            //   shadowColor: "#ffffff",
-            //   shadowOffset: {
-            //     width: -1,
-            //     height: 1,
-            //   },
-            //   shadowOpacity: 1,
-            //   shadowRadius: 5.0,
-            //   elevation: 1,
-            // }}
-          >
-            Ajouter une cryptomonnaie
-          </Text>
+      <Box flex="1">
+        <ScrollView
+          _contentContainerStyle={{
+            px: "0px",
+            pb: "75",
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+              tintcolor="#ffffff"
+              title="Slide to refresh"
+              titleColor="#ffffff"
+            />
+          }
+        >
+          {cryptos}
+        </ScrollView>
+        <Flex justifyContent="flex-end">
           <Button
+            bottom="3"
+            right="3"
+            position="absolute"
+            alignSelf="flex-end"
             onPress={() => props.navigation.navigate("AddCrypto")}
             variant="rounded"
             px="1"
             py="1"
             leftIcon={<Entypo name="plus" size={50} color="white" />}
-            shadow={{
-              shadowColor: "#4c1d95",
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 5.0,
-              elevation: 1,
-            }}
+            // shadow={{
+            //   shadowColor: "#4c1d95",
+            //   shadowOffset: {
+            //     width: 0,
+            //     height: 0,
+            //   },
+            //   shadowOpacity: 1,
+            //   shadowRadius: 5.0,
+            //   elevation: 1,
+            // }}
           />
-        </HStack>
+        </Flex>
       </Box>
     </Box>
   );
