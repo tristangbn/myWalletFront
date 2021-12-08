@@ -53,9 +53,9 @@ function AddCrypto(props) {
       })
       .then(async function (response) {
         console.log(response.data);
+        props.navigation.navigate("bottomNav");
       });
 
-      props.navigation.navigate("bottomNav");
   };
 
   return (
@@ -110,7 +110,7 @@ function AddCrypto(props) {
         mb="10"
         placement="bottom"
         width="98%"
-        _dark={{ bg: "#480CA8" }}
+        _dark={{ bg: "violet.900" }}
         rounded="lg"
         onPress={() => console.log("hello world")}
         _text={{

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { useFocusEffect } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
+import { RefreshControl } from "react-native";
+import { useIsFocused } from "@react-navigation/native";
 import {
   Button,
   Center,
@@ -10,100 +11,125 @@ import {
   VStack,
   ZStack,
   Image,
+  Heading,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 import { connect } from "react-redux";
+import { Platform } from "react-native";
+
 import myWalletAPI from "../api/myWallet";
-import coinGeckoAPI from "../api/coinGecko";
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 function HomeScreen(props) {
+  const [refreshing, setRefreshing] = React.useState(false);
+  const isFocused = useIsFocused();
+
   const [ownedCryptos, setOwnedCryptos] = useState([]);
+  const [total, setTotal] = useState(0);
+
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
 
-  useFocusEffect(
-    React.useCallback(() => {
-      myWalletAPI
-        .get(`/list-crypto/${token}`) // Ajouter le token du store dans l'url
-        .then((response) => {
-          setOwnedCryptos(response.data.ownedCryptos);
-        });
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    wait(2000).then(() => setRefreshing(false));
+  }, []);
 
-      let ids = "";
-      for (let i = 0; i < ownedCryptos.length; i++) {
-        ids += ownedCryptos[i].id + ",";
-
-      }
-
-      coinGeckoAPI
-      .get("/simple/price", {
-        params: { vs_currencies: "eur", ids},
-      })
+  useEffect(() => {
+    console.log("------------LOADING-----------");
+    myWalletAPI
+      .get(`/list-crypto/${token}`) // Ajouter le token du store dans l'url
       .then((response) => {
-        // const newOwnedCryptosList = [...ownedCryptos];
-        // newOwnedCryptosList[i].current_price =
-        //   response.data[0].current_price;
-        // setOwnedCryptos(newOwnedCryptosList);
-        const id = "ethereum"
-        console.log(response.data.ethereum)
+        console.log(response.data.ownedCryptos);
+
+        let total = 0;
+        for (let i = 0; i < response.data.ownedCryptos.length; i++) {
+          let qty = 1;
+          // CALCUL DE LA QTY A PARTIR DES TRANSACTIONS EN BDD
+          total += response.data.ownedCryptos[i].current_price * qty;
+        }
+
+        setTotal(total);
+        setOwnedCryptos(response.data.ownedCryptos);
       });
-    }, [])
-  );
+  }, [isFocused, refreshing]);
 
   let cryptos;
-  // if (isFocused) {
-  cryptos = ownedCryptos.map((crypto, i) => (
-    <Box
-      _dark={{ bg: "blueGray.800" }}
-      rounded="xl"
-      py="2"
-      // mx="2"
-      my="1"
-      key={i}
-    >
-      <HStack justifyContent="space-around" alignItems="center">
-        <Center w="15%">
-          <Image
-            resizeMode="cover"
-            source={{
-              uri: crypto.image,
-            }}
-            alt={crypto.name + " logo"}
-            size="xs"
-          />
-        </Center>
-        <Box w="45%">
-          <Text fontSize="xl" fontWeight="medium">
-            {crypto.symbol.toUpperCase() + " " + crypto.name}
-          </Text>
-          <Text fontSize="sm" fontWeight="light">
-            {"0.0025"} | € {crypto.current_price}
-          </Text>
-        </Box>
-        <Box
-          w="33%"
-          mr="3"
-          _text={{ fontSize: "xl", fontWeight: "medium", textAlign: "right" }}
-        >
-          € {/* {Math.round(0.0025 * crypto.current_price * 100) / 100}  */}
-          <Box
-            _text={{
-              fontSize: "sm",
-              fontWeight: "light",
-              textAlign: "right",
-              color: true ? "#20BF55" : "#EF233C",
-            }}
-            mt="-20px"
-          >
-            {" "}
-            {/* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */}
-            {"+300 +30.75%"}
+  if (isFocused) {
+    cryptos = ownedCryptos.map((crypto, i) => (
+      <Box
+        _dark={{ bg: "blueGray.800" }}
+        rounded="xl"
+        py="2"
+        my="1"
+        ml="1"
+        key={i}
+        shadow={{
+          shadowColor: "#000000",
+          shadowOffset: {
+            width: -1,
+            height: 2,
+          },
+          shadowOpacity: 1,
+          shadowRadius: 1.0,
+          elevation: 1,
+        }}
+      >
+        <HStack justifyContent="space-around" alignItems="center">
+          <Center w="15%">
+            <Image
+              resizeMode="cover"
+              source={{
+                uri: crypto.image,
+              }}
+              alt={crypto.name + " logo"}
+              size="xs"
+            />
+          </Center>
+          <Box w="45%">
+            <Text fontSize="xl" fontWeight="medium">
+              {crypto.symbol.toUpperCase() + " " + crypto.name}
+            </Text>
+            <Text fontSize="sm" fontWeight="light">
+              {"0.0025" + " | € " + crypto.current_price} {/*  */}
+            </Text>
           </Box>
-        </Box>
-      </HStack>
-    </Box>
-  ));
-  // }
+          <Box
+            w="33%"
+            mr="3"
+            _text={{ fontSize: "xl", fontWeight: "medium", textAlign: "right" }}
+          >
+            {"€ " + Math.round(0.0025 * crypto.current_price * 100) / 100}
+            <Box
+              _text={{
+                fontSize: "sm",
+                fontWeight: "light",
+                textAlign: "right",
+                color: true
+                  ? "#20BF55"
+                  : "#EF233C" /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */,
+              }}
+              shadow={{
+                shadowColor: true ? "#20BF55" : "#EF233C",
+                shadowOffset: {
+                  width: -1,
+                  height: 1,
+                },
+                shadowOpacity: 1,
+                shadowRadius: 5.0,
+                elevation: 1,
+              }}
+            >
+              {"+300 +30.75%"}
+            </Box>
+          </Box>
+        </HStack>
+      </Box>
+    ));
+  }
 
   return (
     <Box flex={1} alignItems="center" _dark={{ bg: "blueGray.900" }} px="0">
@@ -112,31 +138,61 @@ function HomeScreen(props) {
         w="100%"
         rounded="xl"
         p="5"
-        mb="5"
-        // mt="5"
+        mb="2"
+        pt={Platform.OS === "ios" ? "10" : "5"}
+        shadow={{
+          shadowColor: "#000000",
+          shadowOffset: {
+            width: -1,
+            height: 2,
+          },
+          shadowOpacity: 1,
+          shadowRadius: 1.0,
+          elevation: 1,
+        }}
       >
         <Text fontSize="4xl" fontWeight="bold" textAlign="center">
-          Portfolio
+          {user + "'s Portfolio"}
         </Text>
         <Text fontSize="3xl" fontWeight="bold" textAlign="center">
-          € 1825.56
+          {"€ " + Math.round(total * 100) / 100}
         </Text>
         <Text
           fontSize="md"
           fontWeight="light"
           textAlign="center"
-          color="#20BF55"
+          color={
+            true ? "#20BF55" : "#EF233C"
+          } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
+          shadow={{
+            shadowColor: true ? "#20BF55" : "#EF233C",
+            shadowOffset: {
+              width: -1,
+              height: 1,
+            },
+            shadowOpacity: 1,
+            shadowRadius: 5.0,
+            elevation: 1,
+          }}
         >
-          +550,09 +44,12%
+          {"+550,09 +44,12%"}
         </Text>
       </Box>
       {/* <ZStack alignItems="center"> */}
       <ScrollView
         _contentContainerStyle={{
           px: "0px",
-          // mb: "4",
-          // minW: "72",
         }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            tintcolor="#ffffff"
+            title="Slide to refresh"
+            titleColor='#ffffff'
+            // colors=["#ffffff"]
+          />
+        }
       >
         {cryptos}
       </ScrollView>
@@ -149,13 +205,35 @@ function HomeScreen(props) {
             textAlign="center"
             my="auto"
             mr="3"
+            // shadow={{
+            //   shadowColor: "#ffffff",
+            //   shadowOffset: {
+            //     width: -1,
+            //     height: 1,
+            //   },
+            //   shadowOpacity: 1,
+            //   shadowRadius: 5.0,
+            //   elevation: 1,
+            // }}
           >
             Ajouter une cryptomonnaie
           </Text>
           <Button
             onPress={() => props.navigation.navigate("AddCrypto")}
             variant="rounded"
-            leftIcon={<Entypo name="plus" size={40} color="white" />}
+            px="1"
+            py="1"
+            leftIcon={<Entypo name="plus" size={50} color="white" />}
+            shadow={{
+              shadowColor: "#4c1d95",
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 5.0,
+              elevation: 1,
+            }}
           />
         </HStack>
       </Box>

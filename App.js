@@ -26,8 +26,8 @@ const bottomNav = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color }) => {
           let iconName;
-          if (route.name === "Home") {
-            iconName = "ios-information-circle";
+          if (route.name === "Wallet") {
+            iconName = "wallet";
             // } else if (route.name === "AddCrypto") {
             //   iconName = "ios-options";
           }
@@ -39,7 +39,7 @@ const bottomNav = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Wallet" component={HomeScreen} />
     </Tab.Navigator>
   );
 };
