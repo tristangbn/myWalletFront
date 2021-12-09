@@ -61,6 +61,12 @@ const customTheme = extendTheme({
     initialColorMode: "dark",
   },
   components: {
+    Select: {
+      baseStyle: {},
+      defaultProps: {},
+      variants: {},
+      sizes: {},
+    },
     Button: {
       baseStyle: {},
       defaultProps: {},
@@ -70,7 +76,7 @@ const customTheme = extendTheme({
             bg: "violet.900",
             rounded: "full",
             colorScheme: "violet",
-            shadow:{
+            shadow: {
               shadowColor: "#5b21b6",
               shadowOffset: {
                 width: 0,
@@ -79,7 +85,7 @@ const customTheme = extendTheme({
               shadowOpacity: 1,
               shadowRadius: 5.0,
               elevation: 1,
-            }
+            },
           };
         },
         active: () => {
@@ -87,7 +93,7 @@ const customTheme = extendTheme({
             bg: "violet.900",
             rounded: "full",
             colorScheme: "violet",
-            py: 0
+            py: 0,
           };
         },
         inactive: () => {

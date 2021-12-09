@@ -235,16 +235,6 @@ function TransactionsScreen(props) {
                   onPress={() => props.navigation.navigate("BuyTransaction")}
                 />
               }
-              // shadow={{
-              //   shadowColor: "#5b21b6",
-              //   shadowOffset: {
-              //     width: 0,
-              //     height: 0,
-              //   },
-              //   shadowOpacity: 1,
-              //   shadowRadius: 5.0,
-              //   elevation: 1,
-              // }}
             />
             <Text
               fontSize="md"

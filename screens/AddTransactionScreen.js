@@ -27,7 +27,7 @@ function AddTransactionScreen(props) {
   const [type, setType] = useState("buy");
 
   const [platform, setPlatform] = useState("");
-  const [pair, setPair] = useState("");
+  const [pair, setPair] = useState(props.id + "/EUR");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [fees, setFees] = useState("");
@@ -144,6 +144,7 @@ function AddTransactionScreen(props) {
   const addTransaction = () => {
     myWalletAPI
       .post("/add-transaction", {
+        token,
         type,
         // id: props.id,
         id: "bitcoin",
@@ -165,25 +166,23 @@ function AddTransactionScreen(props) {
   if (type === "buy") {
     // Initialisation des champs de sélection
     const exchanges = [
-      { name: "Binance", id: "binance" },
-      { name: "Coinbase", id: "coinbase_exchange" },
-      { name: "Crypto.com", id: "binance" },
-      { name: "Huobi Global", id: "huobi_global" },
-      { name: "KuCoin", id: "kucoin" },
-      { name: "FTX", id: "ftx" },
-      { name: "Gate.io", id: "gateio" },
-      { name: "Kraken", id: "kraken" },
-      { name: "Bitfinex", id: "bitfinex" },
-      { name: "Binance US", id: "binance_us" },
+      "Binance",
+      "Coinbase",
+      "Crypto.com",
+      "Huobi Global",
+      "KuCoin",
+      "FTX",
+      "Gate.io",
+      "Kraken",
+      "Bitfinex",
+      "Binance US",
     ];
 
     const listExchanges = exchanges.map((exchange, i) => {
-      return (
-        <Select.Item key={i} label={exchange.name} value={exchange.name} />
-      );
+      return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = ["EUR/BTC", "EUR/ADA"];
+    const paires = [props.id + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
@@ -220,6 +219,7 @@ function AddTransactionScreen(props) {
           </Select>
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Buying Price"
             minW="90%"
             height="12"
@@ -228,6 +228,7 @@ function AddTransactionScreen(props) {
           />
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Quantity"
             minW="90%"
             height="12"
@@ -236,6 +237,7 @@ function AddTransactionScreen(props) {
           />
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
             minW="90%"
             height="12"
@@ -250,25 +252,23 @@ function AddTransactionScreen(props) {
   } else if (type === "sell") {
     // Initialisation des champs de sélection
     const exchanges = [
-      { name: "Binance", id: "binance" },
-      { name: "Coinbase Exchange", id: "coinbase_exchange" },
-      { name: "Crypto.com Exchange", id: "binance" },
-      { name: "Huobi Global", id: "huobi_global" },
-      { name: "KuCoin", id: "kucoin" },
-      { name: "FTX", id: "ftx" },
-      { name: "Gate.io", id: "gateio" },
-      { name: "Kraken", id: "kraken" },
-      { name: "Bitfinex", id: "bitfinex" },
-      { name: "Binance US", id: "binance_us" },
+      "Binance",
+      "Coinbase",
+      "Crypto.com",
+      "Huobi Global",
+      "KuCoin",
+      "FTX",
+      "Gate.io",
+      "Kraken",
+      "Bitfinex",
+      "Binance US",
     ];
 
     const listExchanges = exchanges.map((exchange, i) => {
-      return (
-        <Select.Item key={i} label={exchange.name} value={exchange.name} />
-      );
+      return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = ["EUR/BTC", "EUR/ADA"];
+    const paires = [props.id + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
@@ -305,6 +305,7 @@ function AddTransactionScreen(props) {
           </Select>
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Selling Price"
             minW="90%"
             height="12"
@@ -313,6 +314,7 @@ function AddTransactionScreen(props) {
           />
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Quantity"
             minW="90%"
             height="12"
@@ -321,6 +323,7 @@ function AddTransactionScreen(props) {
           />
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
             minW="90%"
             height="12"
@@ -335,23 +338,21 @@ function AddTransactionScreen(props) {
   } else if (type === "transfer") {
     // Initialisation des champs de sélection
     const exchanges = [
-      { name: "Binance", id: "binance" },
-      { name: "Coinbase", id: "coinbase_exchange" },
-      { name: "Crypto.com", id: "binance" },
-      { name: "Huobi Global", id: "huobi_global" },
-      { name: "KuCoin", id: "kucoin" },
-      { name: "FTX", id: "ftx" },
-      { name: "Gate.io", id: "gateio" },
-      { name: "Kraken", id: "kraken" },
-      { name: "Bitfinex", id: "bitfinex" },
-      { name: "Binance US", id: "binance_us" },
-      { name: "Hardware wallet" },
+      "Binance",
+      "Coinbase",
+      "Crypto.com",
+      "Huobi Global",
+      "KuCoin",
+      "FTX",
+      "Gate.io",
+      "Kraken",
+      "Bitfinex",
+      "Binance US",
+      "Hardware wallet",
     ];
 
     const listExchanges = exchanges.map((exchange, i) => {
-      return (
-        <Select.Item key={i} label={exchange.name} value={exchange.name} />
-      );
+      return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
     inputs = (
@@ -384,15 +385,8 @@ function AddTransactionScreen(props) {
             {listExchanges}
           </Select>
 
-          {/* <Input
-            placeholder="Buying Price"
-            minW="90%"
-            height="12"
-            value={price}
-            onChangeText={(itemValue) => setPrice(itemValue)}
-          /> */}
-
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Quantity"
             minW="90%"
             height="12"
@@ -401,6 +395,7 @@ function AddTransactionScreen(props) {
           />
 
           <Input
+            _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
             minW="90%"
             height="12"

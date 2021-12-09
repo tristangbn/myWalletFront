@@ -96,6 +96,7 @@ const SignInScreen = (props) => {
             isInvalid={handleErrorMessage("email", errorMessage) ? true : false}
           >
             <Input
+              _focus={{ borderColor: "violet.900" }}
               InputLeftElement={
                 <Icon
                   as={<MaterialIcons name="mail" />}
@@ -121,7 +122,8 @@ const SignInScreen = (props) => {
               handleErrorMessage("password", errorMessage) ? true : false
             }
           >
-            <Input
+            <Input            _focus={{ borderColor: "violet.900" }}
+
               type="password"
               InputLeftElement={
                 <Icon
