@@ -8,145 +8,61 @@ import {
   Image,
   VStack,
   HStack,
-  ScrollView,
+  FlatList,
 } from "native-base";
 
 import { Entypo } from "@expo/vector-icons";
 import TransactionCard from "../components/TransactionCard";
 
-// const cardT = (
-//   <Box w="95%" flex="1">
-//     <Box
-//       ml="10"
-//       _dark={{ bg: "blueGray.900" }}
-//       _text={{
-//         textAlign: "left",
-//       }}
-//     >
-//       <Text italic>21-11-2021 13:57</Text>
-//     </Box>
-
-//     <Center
-//       position="relative"
-//       w="96%"
-//       p="3"
-//       _dark={{ bg: "blueGray.800" }}
-//       rounded="xl"
-//       borderWidth={"0.1"}
-//     >
-//       <VStack w="100%">
-//         <HStack mb="2">
-//           <Box w="33%" alignItems="center">
-//             <Text>Buy Price:</Text>
-//             <Text fontWeight="bold">24 521.12$</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Pair:</Text>
-//             <Text fontWeight="bold">BTC/EUR</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Quantity:</Text>
-//             <Text fontWeight="bold">0.0025</Text>
-//           </Box>
-//         </HStack>
-//         <HStack>
-//           <Box w="33%" alignItems="center">
-//             <Text>Price </Text>
-//             <Text fontWeight="bold">60.00$</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Value</Text>
-//             <Text fontWeight="bold">123.17$</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Variation:</Text>
-//             <Text fontWeight="bold">105%</Text>
-//           </Box>
-//         </HStack>
-//       </VStack>
-//     </Center>
-//     <Box
-//       position="absolute"
-//       ml="89%"
-//       _dark={{ bg: "blueGray.800" }}
-//       rounded="3xl"
-//       py="2%"
-//       px="3.5%"
-//       borderColor={"blue.500"}
-//       borderWidth={"2"}
-//       //   _text={{ color: "error.700" }}
-//     >
-//       T
-//     </Box>
-//   </Box>
-// );
-
-// const cardA = (
-//   <Box w="95%" flex="1">
-//     <Box
-//       ml="10"
-//       _dark={{ bg: "blueGray.900" }}
-//       _text={{
-//         textAlign: "left",
-//       }}
-//     >
-//       <Text italic>21-11-2021 13:57</Text>
-//     </Box>
-
-//     <Center
-//       position="relative"
-//       w="96%"
-//       p="3"
-//       _dark={{ bg: "blueGray.800" }}
-//       rounded="xl"
-//       borderWidth={"0.1"}
-//     >
-//       <VStack w="100%">
-//         <HStack mb="2">
-//           <Box w="33%" alignItems="center">
-//             <Text>Buy Price:</Text>
-//             <Text fontWeight="bold">24 521.12$</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Pair:</Text>
-//             <Text fontWeight="bold">BTC/EUR</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Quantity:</Text>
-//             <Text fontWeight="bold">0.0025</Text>
-//           </Box>
-//         </HStack>
-//         <HStack>
-//           <Box w="33%" alignItems="center">
-//             <Text>Price </Text>
-//             <Text fontWeight="bold">60.00$</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Value</Text>
-//             <Text fontWeight="bold">123.17$</Text>
-//           </Box>
-//           <Box w="33%" alignItems="center">
-//             <Text>Variation:</Text>
-//             <Text fontWeight="bold">105%</Text>
-//           </Box>
-//         </HStack>
-//       </VStack>
-//     </Center>
-//     <Box
-//       position="absolute"
-//       ml="89%"
-//       _dark={{ bg: "blueGray.800" }}
-//       rounded="3xl"
-//       py="2%"
-//       px="3.5%"
-//       borderColor={"error.700"}
-//       borderWidth={"2"}
-//       //   _text={{ color: "error.700" }}
-//     >
-//       A
-//     </Box>
-//   </Box>
-// );
+const dataList = [
+  {
+    date: "21/10/2021 12:57",
+    type: "buy",
+    buy_price: 0,
+    pair: "EUR/BTC",
+    quantity: 24,
+    price: 60.0,
+    value: 3,
+    variation: 23,
+    id: "1",
+  },
+  {
+    date: "21/10/2021 12:57",
+    type: "sell",
+    sell_price: 0,
+    pair: "EUR/BTC",
+    quantity: 24,
+    incomes: 265,
+    id: "2",
+  },
+  {
+    date: "21/10/2021 12:57",
+    type: "transfer",
+    from: "Coinbase",
+    to: "Binance",
+    amount: 2,
+    price: 100,
+    id: "3",
+  },
+  {
+    date: "21/10/2021 12:57",
+    type: "sell",
+    sell_price: 0,
+    pair: "EUR/BTC",
+    quantity: 24,
+    incomes: 265,
+    id: "4",
+  },
+  {
+    date: "21/10/2021 12:57",
+    type: "transfer",
+    from: "Coinbase",
+    to: "Binance",
+    amount: 2,
+    price: 100,
+    id: "5",
+  },
+];
 
 function TransactionsScreen(props) {
   return (
@@ -164,16 +80,6 @@ function TransactionsScreen(props) {
         mb="1"
         _dark={{ bg: "blueGray.800" }}
         rounded="2xl"
-        // shadow={{
-        //   shadowColor: "#000000",
-        //   shadowOffset: {
-        //     width: -1,
-        //     height: 2,
-        //   },
-        //   shadowOpacity: 1,
-        //   shadowRadius: 1.0,
-        //   elevation: 1,
-        // }}
       >
         <HStack alignItems="center">
           <Image
@@ -212,6 +118,7 @@ function TransactionsScreen(props) {
         </HStack>
       </Center>
 
+<<<<<<< HEAD
       <ScrollView
         w="100%"
         _contentContainerStyle={{
@@ -294,10 +201,93 @@ function TransactionsScreen(props) {
               price: 60.0,
               value: 3,
               variation: 23,
+=======
+      <VStack alignItems="center" w="100%">
+        <HStack ml="-6" mt="4" w="100%">
+          <Button
+            variant="rounded"
+            px="1"
+            py="1"
+            mr="3"
+            ml="6"
+            leftIcon={
+              <Entypo
+                name="plus"
+                size={50}
+                color="white"
+                onPress={() => props.navigation.navigate("BuyTransaction")}
+              />
+            }
+            shadow={{
+              shadowColor: "#5b21b6",
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 5.0,
+              elevation: 1,
+>>>>>>> FlatListTransactionScreen
             }}
           />
-        </VStack>
-      </ScrollView>
+          <Text
+            fontSize="md"
+            fontWeight="medium"
+            textAlign="center"
+            my="auto"
+            mr="20"
+          >
+            Add transaction
+          </Text>
+        </HStack>
+      </VStack>
+
+      <FlatList
+        px="2"
+        data={dataList}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item, i }) =>
+          item.type == "buy" ? (
+            <TransactionCard
+              key={i}
+              date={item.date}
+              type={item.type}
+              content={{
+                buy_price: item.buy_price,
+                pair: item.pair,
+                quantity: item.quantity,
+                price: item.price,
+                value: item.value,
+                variation: item.variation,
+              }}
+            />
+          ) : item.type == "sell" ? (
+            <TransactionCard
+              key={i}
+              date={item.date}
+              type={item.type}
+              content={{
+                sell_price: item.sell_price,
+                pair: item.pair,
+                quantity: item.quantity,
+                incomes: item.incomes,
+              }}
+            />
+          ) : (
+            <TransactionCard
+              key={i}
+              date={item.date}
+              type={item.type}
+              content={{
+                from: item.from,
+                to: item.to,
+                amount: item.amount,
+                price: item.price,
+              }}
+            />
+          )
+        }
+      />
     </Box>
   );
 }
