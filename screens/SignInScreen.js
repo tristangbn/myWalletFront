@@ -34,7 +34,12 @@ const SignInScreen = (props) => {
       let userData = JSON.parse(data);
       if (userData) {
         if (props.authData.length === 0) props.onLogin(userData);
-        props.navigation.navigate("bottomNav");
+
+        myWalletAPI
+          .post("/sign-in-token", { token: userData.token })
+          .then((response) => {
+            if (response.data.result) props.navigation.navigate("bottomNav");
+          });
       }
     });
     // AsyncStorage.clear();
@@ -122,8 +127,8 @@ const SignInScreen = (props) => {
               handleErrorMessage("password", errorMessage) ? true : false
             }
           >
-            <Input            _focus={{ borderColor: "violet.900" }}
-
+            <Input
+              _focus={{ borderColor: "violet.900" }}
               type="password"
               InputLeftElement={
                 <Icon
