@@ -9,6 +9,7 @@ import {
   Input,
   Icon,
   Pressable,
+  ScrollView,
 } from "native-base";
 import { connect } from "react-redux";
 import coinGeckoAPI from "../api/coinGecko";
@@ -126,60 +127,62 @@ const AddCryptoScreen = (props) => {
       >
         Add a crypto
       </Box>
-      <Box my="3" width="98%">
+      <Box mt="3" width="98%">
         {searchBar()}
-
-        <FlatList
-          data={filteredList}
-          renderItem={({ item }) => (
-            <Pressable onPress={() => addCrypto(item.id)}>
-              {({ isHovered, isPressed }) => {
-                return (
-                  <Box
-                    bg={
-                      isPressed
-                        ? "blueGray.800"
-                        : isHovered
-                        ? "cyan.800"
-                        : "blueGray.900"
-                    }
-                    p="3"
-                    rounded="8"
-                    style={{
-                      transform: [
-                        {
-                          scale: isPressed ? 0.96 : 1,
-                        },
-                      ],
-                    }}
-                  >
-                    <HStack space={3} alignItems="center">
-                      <Avatar
-                        size="30px"
-                        source={{
-                          uri: item.image,
-                        }}
-                      />
-                      <VStack>
-                        <Text
-                          _dark={{
-                            color: "white",
-                          }}
-                          color="coolGray.800"
-                          bold
-                        >
-                          {item.name}
-                        </Text>
-                      </VStack>
-                    </HStack>
-                  </Box>
-                );
-              }}
-            </Pressable>
-          )}
-          keyExtractor={(item) => item.id}
-        />
       </Box>
+
+      <FlatList
+        width="98%"
+        data={filteredList}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => addCrypto(item.id)}>
+            {({ isHovered, isPressed }) => {
+              return (
+                <Box
+                  bg={
+                    isPressed
+                      ? "blueGray.800"
+                      : isHovered
+                      ? "cyan.800"
+                      : "blueGray.900"
+                  }
+                  pb="6"
+                  pl="3"
+                  rounded="8"
+                  style={{
+                    transform: [
+                      {
+                        scale: isPressed ? 0.96 : 1,
+                      },
+                    ],
+                  }}
+                >
+                  <HStack space={3} alignItems="center">
+                    <Avatar
+                      size="30px"
+                      source={{
+                        uri: item.image,
+                      }}
+                    />
+                    <VStack>
+                      <Text
+                        _dark={{
+                          color: "white",
+                        }}
+                        color="coolGray.800"
+                        bold
+                      >
+                        {item.name}
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Box>
+              );
+            }}
+          </Pressable>
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </Box>
   );
 };
