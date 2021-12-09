@@ -117,91 +117,6 @@ function TransactionsScreen(props) {
           </Center>
         </HStack>
       </Center>
-
-<<<<<<< HEAD
-      <ScrollView
-        w="100%"
-        _contentContainerStyle={{
-          px: "3",
-          pb: "5",
-        }}
-      >
-        <VStack alignItems="center" w="100%">
-          <HStack ml="-6" mt="7" w="100%">
-            <Button
-              variant="addBtn"
-              px="1"
-              py="1"
-              mr="3"
-              ml="6"
-              leftIcon={
-                <Entypo
-                  name="plus"
-                  size={50}
-                  color="white"
-                  onPress={() => props.navigation.navigate("BuyTransaction")}
-                />
-              }
-            />
-            <Text
-              fontSize="md"
-              fontWeight="medium"
-              textAlign="center"
-              my="auto"
-              mr="20"
-            >
-              Add transaction
-            </Text>
-          </HStack>
-
-          <TransactionCard
-            date="21/12/2021 13:57"
-            type="buy"
-            content={{
-              buy_price: 0,
-              pair: "EUR/BTC",
-              quantity: 24,
-              price: 60.0,
-              value: 3,
-              variation: 23,
-            }}
-          />
-          <TransactionCard
-            date="21/10/2021 12:57"
-            type="sell"
-            content={{
-              sell_price: 0,
-              pair: "EUR/BTC",
-              quantity: 24,
-              incomes: 265,
-            }}
-          />
-          <TransactionCard
-            date="11/02/2020 23:17"
-            type="transfer"
-            content={{ from: "BTC", to: "EUR", amount: "EUR/BTC", price: 3 }}
-          />
-          <TransactionCard
-            date="21/10/2021 12:57"
-            type="sell"
-            content={{
-              sell_price: 0,
-              pair: "EUR/BTC",
-              quantity: 24,
-              incomes: 265,
-            }}
-          />
-          <TransactionCard
-            date="21/12/2021 13:57"
-            type="buy"
-            content={{
-              buy_price: 0,
-              pair: "EUR/BTC",
-              quantity: 24,
-              price: 60.0,
-              value: 3,
-              variation: 23,
-=======
       <VStack alignItems="center" w="100%">
         <HStack ml="-6" mt="4" w="100%">
           <Button
@@ -227,7 +142,6 @@ function TransactionsScreen(props) {
               shadowOpacity: 1,
               shadowRadius: 5.0,
               elevation: 1,
->>>>>>> FlatListTransactionScreen
             }}
           />
           <Text
@@ -241,7 +155,6 @@ function TransactionsScreen(props) {
           </Text>
         </HStack>
       </VStack>
-
       <FlatList
         px="2"
         data={dataList}
