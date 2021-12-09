@@ -146,7 +146,7 @@ const AddCryptoScreen = (props) => {
                       ? "cyan.800"
                       : "blueGray.900"
                   }
-                  pb="6"
+                  py="3"
                   pl="3"
                   rounded="8"
                   style={{

@@ -17,25 +17,25 @@ function TransactionCard(props) {
   if (props.type === "buy") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {/* {Platform.OS === "ios" && (
-          // <Box
-          //   h="100%"
-          //   w="1"
-          //   _dark={{ bg: "violet.800" }}
-          //   position="absolute"
-          //   ml="10"
-          //   shadow={{
-          //     shadowColor: "#5b21b6",
-          //     shadowOffset: {
-          //       width: 0,
-          //       height: 0,
-          //     },
-          //     shadowOpacity: 1,
-          //     shadowRadius: 5.0,
-          //     elevation: 1,
-          //   }}
-          // />
-        )} */}
+        {Platform.OS === "ios" && (
+          <Box
+            h="100%"
+            w="1"
+            _dark={{ bg: "violet.800" }}
+            position="absolute"
+            ml="10"
+            shadow={{
+              shadowColor: "#5b21b6",
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 5.0,
+              elevation: 1,
+            }}
+          />
+        )}
 
         <Box
           ml="16"
@@ -137,7 +137,7 @@ function TransactionCard(props) {
   } else if (props.type === "sell") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {/* {Platform.OS === "ios" && (
+        {Platform.OS === "ios" && (
           <Box
             h="100%"
             w="1"
@@ -155,7 +155,7 @@ function TransactionCard(props) {
               elevation: 1,
             }}
           />
-        )} */}
+        )}
 
         <Box
           ml="16"
@@ -246,7 +246,7 @@ function TransactionCard(props) {
   } else if (props.type === "transfer") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {/* {Platform.OS === "ios" && (
+        {Platform.OS === "ios" && (
           <Box
             h="100%"
             w="1"
@@ -264,7 +264,7 @@ function TransactionCard(props) {
               elevation: 1,
             }}
           />
-        )} */}
+        )}
 
         <Box
           ml="16"

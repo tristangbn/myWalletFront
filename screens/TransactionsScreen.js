@@ -65,7 +65,7 @@ const dataList = [
 ];
 
 function TransactionsScreen(props) {
-  console.log("PROPS", props.route.params.id);
+  // console.log("PROPS", props.route.params.id);
   const [listTransactions, setListTransactions] = useState([]);
 
   useEffect(() => {
@@ -125,7 +125,7 @@ function TransactionsScreen(props) {
         </HStack>
       </Center>
       <VStack alignItems="center" w="100%">
-        <HStack ml="-6" mt="4" w="100%">
+        <HStack mt="4" w="100%">
           <Button
             variant="addBtn"
             px="1"
@@ -170,47 +170,26 @@ function TransactionsScreen(props) {
       <FlatList
         px="2"
         data={dataList}
-        renderItem={({ item, i }) =>
-          item.type == "buy" ? (
-            <TransactionCard
-              key={i}
-              date={item.date}
-              type={item.type}
-              content={{
-                buy_price: item.buy_price,
-                pair: item.pair,
-                quantity: item.quantity,
-                price: item.price,
-                value: item.value,
-                variation: item.variation,
-              }}
-            />
-          ) : item.type == "sell" ? (
-            <TransactionCard
-              key={i}
-              date={item.date}
-              type={item.type}
-              content={{
-                sell_price: item.sell_price,
-                pair: item.pair,
-                quantity: item.quantity,
-                incomes: item.incomes,
-              }}
-            />
-          ) : (
-            <TransactionCard
-              key={i}
-              date={item.date}
-              type={item.type}
-              content={{
-                from: item.from,
-                to: item.to,
-                amount: item.amount,
-                price: item.price,
-              }}
-            />
-          )
-        }
+        renderItem={({ item, i }) => (
+          <TransactionCard
+            key={i}
+            date={item.date}
+            type={item.type}
+            content={{
+              buy_price: item.buy_price,
+              sell_price: item.sell_price,
+              pair: item.pair,
+              quantity: item.quantity,
+              price: item.price,
+              value: item.value,
+              variation: item.variation,
+              incomes: item.incomes,
+              from: item.from,
+              to: item.to,
+              amount: item.amount,
+            }}
+          />
+        )}
       />
     </Box>
   );

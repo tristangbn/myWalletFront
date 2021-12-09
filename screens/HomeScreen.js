@@ -42,10 +42,12 @@ function HomeScreen(props) {
     console.log("------------LOADING-----------");
     myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
       let total = 0;
-      for (let i = 0; i < response.data.ownedCryptos.length; i++) {
-        let qty = 1;
-        // CALCUL DE LA QTY A PARTIR DES TRANSACTIONS EN BDD
-        total += response.data.ownedCryptos[i].current_price * qty;
+      if (response.data.ownedCryptos.length > 0) {
+        for (let i = 0; i < response.data.ownedCryptos.length; i++) {
+          total +=
+            response.data.ownedCryptos[i].current_price *
+            response.data.ownedCryptos[i].totalQuantity;
+        }
       }
 
       setTotal(total);
@@ -57,6 +59,7 @@ function HomeScreen(props) {
   if (isFocused) {
     cryptos = ownedCryptos.map((crypto, i) => (
       <Pressable
+        key={i}
         onPress={() =>
           props.navigation.navigate("ListTransactions", {
             id: crypto.id,
@@ -84,7 +87,7 @@ function HomeScreen(props) {
                 ],
               }}
             >
-              <Box rounded="2xl" py="2" pr="3" my="1" ml="1" key={i}>
+              <Box rounded="2xl" py="2" pr="3" my="1" ml="1">
                 <HStack justifyContent="space-around" alignItems="center">
                   <Center w="17%">
                     <Image
@@ -108,12 +111,16 @@ function HomeScreen(props) {
                         textAlign="right"
                       >
                         {"€ " +
-                          Math.round(0.0025 * crypto.current_price * 100) / 100}
+                          Math.round(
+                            crypto.totalQuantity * crypto.current_price * 100
+                          ) /
+                            100}
                       </Text>
                     </HStack>
                     <HStack>
                       <Text fontSize="sm" fontWeight="light">
-                        {"0.0025" + " | € " + crypto.current_price} {/*  */}
+                        {crypto.totalQuantity + " | € " + crypto.current_price}{" "}
+                        {/*  */}
                       </Text>
                       <Text
                         fontSize="sm"

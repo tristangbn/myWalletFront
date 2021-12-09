@@ -1,23 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
-const axios = require("axios");
 import {
   Button,
   Box,
   Text,
   Center,
   Select,
-  Container,
   CheckIcon,
   VStack,
-  Spacer,
-  Icon,
   Input,
   ScrollView,
 } from "native-base";
 import { connect } from "react-redux";
-import coinGeckoAPI from "../api/coinGecko";
 import myWalletAPI from "../api/myWallet";
 
 function AddTransactionScreen(props) {
@@ -91,7 +86,7 @@ function AddTransactionScreen(props) {
           <Text mt="3">{date.toString()}</Text>
         </Center>
       ) : (
-        <Box style={{ flexDirection: "row" }}>
+        <Box style={{ flexDirection: "row", flex:1, alignSelf: 'flex-start'}}>
           <DateTimePicker
             testID="datePicker"
             value={date}
@@ -104,6 +99,7 @@ function AddTransactionScreen(props) {
               width: "30%",
               marginTop: "5%",
               marginLeft: "2%",
+              marginRight: "2%"
             }}
           />
           <DateTimePicker
@@ -191,10 +187,10 @@ function AddTransactionScreen(props) {
 
     inputs = (
       <>
-        <VStack mt="20px" alignItems="center" space={4}>
+        <VStack mt="20px" alignItems="center" px="2" space={4}>
           <Select
             selectedValue={platform}
-            minW="90%"
+            minW="100%"
             height="12"
             placeholder="Platform"
             _selectedItem={{
@@ -207,7 +203,7 @@ function AddTransactionScreen(props) {
           </Select>
           <Select
             selectedValue={pair}
-            minW="90%"
+            minW="100%"
             height="12"
             placeholder="Exchange pair"
             _selectedItem={{
@@ -222,7 +218,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Buying Price"
-            minW="90%"
+            minW="100%"
             height="12"
             value={price}
             onChangeText={(itemValue) => setPrice(itemValue)}
@@ -231,7 +227,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Quantity"
-            minW="90%"
+            minW="100%"
             height="12"
             value={quantity}
             onChangeText={(itemValue) => setQuantity(itemValue)}
@@ -240,7 +236,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
-            minW="90%"
+            minW="100%"
             height="12"
             value={fees}
             onChangeText={(itemValue) => setFees(itemValue)}
@@ -277,10 +273,10 @@ function AddTransactionScreen(props) {
 
     inputs = (
       <>
-        <VStack mt="20px" alignItems="center" space={4}>
+        <VStack mt="20px" alignItems="center" px="2" space={4}>
           <Select
             selectedValue={platform}
-            minW="90%"
+            minW="100%"
             height="12"
             placeholder="Platform"
             _selectedItem={{
@@ -293,7 +289,7 @@ function AddTransactionScreen(props) {
           </Select>
           <Select
             selectedValue={pair}
-            minW="90%"
+            minW="100%"
             height="12"
             placeholder="Exchange pair"
             _selectedItem={{
@@ -308,7 +304,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Selling Price"
-            minW="90%"
+            minW="100%"
             height="12"
             value={price}
             onChangeText={(itemValue) => setPrice(itemValue)}
@@ -317,7 +313,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Quantity"
-            minW="90%"
+            minW="100%"
             height="12"
             value={quantity}
             onChangeText={(itemValue) => setQuantity(itemValue)}
@@ -326,7 +322,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
-            minW="90%"
+            minW="100%"
             height="12"
             value={fees}
             onChangeText={(itemValue) => setFees(itemValue)}
@@ -358,10 +354,10 @@ function AddTransactionScreen(props) {
 
     inputs = (
       <>
-        <VStack mt="20px" alignItems="center" space={4}>
+        <VStack mt="20px" alignItems="center" px="2" space={4}>
           <Select
             selectedValue={from}
-            minW="90%"
+            minW="100%"
             height="12"
             placeholder="From"
             _selectedItem={{
@@ -374,7 +370,7 @@ function AddTransactionScreen(props) {
           </Select>
           <Select
             selectedValue={to}
-            minW="90%"
+            minW="100%"
             height="12"
             placeholder="To"
             _selectedItem={{
@@ -389,7 +385,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Quantity"
-            minW="90%"
+            minW="100%"
             height="12"
             value={quantity}
             onChangeText={(itemValue) => setQuantity(itemValue)}
@@ -398,7 +394,7 @@ function AddTransactionScreen(props) {
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
-            minW="90%"
+            minW="100%"
             height="12"
             value={fees}
             onChangeText={(itemValue) => setFees(itemValue)}
@@ -411,7 +407,7 @@ function AddTransactionScreen(props) {
   }
 
   return (
-    <Box flex={1} _dark={{ bg: "blueGray.900" }} safeArea w="100%" p="0">
+    <Box flex={1} _dark={{ bg: "blueGray.900" }} safeArea w="100%" p="2">
       <Center
         py="4"
         alignItems="center"
@@ -423,10 +419,10 @@ function AddTransactionScreen(props) {
           color: "#ffffff",
           textAlign: "center",
         }}
-        mx="2"
+        // mx="2"
       >
         Add a transaction
-        <Button.Group colorScheme="blue" size="sm" mt="1">
+        <Button.Group colorScheme="blue" size="xs" mt="1">
           <Button
             w="25%"
             variant={type === "buy" ? "active" : "inactive"}
