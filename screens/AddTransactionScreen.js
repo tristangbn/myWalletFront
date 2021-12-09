@@ -27,7 +27,9 @@ function AddTransactionScreen(props) {
   const [type, setType] = useState("buy");
 
   const [platform, setPlatform] = useState("");
-  const [pair, setPair] = useState(props.id + "/EUR");
+  const [pair, setPair] = useState(
+    props.route.params.symbol.toUpperCase() + "/EUR"
+  );
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [fees, setFees] = useState("");
@@ -146,8 +148,7 @@ function AddTransactionScreen(props) {
       .post("/add-transaction", {
         token,
         type,
-        // id: props.id,
-        id: "bitcoin",
+        id: props.route.params.id,
         platform,
         pair,
         date,
@@ -182,7 +183,7 @@ function AddTransactionScreen(props) {
       return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = [props.id + "/EUR"];
+    const paires = [props.route.params.symbol.toUpperCase() + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
@@ -268,7 +269,7 @@ function AddTransactionScreen(props) {
       return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = [props.id + "/EUR"];
+    const paires = [props.route.params.symbol.toUpperCase() + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;

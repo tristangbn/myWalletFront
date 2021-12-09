@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import {
   Button,
@@ -65,6 +65,13 @@ const dataList = [
 ];
 
 function TransactionsScreen(props) {
+  console.log("PROPS", props.route.params.id);
+  const [listTransactions, setListTransactions] = useState([]);
+
+  useEffect(() => {
+    //Fetch a la route listTransaction pour update le state
+  }, []);
+
   return (
     <Box
       flex={1}
@@ -120,7 +127,7 @@ function TransactionsScreen(props) {
       <VStack alignItems="center" w="100%">
         <HStack ml="-6" mt="4" w="100%">
           <Button
-            variant="rounded"
+            variant="addBtn"
             px="1"
             py="1"
             mr="3"
@@ -130,7 +137,12 @@ function TransactionsScreen(props) {
                 name="plus"
                 size={50}
                 color="white"
-                onPress={() => props.navigation.navigate("BuyTransaction")}
+                onPress={() =>
+                  props.navigation.navigate("BuyTransaction", {
+                    id: props.route.params.id,
+                    symbol: props.route.params.symbol,
+                  })
+                }
               />
             }
             shadow={{
@@ -158,7 +170,6 @@ function TransactionsScreen(props) {
       <FlatList
         px="2"
         data={dataList}
-        keyExtractor={(item) => item.id}
         renderItem={({ item, i }) =>
           item.type == "buy" ? (
             <TransactionCard

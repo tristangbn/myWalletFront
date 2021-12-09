@@ -49,7 +49,7 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
-      <Tab.Screen name="Transactions" component={TransactionsScreen} />
+      {/* <Tab.Screen name="ListTransactions" component={TransactionsScreen} /> */}
     </Tab.Navigator>
   );
 };
@@ -135,6 +135,10 @@ function App() {
             <Stack.Screen name="Sign-up" component={SignUpScreen} />
             <Stack.Screen name="bottomNav" component={bottomNav} />
             <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
+            <Stack.Screen
+              name="ListTransactions"
+              component={TransactionsScreen}
+            />
             <Stack.Screen
               name="BuyTransaction"
               component={AddTransactionsScreen}

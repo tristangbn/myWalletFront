@@ -11,6 +11,7 @@ import {
   VStack,
   Image,
   Flex,
+  Pressable,
 } from "native-base";
 import { Entypo } from "@expo/vector-icons";
 import { connect } from "react-redux";
@@ -39,77 +40,100 @@ function HomeScreen(props) {
 
   useEffect(() => {
     console.log("------------LOADING-----------");
-    myWalletAPI
-      .get(`/list-crypto/${token}`)
-      .then((response) => {
-        let total = 0;
-        for (let i = 0; i < response.data.ownedCryptos.length; i++) {
-          let qty = 1;
-          // CALCUL DE LA QTY A PARTIR DES TRANSACTIONS EN BDD
-          total += response.data.ownedCryptos[i].current_price * qty;
-        }
+    myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
+      let total = 0;
+      for (let i = 0; i < response.data.ownedCryptos.length; i++) {
+        let qty = 1;
+        // CALCUL DE LA QTY A PARTIR DES TRANSACTIONS EN BDD
+        total += response.data.ownedCryptos[i].current_price * qty;
+      }
 
-        setTotal(total);
-        setOwnedCryptos(response.data.ownedCryptos);
-      });
+      setTotal(total);
+      setOwnedCryptos(response.data.ownedCryptos);
+    });
   }, [isFocused, refreshing]);
 
   let cryptos;
   if (isFocused) {
     cryptos = ownedCryptos.map((crypto, i) => (
-      <Box
-        _dark={{ bg: "blueGray.800" }}
-        rounded="2xl"
-        py="2"
-        pr="3"
-        my="1"
-        ml="1"
-        key={i}
+      <Pressable
+        onPress={() =>
+          props.navigation.navigate("ListTransactions", {
+            id: crypto.id,
+            symbol: crypto.symbol,
+          })
+        }
       >
-        <HStack justifyContent="space-around" alignItems="center">
-          <Center w="17%">
-            <Image
-              resizeMode="cover"
-              source={{
-                uri: crypto.image,
+        {({ isHovered, isPressed }) => {
+          return (
+            <Box
+              bg={
+                isPressed
+                  ? "blueGray.700"
+                  : isHovered
+                  ? "cyan.800"
+                  : "blueGray.800"
+              }
+              m={1}
+              rounded="3xl"
+              style={{
+                transform: [
+                  {
+                    scale: isPressed ? 0.96 : 1,
+                  },
+                ],
               }}
-              alt={crypto.name + " logo"}
-              size="xs"
-            />
-          </Center>
-          <VStack w="80%">
-            <HStack>
-              <Text fontSize="xl" fontWeight="medium">
-                {crypto.symbol.toUpperCase() + " " + crypto.name}
-              </Text>
-              <Text
-                fontSize="xl"
-                fontWeight="medium"
-                style={{ flex: 1 }}
-                textAlign="right"
-              >
-                {"€ " + Math.round(0.0025 * crypto.current_price * 100) / 100}
-              </Text>
-            </HStack>
-            <HStack>
-              <Text fontSize="sm" fontWeight="light">
-                {"0.0025" + " | € " + crypto.current_price} {/*  */}
-              </Text>
-              <Text
-                fontSize="sm"
-                fontWeight="light"
-                style={{ flex: 1 }}
-                textAlign="right"
-                color={
-                  true ? "#20BF55" : "#EF233C"
-                } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
-              >
-                +300 +30.75%
-              </Text>
-            </HStack>
-          </VStack>
-        </HStack>
-      </Box>
+            >
+              <Box rounded="2xl" py="2" pr="3" my="1" ml="1" key={i}>
+                <HStack justifyContent="space-around" alignItems="center">
+                  <Center w="17%">
+                    <Image
+                      resizeMode="cover"
+                      source={{
+                        uri: crypto.image,
+                      }}
+                      alt={crypto.name + " logo"}
+                      size="xs"
+                    />
+                  </Center>
+                  <VStack w="80%">
+                    <HStack>
+                      <Text fontSize="xl" fontWeight="medium">
+                        {crypto.symbol.toUpperCase() + " " + crypto.name}
+                      </Text>
+                      <Text
+                        fontSize="xl"
+                        fontWeight="medium"
+                        style={{ flex: 1 }}
+                        textAlign="right"
+                      >
+                        {"€ " +
+                          Math.round(0.0025 * crypto.current_price * 100) / 100}
+                      </Text>
+                    </HStack>
+                    <HStack>
+                      <Text fontSize="sm" fontWeight="light">
+                        {"0.0025" + " | € " + crypto.current_price} {/*  */}
+                      </Text>
+                      <Text
+                        fontSize="sm"
+                        fontWeight="light"
+                        style={{ flex: 1 }}
+                        textAlign="right"
+                        color={
+                          true ? "#20BF55" : "#EF233C"
+                        } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
+                      >
+                        +300 +30.75%
+                      </Text>
+                    </HStack>
+                  </VStack>
+                </HStack>
+              </Box>
+            </Box>
+          );
+        }}
+      </Pressable>
     ));
   }
 

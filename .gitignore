@@ -10,9 +10,5 @@ npm-debug.*
 web-build/
 .vscode
 .DS_Store
-<<<<<<< HEAD
-api/myWallet.js
-=======
 api/
->>>>>>> e21e1aa29bffe4b23fdd36c52de6dc9a89532ba9
 
