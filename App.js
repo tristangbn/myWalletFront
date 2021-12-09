@@ -36,8 +36,8 @@ const bottomNav = () => {
             //   iconName = "ios-options";
           } else if (route.name === "Transactions") {
             iconName = "ios-options";
-          } else if (route.name === "BuyTransaction") {
-            iconName = "ios-options";
+          // } else if (route.name === "BuyTransaction") {
+          //   iconName = "ios-options";
           }
           return <Ionicons name={iconName} size={25} color={color} />;
         },
@@ -54,7 +54,7 @@ const bottomNav = () => {
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
       <Tab.Screen name="Transactions" component={TransactionsScreen} />
-      <Tab.Screen name="BuyTransaction" component={BuyTransactionsScreen} />
+      {/* <Tab.Screen name="BuyTransaction" component={BuyTransactionsScreen} /> */}
     </Tab.Navigator>
   );
 };
@@ -75,6 +75,14 @@ const customTheme = extendTheme({
             bg: "violet.900",
             rounded: "full",
             colorScheme: "violet",
+          };
+        },
+        active: () => {
+          return {
+            bg: "violet.900",
+            rounded: "full",
+            colorScheme: "violet",
+            py: 0
           };
         },
         inactive: () => {
@@ -117,6 +125,10 @@ function App() {
             <Stack.Screen name="Sign-up" component={SignUpScreen} />
             <Stack.Screen name="bottomNav" component={bottomNav} />
             <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
+            <Stack.Screen
+              name="BuyTransaction"
+              component={BuyTransactionsScreen}
+            />
             <Stack.Screen
               name="SellTransaction"
               component={SellTransactionsScreen}

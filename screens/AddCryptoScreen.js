@@ -71,10 +71,11 @@ const AddCryptoScreen = (props) => {
           onChangeText={(queryText) => handleSearch(queryText)}
           placeholder="Search"
           variant="filled"
-          width="100%"
+          size="xl"
+          // width="100%"
           bg="blueGray.800"
           borderRadius="10"
-          py="1"
+          // py="1"
           px="2"
           placeholderTextColor="white"
           _hover={{ bg: "gray.200", borderWidth: 0 }}
@@ -99,7 +100,7 @@ const AddCryptoScreen = (props) => {
     <Box
       safeArea
       alignItems="center"
-      h="100"
+      h="100%"
       flex={1}
       px="3"
       // width="100%"
@@ -107,9 +108,9 @@ const AddCryptoScreen = (props) => {
     >
       <Box
         p="10"
-        pt="10"
-        mt="5"
-        placement="top"
+        // pt="10"
+        // mt="5"
+        // placement="top"
         justifyContent="center"
         alignItems="center"
         rounded="2xl"
@@ -118,14 +119,14 @@ const AddCryptoScreen = (props) => {
         width="98%"
         _text={{
           fontSize: "2xl",
-          fontWeight: "medium",
+          fontWeight: "bold",
           color: "#ffffff",
-          letterSpacing: "lg",
+          // letterSpacing: "lg",
         }}
       >
         Add a crypto
       </Box>
-      <Box my="10" width="98%">
+      <Box my="3" width="98%">
         {searchBar()}
 
         <FlatList
