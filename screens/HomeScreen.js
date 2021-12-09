@@ -8,6 +8,7 @@ import {
   Text,
   ScrollView,
   HStack,
+  VStack,
   Image,
   Flex,
 } from "native-base";
@@ -60,22 +61,13 @@ function HomeScreen(props) {
         _dark={{ bg: "blueGray.800" }}
         rounded="2xl"
         py="2"
+        pr="3"
         my="1"
         ml="1"
         key={i}
-        shadow={{
-          shadowColor: "#000000",
-          shadowOffset: {
-            width: -1,
-            height: 2,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 1.0,
-          elevation: 1,
-        }}
       >
         <HStack justifyContent="space-around" alignItems="center">
-          <Center w="15%">
+          <Center w="17%">
             <Image
               resizeMode="cover"
               source={{
@@ -85,43 +77,37 @@ function HomeScreen(props) {
               size="xs"
             />
           </Center>
-          <Box w="45%">
-            <Text fontSize="xl" fontWeight="medium">
-              {crypto.symbol.toUpperCase() + " " + crypto.name}
-            </Text>
-            <Text fontSize="sm" fontWeight="light">
-              {"0.0025" + " | € " + crypto.current_price} {/*  */}
-            </Text>
-          </Box>
-          <Box
-            w="33%"
-            mr="3"
-            _text={{ fontSize: "xl", fontWeight: "medium", textAlign: "right" }}
-          >
-            {"€ " + Math.round(0.0025 * crypto.current_price * 100) / 100}
-            <Box
-              _text={{
-                fontSize: "sm",
-                fontWeight: "light",
-                textAlign: "right",
-                color: true
-                  ? "#20BF55"
-                  : "#EF233C" /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */,
-              }}
-              shadow={{
-                shadowColor: true ? "#20BF55" : "#EF233C",
-                shadowOffset: {
-                  width: -1,
-                  height: 1,
-                },
-                shadowOpacity: 1,
-                shadowRadius: 5.0,
-                elevation: 1,
-              }}
-            >
-              {"+300 +30.75%"}
-            </Box>
-          </Box>
+          <VStack w="80%">
+            <HStack>
+              <Text fontSize="xl" fontWeight="medium">
+                {crypto.symbol.toUpperCase() + " " + crypto.name}
+              </Text>
+              <Text
+                fontSize="xl"
+                fontWeight="medium"
+                style={{ flex: 1 }}
+                textAlign="right"
+              >
+                {"€ " + Math.round(0.0025 * crypto.current_price * 100) / 100}
+              </Text>
+            </HStack>
+            <HStack>
+              <Text fontSize="sm" fontWeight="light">
+                {"0.0025" + " | € " + crypto.current_price} {/*  */}
+              </Text>
+              <Text
+                fontSize="sm"
+                fontWeight="light"
+                style={{ flex: 1 }}
+                textAlign="right"
+                color={
+                  true ? "#20BF55" : "#EF233C"
+                } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
+              >
+                +300 +30.75%
+              </Text>
+            </HStack>
+          </VStack>
         </HStack>
       </Box>
     ));
@@ -136,16 +122,16 @@ function HomeScreen(props) {
         p="5"
         mb="2"
         pt={Platform.OS === "ios" ? "10" : "5"}
-        shadow={{
-          shadowColor: "#000000",
-          shadowOffset: {
-            width: -1,
-            height: 2,
-          },
-          shadowOpacity: 1,
-          shadowRadius: 1.0,
-          elevation: 1,
-        }}
+        // shadow={{
+        //   shadowColor: "#000000",
+        //   shadowOffset: {
+        //     width: -1,
+        //     height: 2,
+        //   },
+        //   shadowOpacity: 1,
+        //   shadowRadius: 1.0,
+        //   elevation: 1,
+        // }}
       >
         <Text fontSize="4xl" fontWeight="bold" textAlign="center">
           {user + "'s Portfolio"}
@@ -177,7 +163,7 @@ function HomeScreen(props) {
       <Box flex="1">
         <ScrollView
           _contentContainerStyle={{
-            px: "0px",
+            px: "0",
             pb: "75",
           }}
           refreshControl={

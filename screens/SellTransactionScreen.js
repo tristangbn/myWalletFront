@@ -32,9 +32,13 @@ function SellTransactionScreen(props) {
   const [show, setShow] = useState(false);
 
   const token = props.authData[0].token;
+  const user = props.authData[0].firstName;
+
+  console.log(user, date);
 
   useEffect(() => {}, []);
 
+  // Initialisation des champs de sélection
   const exchanges = [
     { name: "Binance", id: "binance" },
     { name: "Coinbase Exchange", id: "coinbase_exchange" },
@@ -58,17 +62,21 @@ function SellTransactionScreen(props) {
     return <Select.Item key={i} label={paire} value={paire} />;
   });
 
-  console.log(date);
-
+  // Gestion de la date
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     setDate(currentDate);
+    if (event.type === "set" && mode === "date") {
+      showTimepicker();
+    } else if (event.type === "set" && mode === "time") {
+      setShow(false);
+    }
   };
 
   const showMode = (currentMode) => {
-    setShow(true);
     setMode(currentMode);
+    setShow(true);
   };
 
   const showDatepicker = () => {
@@ -80,7 +88,7 @@ function SellTransactionScreen(props) {
   };
 
   return (
-    <Box flex={1} _dark={{ bg: "blueGray.900" }} safeArea w="100%" px="0">
+    <Box flex={1} _dark={{ bg: "blueGray.900" }} safeArea w="100%" p="0">
       <Center
         py="4"
         alignItems="center"
@@ -90,36 +98,36 @@ function SellTransactionScreen(props) {
           fontSize: "4xl",
           fontWeight: "bold",
           color: "#ffffff",
+          textAlign: "center",
         }}
         mx="2"
       >
         Add a transaction
         <Button.Group
           colorScheme="blue"
-          mx={{
-            base: "auto",
-            md: 0,
-          }}
-          size="lg"
+          size="sm"
           mt="1"
         >
           <Button
-            w="30%"
+            w="25%"
             variant="inactive"
+            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
             onPress={() => props.navigation.navigate("BuyTransaction")}
           >
             Buy
           </Button>
           <Button
-            w="30%"
-            variant="rounded"
+            w="25%"
+            variant="active"
+            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
             onPress={() => props.navigation.navigate("SellTransaction")}
           >
             Sell
           </Button>
           <Button
-            w="30%"
+            w="25%"
             variant="inactive"
+            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
             onPress={() => props.navigation.navigate("TransferTransaction")}
           >
             Transfer
@@ -181,56 +189,43 @@ function SellTransactionScreen(props) {
           />
         </VStack>
 
-        {Platform.OS === "ios" ? (
-          <Center style={{ flexDirection: "row", marginTop: "5%" }}>
-            <Button
-              w="40%"
-              mx="5%"
-              _dark={{ bg: "blueGray.800" }}
-              rounded="sm"
-              py="3"
-              _text={{
-                fontSize: "sm",
-                fontWeight: "light",
-                // color: "#fff",
-              }}
-              variant="bordered"
-              onPress={() => showDatepicker()}
-            >
-              Indicate date
-            </Button>
-
-            <Button
-              w="40%"
-              mx="5%"
-              _dark={{ bg: "blueGray.800" }}
-              rounded="sm"
-              py="3"
-              _text={{
-                fontSize: "sm",
-                fontWeight: "light",
-              }}
-              variant="bordered"
-              onPress={() => showTimepicker()}
-            >
-              Indicate time
-            </Button>
-            {/* <Text>{date}</Text> */}
+        {/* Gestion de la date */}
+        {Platform.OS !== "ios" ? (
+          <Center>
+            <Center style={{ flexDirection: "row", marginTop: "5%" }}>
+              <Button
+                w="40%"
+                mx="5%"
+                _dark={{ bg: "blueGray.800" }}
+                rounded="sm"
+                py="3"
+                _text={{
+                  fontSize: "sm",
+                  fontWeight: "light",
+                }}
+                variant="bordered"
+                onPress={() => showDatepicker()}
+              >
+                Indicate date
+              </Button>
+            </Center>
+            <Text mt="3">{date.toString()}</Text>
           </Center>
         ) : (
-          <Box style={{ flexDirection: "row", marginLeft: "3%" }}>
+          <Box style={{ flexDirection: "row" }}>
+            {/* <Center> */}
             <DateTimePicker
               testID="datePicker"
               value={date}
               mode="date"
               is24Hour={true}
               display="default"
-              onChange={() => onChange()}
+              onChange={onChange}
               themeVariant="dark"
               style={{
                 width: "30%",
-                marginBottom: "-1%",
                 marginTop: "5%",
+                marginLeft: "2%",
               }}
             />
             <DateTimePicker
@@ -239,15 +234,15 @@ function SellTransactionScreen(props) {
               mode="time"
               is24Hour={true}
               display="default"
-              onChange={() => onChange()}
+              onChange={onChange}
               themeVariant="dark"
               style={{
                 width: "20%",
-                marginBottom: "-1%",
                 marginTop: "5%",
               }}
             />
           </Box>
+          // </Center>
         )}
 
         {show && Platform.OS !== "ios" && (
@@ -257,7 +252,7 @@ function SellTransactionScreen(props) {
             mode={mode}
             is24Hour={true}
             display="default"
-            onChange={() => onChange()}
+            onChange={onChange}
             themeVariant="dark"
             style={{
               width: "34%",
@@ -271,7 +266,8 @@ function SellTransactionScreen(props) {
       <Center>
         <Button
           w="95%"
-          my="2%"
+          mt="2%"
+          mb="-2%"
           _dark={{ bg: "violet.900" }}
           rounded="lg"
           py="3"
