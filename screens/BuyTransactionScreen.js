@@ -88,7 +88,7 @@ function BuyTransactionScreen(props) {
   };
 
   return (
-    <Box flex={1} _dark={{ bg: "blueGray.900" }} safeArea w="100%" px="0">
+    <Box flex={1} _dark={{ bg: "blueGray.900" }} safeArea w="100%" p="0">
       <Center
         py="4"
         alignItems="center"
@@ -98,36 +98,36 @@ function BuyTransactionScreen(props) {
           fontSize: "4xl",
           fontWeight: "bold",
           color: "#ffffff",
+          textAlign: "center",
         }}
         mx="2"
       >
         Add a transaction
         <Button.Group
           colorScheme="blue"
-          mx={{
-            base: "auto",
-            md: 0,
-          }}
-          size="lg"
+          size="sm"
           mt="1"
         >
           <Button
-            w="30%"
-            variant="rounded"
+            w="25%"
+            variant="active"
+            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
             onPress={() => props.navigation.navigate("BuyTransaction")}
           >
             Buy
           </Button>
           <Button
-            w="30%"
+            w="25%"
             variant="inactive"
+            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
             onPress={() => props.navigation.navigate("SellTransaction")}
           >
             Sell
           </Button>
           <Button
-            w="30%"
+            w="25%"
             variant="inactive"
+            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
             onPress={() => props.navigation.navigate("TransferTransaction")}
           >
             Transfer
@@ -212,7 +212,8 @@ function BuyTransactionScreen(props) {
             <Text mt="3">{date.toString()}</Text>
           </Center>
         ) : (
-          <Box style={{ flexDirection: "row", marginLeft: "3%" }}>
+          <Box style={{ flexDirection: "row" }}>
+            {/* <Center> */}
             <DateTimePicker
               testID="datePicker"
               value={date}
@@ -223,8 +224,8 @@ function BuyTransactionScreen(props) {
               themeVariant="dark"
               style={{
                 width: "30%",
-                marginBottom: "-1%",
                 marginTop: "5%",
+                marginLeft: "2%",
               }}
             />
             <DateTimePicker
@@ -237,11 +238,11 @@ function BuyTransactionScreen(props) {
               themeVariant="dark"
               style={{
                 width: "20%",
-                marginBottom: "-1%",
                 marginTop: "5%",
               }}
             />
           </Box>
+          // </Center>
         )}
 
         {show && Platform.OS !== "ios" && (
@@ -265,7 +266,8 @@ function BuyTransactionScreen(props) {
       <Center>
         <Button
           w="95%"
-          my="2%"
+          mt="2%"
+          mb="-2%"
           _dark={{ bg: "violet.900" }}
           rounded="lg"
           py="3"
