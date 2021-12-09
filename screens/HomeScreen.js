@@ -40,7 +40,7 @@ function HomeScreen(props) {
   useEffect(() => {
     console.log("------------LOADING-----------");
     myWalletAPI
-      .get(`/list-crypto/${token}`) // Ajouter le token du store dans l'url
+      .get(`/list-crypto/${token}`)
       .then((response) => {
         let total = 0;
         for (let i = 0; i < response.data.ownedCryptos.length; i++) {
@@ -122,16 +122,6 @@ function HomeScreen(props) {
         p="5"
         mb="2"
         pt={Platform.OS === "ios" ? "10" : "5"}
-        // shadow={{
-        //   shadowColor: "#000000",
-        //   shadowOffset: {
-        //     width: -1,
-        //     height: 2,
-        //   },
-        //   shadowOpacity: 1,
-        //   shadowRadius: 1.0,
-        //   elevation: 1,
-        // }}
       >
         <Text fontSize="4xl" fontWeight="bold" textAlign="center">
           {user + "'s Portfolio"}
@@ -185,20 +175,10 @@ function HomeScreen(props) {
             position="absolute"
             alignSelf="flex-end"
             onPress={() => props.navigation.navigate("AddCrypto")}
-            variant="rounded"
+            variant="addBtn"
             px="1"
             py="1"
             leftIcon={<Entypo name="plus" size={50} color="white" />}
-            // shadow={{
-            //   shadowColor: "#4c1d95",
-            //   shadowOffset: {
-            //     width: 0,
-            //     height: 0,
-            //   },
-            //   shadowOpacity: 1,
-            //   shadowRadius: 5.0,
-            //   elevation: 1,
-            // }}
           />
         </Flex>
       </Box>

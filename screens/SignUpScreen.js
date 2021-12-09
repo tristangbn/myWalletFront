@@ -97,6 +97,7 @@ const SignUpScreen = (props) => {
               }
             >
               <Input
+                _focus={{ borderColor: "violet.900" }}
                 InputLeftElement={
                   <Icon
                     as={<MaterialIcons name="person" />}
@@ -123,6 +124,7 @@ const SignUpScreen = (props) => {
               }
             >
               <Input
+                _focus={{ borderColor: "violet.900" }}
                 InputLeftElement={
                   <Icon
                     as={<MaterialIcons name="person" />}
@@ -149,6 +151,7 @@ const SignUpScreen = (props) => {
               }
             >
               <Input
+                _focus={{ borderColor: "violet.900" }}
                 type="email"
                 InputLeftElement={
                   <Icon
@@ -176,6 +179,7 @@ const SignUpScreen = (props) => {
               }
             >
               <Input
+                _focus={{ borderColor: "violet.900" }}
                 type="password"
                 InputLeftElement={
                   <Icon
