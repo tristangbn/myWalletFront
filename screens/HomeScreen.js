@@ -185,7 +185,7 @@ function HomeScreen(props) {
             position="absolute"
             alignSelf="flex-end"
             onPress={() => props.navigation.navigate("AddCrypto")}
-            variant="rounded"
+            variant="addBtn"
             px="1"
             py="1"
             leftIcon={<Entypo name="plus" size={50} color="white" />}

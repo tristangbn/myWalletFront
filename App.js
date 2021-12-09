@@ -11,9 +11,7 @@ import { Ionicons } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import AddCryptoScreen from "./screens/AddCryptoScreen";
 import TransactionsScreen from "./screens/TransactionsScreen";
-import BuyTransactionsScreen from "./screens/BuyTransactionScreen";
-import SellTransactionsScreen from "./screens/SellTransactionScreen";
-import TransferTransactionsScreen from "./screens/TransferTransactionScreen";
+import AddTransactionsScreen from "./screens/AddTransactionScreen";
 
 import { connect } from "react-redux";
 import authData from "./reducers/auth.reducer";
@@ -36,8 +34,6 @@ const bottomNav = () => {
             //   iconName = "ios-options";
           } else if (route.name === "Transactions") {
             iconName = "ios-options";
-          // } else if (route.name === "BuyTransaction") {
-          //   iconName = "ios-options";
           }
           return <Ionicons name={iconName} size={25} color={color} />;
         },
@@ -54,7 +50,6 @@ const bottomNav = () => {
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
       <Tab.Screen name="Transactions" component={TransactionsScreen} />
-      {/* <Tab.Screen name="BuyTransaction" component={BuyTransactionsScreen} /> */}
     </Tab.Navigator>
   );
 };
@@ -70,11 +65,21 @@ const customTheme = extendTheme({
       baseStyle: {},
       defaultProps: {},
       variants: {
-        rounded: () => {
+        addBtn: () => {
           return {
             bg: "violet.900",
             rounded: "full",
             colorScheme: "violet",
+            shadow:{
+              shadowColor: "#5b21b6",
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 5.0,
+              elevation: 1,
+            }
           };
         },
         active: () => {
@@ -97,7 +102,6 @@ const customTheme = extendTheme({
             bg: "blueGray.900",
             rounded: "sm",
             colorScheme: "violet",
-            // border: "1px solid",
           };
         },
       },
@@ -127,15 +131,7 @@ function App() {
             <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
             <Stack.Screen
               name="BuyTransaction"
-              component={BuyTransactionsScreen}
-            />
-            <Stack.Screen
-              name="SellTransaction"
-              component={SellTransactionsScreen}
-            />
-            <Stack.Screen
-              name="TransferTransaction"
-              component={TransferTransactionsScreen}
+              component={AddTransactionsScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
