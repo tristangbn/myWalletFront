@@ -39,20 +39,22 @@ function HomeScreen(props) {
   }, []);
 
   useEffect(() => {
-    console.log("------------LOADING-----------");
-    myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
-      let total = 0;
-      if (response.data.ownedCryptos.length > 0) {
-        for (let i = 0; i < response.data.ownedCryptos.length; i++) {
-          total +=
-            response.data.ownedCryptos[i].current_price *
-            response.data.ownedCryptos[i].totalQuantity;
+    if (isFocused) {
+      console.log("------------HOME-----------");
+      myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
+        let total = 0;
+        if (response.data.ownedCryptos.length > 0) {
+          for (let i = 0; i < response.data.ownedCryptos.length; i++) {
+            total +=
+              response.data.ownedCryptos[i].current_price *
+              response.data.ownedCryptos[i].totalQuantity;
+          }
         }
-      }
 
-      setTotal(total);
-      setOwnedCryptos(response.data.ownedCryptos);
-    });
+        setTotal(total);
+        setOwnedCryptos(response.data.ownedCryptos);
+      });
+    }
   }, [isFocused, refreshing]);
 
   let cryptos;
@@ -64,6 +66,7 @@ function HomeScreen(props) {
           props.navigation.navigate("ListTransactions", {
             id: crypto.id,
             symbol: crypto.symbol,
+            image: crypto.image,
           })
         }
       >

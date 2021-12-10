@@ -33,7 +33,7 @@ function AddTransactionScreen(props) {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
 
-  console.log(user, date);
+  // console.log(user, date);
 
   // Date Input
   const [show, setShow] = useState(false);
@@ -154,8 +154,13 @@ function AddTransactionScreen(props) {
         from,
         to,
       })
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
+        // console.log(response.data);
+        props.navigation.navigate("ListTransactions", {
+          id: props.route.params.id,
+          symbol: props.route.params.symbol,
+          image: props.route.params.image,
+        })
       });
   };
 
@@ -458,6 +463,7 @@ function AddTransactionScreen(props) {
           mt="2%"
           mb="-2%"
           _dark={{ bg: "violet.900" }}
+          colorScheme="violet"
           rounded="lg"
           py="3"
           _text={{
