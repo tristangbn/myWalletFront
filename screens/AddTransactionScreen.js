@@ -139,9 +139,9 @@ function AddTransactionScreen(props) {
 
   const addTransaction = () => {
     const regex = /,/g;
-    const newQuantity = quantity.replace(regex, ".");
-    const newPrice = price.replace(regex, ".");
-    const newFees = fees.replace(regex, ".");
+    setQuantity(quantity.replace(regex, "."));
+    setPrice(price.replace(regex, "."));
+    setFees(fees.replace(regex, "."));
 
     myWalletAPI
       .post("/add-transaction", {
@@ -151,9 +151,9 @@ function AddTransactionScreen(props) {
         platform,
         pair,
         date,
-        newPrice,
-        newQuantity,
-        newFees,
+        price,
+        quantity,
+        fees,
         from,
         to,
       })
