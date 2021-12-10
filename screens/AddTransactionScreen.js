@@ -137,8 +137,6 @@ function AddTransactionScreen(props) {
     </>
   );
 
-  useEffect(() => {}, []);
-
   const addTransaction = () => {
     const regex = /,/g;
     const newQuantity = quantity.replace(regex, ".");
@@ -465,7 +463,7 @@ function AddTransactionScreen(props) {
         <Button
           w="95%"
           mt="2%"
-          mb="-2%"
+          mb="5"
           _dark={{ bg: "violet.900" }}
           colorScheme="violet"
           rounded="lg"

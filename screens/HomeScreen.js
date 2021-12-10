@@ -82,13 +82,13 @@ function HomeScreen(props) {
               }
               m={1}
               rounded="3xl"
-              style={{
-                transform: [
-                  {
-                    scale: isPressed ? 0.96 : 1,
-                  },
-                ],
-              }}
+              // style={{
+              //   transform: [
+              //     {
+              //       scale: isPressed ? 0.96 : 1,
+              //     },
+              //   ],
+              // }}
             >
               <Box rounded="2xl" py="2" pr="3" my="1" ml="1">
                 <HStack justifyContent="space-around" alignItems="center">
