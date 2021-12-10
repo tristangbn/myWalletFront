@@ -27,74 +27,37 @@ function TransactionsScreen(props) {
   const [listTransactions, setListTransactions] = useState([]);
   // console.log("listTransactions", listTransactions);
 
-  const dataList = [
-    {
-      date: new Date("2021-12-09T17:34:54.648+00:00"),
-      type: "buy",
-      buy_price: 0,
-      pair: "EUR/BTC",
-      quantity: 24,
-      price: 60.0,
-      value: 3,
-      variation: 23,
-      id: "1",
-    },
-    {
-      date: new Date("2021-12-09T13:45:30.350+00:00"),
-      type: "sell",
-      sell_price: 0,
-      pair: "EUR/BTC",
-      quantity: 24,
-      incomes: 265,
-      id: "2",
-    },
-    {
-      date: new Date("2021-12-09T13:45:30.350+00:00"),
-      type: "transfer",
-      from: "Coinbase",
-      to: "Binance",
-      amount: 2,
-      price: 100,
-      id: "3",
-    },
-    {
-      date: new Date("2018-09-07T17:06:27.000Z"),
-      type: "sell",
-      sell_price: 0,
-      pair: "EUR/BTC",
-      quantity: 24,
-      incomes: 265,
-      id: "4",
-    },
-    {
-      date: new Date("2021-12-09T17:34:54.648+00:00"),
-      type: "transfer",
-      from: "Coinbase",
-      to: "Binance",
-      amount: 2,
-      price: 100,
-      id: "5",
-    },
-  ];
+  // function dateSort(
+  //   path = [],
+  //   comparator = (a, b) => b.getTime() - a.getTime()
+  // ) {
+  //   return (a, b) => {
+  //     let _a = a;
+  //     let _b = b;
+  //     for (let key of path) {
+  //       _a = _a[key];
+  //       _b = _b[key];
+  //     }
+  //     return comparator(_a, _b);
+  //   };
+  // }
 
-  function dateSort(
-    path = [],
-    comparator = (a, b) => b.getTime() - a.getTime()
-  ) {
-    return (a, b) => {
-      let _a = a;
-      let _b = b;
-      for (let key of path) {
-        _a = _a[key];
-        _b = _b[key];
-      }
-      return comparator(_a, _b);
-    };
-  }
+  // listTransactions.sort(dateSort(["date"]));
 
-  dataList.sort(dateSort(["date"]));
-
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if (isFocused) {
+      myWalletAPI
+        .get(`/list-transactions/${token}/${props.route.params.id}`)
+        .then((response) => {
+          console.log(response.data.transactions);
+          if (response.data.result)
+            setListTransactions(response.data.transactions);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [isFocused]);
 
   return (
     <Box
@@ -150,7 +113,7 @@ function TransactionsScreen(props) {
         </HStack>
       </Center>
 
-      {dataList.length === 0 ? (
+      {listTransactions.length === 0 ? (
         <VStack alignItems="center" px="3" w="100%">
           <HStack mt="4" w="100%">
             <Button
@@ -197,10 +160,10 @@ function TransactionsScreen(props) {
       ) : (
         <FlatList
           px="2"
-          data={dataList}
+          data={listTransactions}
           renderItem={({ item }) => (
             <>
-              {item.id === dataList[0].id && ( // Avant le premier élément de la liste, on affiche le bouton Add Transaction
+              {item._id === listTransactions[0]._id && ( // Avant le premier élément de la liste, on affiche le bouton Add Transaction
                 <VStack alignItems="center" w="100%">
                   <HStack mt="4" w="100%">
                     <Button
@@ -246,28 +209,26 @@ function TransactionsScreen(props) {
                 </VStack>
               )}
               <TransactionCard
-                key={item.id}
-                date={new Intl.DateTimeFormat("fr-FR", {
-                  // Conversion des dates en chaine de caractères au format désiré. Les éléments de type item.date doivent être des objets de type Date.
-                  dateStyle: "short",
-                  timeStyle: "short",
-                }).format(item.date)}
+                key={item._id}
+                date={new Date(item.date).toLocaleDateString("fr-FR", {
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
                 type={item.type}
                 content={{
-                  buy_price: item.buy_price,
-                  sell_price: item.sell_price,
                   pair: item.pair,
                   quantity: item.quantity,
                   price: item.price,
-                  value: item.value,
-                  variation: item.variation,
-                  incomes: item.incomes,
+                  // value: item.value,
+                  cost: item.price * item.quantity + item.fees,
+                  income: item.price * item.quantity - item.fees,
+                  fees: item.fees,
+                  // variation: item.variation,
                   from: item.from,
                   to: item.to,
-                  amount: item.amount,
                 }}
               />
-              {item.id === dataList[dataList.length - 1].id && // Petit effet graphique en fin de liste
+              {item._id === listTransactions[listTransactions.length - 1]._id && // Petit effet graphique en fin de liste
                 Platform.OS === "ios" && (
                   <Box w="100%" h={10}>
                     <VStack space={1}>

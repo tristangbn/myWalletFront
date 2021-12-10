@@ -72,9 +72,7 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Buy Price</Text>
-                        <Text fontWeight="bold">
-                          € {props.content.buy_price}
-                        </Text>
+                        <Text fontWeight="bold">€ {props.content.price}</Text>
                       </Box>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Pair</Text>
@@ -87,13 +85,13 @@ function TransactionCard(props) {
                     </HStack>
                     <HStack>
                       <Box w="33%" alignItems="center">
-                        <Text fontWeight="light">Price</Text>
-                        <Text fontWeight="bold">€ {props.content.price}</Text>
+                        <Text fontWeight="light">Total Cost</Text>
+                        <Text fontWeight="bold">€ {props.content.cost}</Text>
                       </Box>
-                      <Box w="33%" alignItems="center">
+                      {/* <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Value</Text>
                         <Text fontWeight="bold">€ {props.content.value}</Text>
-                      </Box>
+                      </Box> */}
                       {/* <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Variation</Text>
                         <Text fontWeight="bold">
@@ -191,9 +189,7 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Sell Price</Text>
-                        <Text fontWeight="bold">
-                          € {props.content.sell_price}
-                        </Text>
+                        <Text fontWeight="bold">€ {props.content.price}</Text>
                       </Box>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Pair</Text>
@@ -206,8 +202,8 @@ function TransactionCard(props) {
                     </HStack>
                     <HStack>
                       <Box w="33%" alignItems="center">
-                        <Text fontWeight="light">Incomes</Text>
-                        <Text fontWeight="bold">€ {props.content.incomes}</Text>
+                        <Text fontWeight="light">Revenue</Text>
+                        <Text fontWeight="bold">€ {props.content.income}</Text>
                       </Box>
                     </HStack>
                   </VStack>
@@ -307,14 +303,14 @@ function TransactionCard(props) {
                         <Text fontWeight="bold">{props.content.to}</Text>
                       </Box>
                       <Box w="33%" alignItems="center">
-                        <Text fontWeight="light">Amount</Text>
-                        <Text fontWeight="bold">{props.content.amount}</Text>
+                        <Text fontWeight="light">Quantity</Text>
+                        <Text fontWeight="bold">{props.content.quantity}</Text>
                       </Box>
                     </HStack>
                     <HStack>
                       <Box w="33%" alignItems="center">
-                        <Text fontWeight="light">Price</Text>
-                        <Text fontWeight="bold">€ {props.content.fees}</Text>
+                        <Text fontWeight="light">Fees</Text>
+                        <Text fontWeight="bold">{props.content.fees} </Text>
                         {/* Voir si on ne mettrait pas props.content.price */}
                       </Box>
                     </HStack>
