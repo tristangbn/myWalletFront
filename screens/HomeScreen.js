@@ -3,19 +3,22 @@ import { RefreshControl } from "react-native";
 import { useIsFocused } from "@react-navigation/native";
 import {
   Button,
-  Center,
   Box,
   Text,
-  ScrollView,
   HStack,
   VStack,
-  Image,
   Flex,
   Pressable,
+  Icon,
 } from "native-base";
-import { Entypo } from "@expo/vector-icons";
+
+import { MaterialIcons, Entypo } from "@expo/vector-icons";
+
 import { connect } from "react-redux";
 import { Platform } from "react-native";
+import { SwipeListView } from "react-native-swipe-list-view";
+
+import CryptoCard from "../components/CryptoCard";
 
 import myWalletAPI from "../api/myWallet";
 
@@ -38,113 +41,133 @@ function HomeScreen(props) {
     wait(2000).then(() => setRefreshing(false));
   }, []);
 
+  function LoadCryptoList() {
+    myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
+      let total = 0;
+      if (response.data.ownedCryptos.length > 0) {
+        for (let i = 0; i < response.data.ownedCryptos.length; i++) {
+          total +=
+            response.data.ownedCryptos[i].current_price *
+            response.data.ownedCryptos[i].totalQuantity;
+        }
+      }
+      setTotal(total);
+      setOwnedCryptos(response.data.ownedCryptos);
+    });
+  }
+
   useEffect(() => {
     if (isFocused) {
       console.log("------------HOME-----------");
-      myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
-        let total = 0;
-        if (response.data.ownedCryptos.length > 0) {
-          for (let i = 0; i < response.data.ownedCryptos.length; i++) {
-            total +=
-              response.data.ownedCryptos[i].current_price *
-              response.data.ownedCryptos[i].totalQuantity;
-          }
-        }
-
-        setTotal(total);
-        setOwnedCryptos(response.data.ownedCryptos);
-      });
+      LoadCryptoList();
     }
   }, [isFocused, refreshing]);
 
-  let cryptos;
-  if (isFocused) {
-    cryptos = ownedCryptos.map((crypto, i) => (
-      <Pressable
-        key={i}
-        onPress={() =>
-          props.navigation.navigate("ListTransactions", {
-            id: crypto.id,
-            symbol: crypto.symbol,
-            image: crypto.image,
-          })
+  function SwipeableList() {
+    // const closeRow = (rowMap, rowKey) => {
+    //   if (rowMap[rowKey]) {
+    //     rowMap[rowKey].closeRow();
+    //   }
+    // };
+
+    const deleteRow = (id) => {
+      myWalletAPI.delete(`/delete-crypto/${id}/${token}`).then((response) => {
+        if (response.data) {
+          LoadCryptoList();
         }
-      >
-        {({ isHovered, isPressed }) => {
-          return (
-            <Box
-              bg={
-                isPressed
-                  ? "blueGray.700"
-                  : isHovered
-                  ? "cyan.800"
-                  : "blueGray.800"
+      });
+    };
+
+    const onRowDidOpen = () => {};
+
+    const renderHiddenItem = (data) => (
+      <HStack flex="1" py="1" mx="2">
+        <Pressable
+          w="100%"
+          pl="75%"
+          bg="red.500"
+          rounded="3xl"
+          justifyContent="center"
+          onPress={() => deleteRow(data.item.id)}
+          _pressed={{
+            opacity: 0.5,
+          }}
+        >
+          <VStack alignItems="center" space={2}>
+            <Icon
+              as={<MaterialIcons name="delete" />}
+              color="white"
+              size="md"
+            />
+            <Text color="white" fontSize="xs" fontWeight="medium">
+              Delete
+            </Text>
+          </VStack>
+        </Pressable>
+      </HStack>
+    );
+
+    return (
+      <SwipeListView
+        data={ownedCryptos}
+        renderItem={(item, index) => (
+          <>
+            <Pressable
+              key={index}
+              onPress={() =>
+                props.navigation.navigate("ListTransactions", {
+                  id: item.item.id,
+                  symbol: item.item.symbol,
+                  image: item.item.image,
+                })
               }
-              m={1}
-              rounded="3xl"
-              // style={{
-              //   transform: [
-              //     {
-              //       scale: isPressed ? 0.96 : 1,
-              //     },
-              //   ],
-              // }}
             >
-              <Box rounded="2xl" py="2" pr="3" my="1" ml="1">
-                <HStack justifyContent="space-around" alignItems="center">
-                  <Center w="17%">
-                    <Image
-                      resizeMode="cover"
-                      source={{
-                        uri: crypto.image,
+              {({ isHovered, isPressed }) => {
+                return (
+                  <Box
+                    bg={
+                      isPressed
+                        ? "blueGray.700"
+                        : isHovered
+                        ? "cyan.800"
+                        : "blueGray.800"
+                    }
+                    m={1}
+                    rounded="3xl"
+                  >
+                    <CryptoCard
+                      crypto={{
+                        id: item.item.id,
+                        symbol: item.item.symbol,
+                        image: item.item.image,
+                        name: item.item.name,
+                        totalQuantity: item.item.totalQuantity,
+                        current_price: item.item.current_price,
                       }}
-                      alt={crypto.name + " logo"}
-                      size="xs"
                     />
-                  </Center>
-                  <VStack w="80%">
-                    <HStack>
-                      <Text fontSize="xl" fontWeight="medium">
-                        {crypto.symbol.toUpperCase() + " " + crypto.name}
-                      </Text>
-                      <Text
-                        fontSize="xl"
-                        fontWeight="medium"
-                        style={{ flex: 1 }}
-                        textAlign="right"
-                      >
-                        {"€ " +
-                          Math.round(
-                            crypto.totalQuantity * crypto.current_price * 100
-                          ) /
-                            100}
-                      </Text>
-                    </HStack>
-                    <HStack>
-                      <Text fontSize="sm" fontWeight="light">
-                        {crypto.totalQuantity + " | € " + crypto.current_price}{" "}
-                        {/*  */}
-                      </Text>
-                      <Text
-                        fontSize="sm"
-                        fontWeight="light"
-                        style={{ flex: 1 }}
-                        textAlign="right"
-                        color={
-                          true ? "#20BF55" : "#EF233C"
-                        } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
-                      >
-                        +300 +30.75%
-                      </Text>
-                    </HStack>
-                  </VStack>
-                </HStack>
-              </Box>
-            </Box>
-          );
-        }}
-      </Pressable>
-    ));
+                  </Box>
+                );
+              }}
+            </Pressable>
+          </>
+        )}
+        renderHiddenItem={renderHiddenItem}
+        rightOpenValue={-90}
+        previewRowKey={"0"}
+        previewOpenValue={-40}
+        previewOpenDelay={3000}
+        onRowDidOpen={onRowDidOpen}
+        // refreshControl={
+        //   <RefreshControl
+        //     refreshing={refreshing}
+        //     onRefresh={onRefresh}
+        //     tintcolor="#ffffff"
+        //     title="Slide to refresh"
+        //     titleColor="#ffffff"
+        //   />
+        // }
+      />
+    );
   }
 
   return (
@@ -185,23 +208,7 @@ function HomeScreen(props) {
         </Text>
       </Box>
       <Box flex="1">
-        <ScrollView
-          _contentContainerStyle={{
-            px: "0",
-            pb: "75",
-          }}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-              tintcolor="#ffffff"
-              title="Slide to refresh"
-              titleColor="#ffffff"
-            />
-          }
-        >
-          {cryptos}
-        </ScrollView>
+        <SwipeableList />
         <Flex justifyContent="flex-end">
           <Button
             bottom="3"
