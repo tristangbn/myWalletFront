@@ -86,7 +86,7 @@ function AddTransactionScreen(props) {
           <Text mt="3">{date.toString()}</Text>
         </Center>
       ) : (
-        <Box style={{ flexDirection: "row", flex:1, alignSelf: 'flex-start'}}>
+        <Box style={{ flexDirection: "row", flex: 1, alignSelf: "flex-start" }}>
           <DateTimePicker
             testID="datePicker"
             value={date}
@@ -99,7 +99,7 @@ function AddTransactionScreen(props) {
               width: "30%",
               marginTop: "5%",
               marginLeft: "2%",
-              marginRight: "2%"
+              marginRight: "2%",
             }}
           />
           <DateTimePicker
@@ -160,7 +160,7 @@ function AddTransactionScreen(props) {
           id: props.route.params.id,
           symbol: props.route.params.symbol,
           image: props.route.params.image,
-        })
+        });
       });
   };
 
