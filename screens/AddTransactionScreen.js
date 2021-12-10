@@ -137,9 +137,12 @@ function AddTransactionScreen(props) {
     </>
   );
 
-  useEffect(() => {}, []);
-
   const addTransaction = () => {
+    const regex = /,/g;
+    const newQuantity = quantity.replace(regex, ".");
+    const newPrice = price.replace(regex, ".");
+    const newFees = fees.replace(regex, ".");
+
     myWalletAPI
       .post("/add-transaction", {
         token,
@@ -148,9 +151,9 @@ function AddTransactionScreen(props) {
         platform,
         pair,
         date,
-        price,
-        quantity,
-        fees,
+        newPrice,
+        newQuantity,
+        newFees,
         from,
         to,
       })
@@ -461,7 +464,7 @@ function AddTransactionScreen(props) {
         <Button
           w="95%"
           mt="2%"
-          mb="-2%"
+          mb="5"
           _dark={{ bg: "violet.900" }}
           colorScheme="violet"
           rounded="lg"

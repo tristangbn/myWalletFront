@@ -49,7 +49,7 @@ function TransactionsScreen(props) {
       myWalletAPI
         .get(`/list-transactions/${token}/${props.route.params.id}`)
         .then((response) => {
-          console.log(response.data.transactions);
+          // console.log(response.data.transactions);
           if (response.data.result)
             setListTransactions(response.data.transactions);
         })
@@ -112,58 +112,58 @@ function TransactionsScreen(props) {
           </Center>
         </HStack>
       </Center>
-
-      {listTransactions.length === 0 ? (
-        <VStack alignItems="center" px="3" w="100%">
-          <HStack mt="4" w="100%">
-            <Button
-              variant="addBtn"
-              px="1"
-              py="1"
-              mr="3"
-              ml="3.5%"
-              leftIcon={
-                <Entypo
-                  name="plus"
-                  size={50}
-                  color="white"
-                  onPress={() =>
-                    props.navigation.navigate("AddTransaction", {
-                      id: props.route.params.id,
-                      symbol: props.route.params.symbol,
-                    })
-                  }
-                />
-              }
-              shadow={{
-                shadowColor: "#5b21b6",
-                shadowOffset: {
-                  width: 0,
-                  height: 0,
-                },
-                shadowOpacity: 1,
-                shadowRadius: 5.0,
-                elevation: 1,
-              }}
-            />
-            <Text
-              fontSize="md"
-              fontWeight="medium"
-              textAlign="center"
-              my="auto"
-              mr="20"
-            >
-              Add transaction
-            </Text>
-          </HStack>
-        </VStack>
-      ) : (
-        <FlatList
-          px="2"
-          data={listTransactions}
-          renderItem={({ item }) => (
-            <>
-              {item._id === listTransactions[0]._id && ( // Avant le premier élément de la liste, on affiche le bouton Add Transaction
+      {/* {listTransactions.length === 0 ? ( */}
+      <VStack alignItems="center" px="3" w="100%">
+        <HStack mt="4" mb="4" w="100%">
+          <Button
+            variant="addBtn"
+            px="1"
+            py="1"
+            mr="3"
+            ml="3"
+            leftIcon={
+              <Entypo
+                name="plus"
+                size={40}
+                color="white"
+                onPress={() =>
+                  props.navigation.navigate("AddTransaction", {
+                    id: props.route.params.id,
+                    symbol: props.route.params.symbol,
+                  })
+                }
+              />
+            }
+            shadow={{
+              shadowColor: "#5b21b6",
+              shadowOffset: {
+                width: 0,
+                height: 0,
+              },
+              shadowOpacity: 1,
+              shadowRadius: 5.0,
+              elevation: 1,
+            }}
+          />
+          <Text
+            fontSize="lg"
+            fontWeight="bold"
+            textAlign="center"
+            my="auto"
+            mr="20"
+          >
+            Add transaction
+          </Text>
+        </HStack>
+      </VStack>
+      {/* ) : ( */}
+      <FlatList
+        keyExtractor={(item) => item._id}
+        px="2"
+        data={listTransactions}
+        renderItem={({ item }) => (
+          <>
+            {/* {item._id === listTransactions[0]._id && ( // Avant le premier élément de la liste, on affiche le bouton Add Transaction
                 <VStack alignItems="center" w="100%">
                   <HStack mt="4" w="100%">
                     <Button
@@ -207,90 +207,98 @@ function TransactionsScreen(props) {
                     </Text>
                   </HStack>
                 </VStack>
-              )}
-              <TransactionCard
-                key={item._id}
-                date={new Date(item.date).toLocaleDateString("fr-FR", {
-                  hour: "numeric",
-                  minute: "numeric",
-                })}
-                type={item.type}
-                content={{
-                  pair: item.pair,
-                  quantity: item.quantity,
-                  price: item.price,
-                  // value: item.value,
-                  cost: item.price * item.quantity + item.fees,
-                  income: item.price * item.quantity - item.fees,
-                  fees: item.fees,
-                  // variation: item.variation,
-                  from: item.from,
-                  to: item.to,
-                }}
-              />
-              {item._id === listTransactions[listTransactions.length - 1]._id && // Petit effet graphique en fin de liste
-                Platform.OS === "ios" && (
-                  <Box w="100%" h={10}>
-                    <VStack space={1}>
-                      <Box
-                        h="2"
-                        w="1"
-                        rounded="full"
-                        _dark={{ bg: "violet.800" }}
-                        ml="10"
-                        mt="-1"
-                        shadow={{
-                          shadowColor: "#5b21b6",
-                          shadowOffset: {
-                            width: 0,
-                            height: 0,
-                          },
-                          shadowOpacity: 1,
-                          shadowRadius: 5.0,
-                          elevation: 1,
-                        }}
-                      />
-                      <Box
-                        h="2"
-                        w="1"
-                        rounded="full"
-                        _dark={{ bg: "violet.800" }}
-                        ml="10"
-                        shadow={{
-                          shadowColor: "#5b21b6",
-                          shadowOffset: {
-                            width: 0,
-                            height: 0,
-                          },
-                          shadowOpacity: 1,
-                          shadowRadius: 5.0,
-                          elevation: 1,
-                        }}
-                      />
-                      <Box
-                        h="2"
-                        w="1"
-                        rounded="full"
-                        _dark={{ bg: "violet.800" }}
-                        ml="10"
-                        shadow={{
-                          shadowColor: "#5b21b6",
-                          shadowOffset: {
-                            width: 0,
-                            height: 0,
-                          },
-                          shadowOpacity: 1,
-                          shadowRadius: 5.0,
-                          elevation: 1,
-                        }}
-                      />
-                    </VStack>
-                  </Box>
-                )}
-            </>
-          )}
-        />
-      )}
+              )} */}
+            <TransactionCard
+              date={
+                Platform.OS === "android"
+                  ? `${new Date(item.date).getDate()}/${
+                      new Date(item.date).getMonth() + 1
+                    }/${new Date(item.date).getFullYear()} ${new Date(
+                      item.date
+                    ).getHours()}:${new Date(
+                      item.date
+                    ).getMinutes()}:${new Date(item.date).getSeconds()}`
+                  : new Date(item.date).toLocaleString("fr-FR", {
+                      timeZone: "UTC",
+                    })
+              }
+              type={item.type}
+              content={{
+                pair: item.pair,
+                quantity: item.quantity,
+                price: item.price,
+                // value: item.value,
+                cost: item.price * item.quantity + item.fees,
+                income: item.price * item.quantity - item.fees,
+                fees: item.fees,
+                // variation: item.variation,
+                from: item.from,
+                to: item.to,
+              }}
+            />
+            {/* {item._id === listTransactions[listTransactions.length - 1]._id && // Petit effet graphique en fin de liste
+              Platform.OS === "ios" && (
+                <Box w="100%" h={10}>
+                  <VStack space={1}>
+                    <Box
+                      h="2"
+                      w="1"
+                      rounded="full"
+                      _dark={{ bg: "violet.800" }}
+                      ml="10"
+                      mt="-1"
+                      shadow={{
+                        shadowColor: "#5b21b6",
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 1,
+                        shadowRadius: 5.0,
+                        elevation: 1,
+                      }}
+                    />
+                    <Box
+                      h="2"
+                      w="1"
+                      rounded="full"
+                      _dark={{ bg: "violet.800" }}
+                      ml="10"
+                      shadow={{
+                        shadowColor: "#5b21b6",
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 1,
+                        shadowRadius: 5.0,
+                        elevation: 1,
+                      }}
+                    />
+                    <Box
+                      h="2"
+                      w="1"
+                      rounded="full"
+                      _dark={{ bg: "violet.800" }}
+                      ml="10"
+                      shadow={{
+                        shadowColor: "#5b21b6",
+                        shadowOffset: {
+                          width: 0,
+                          height: 0,
+                        },
+                        shadowOpacity: 1,
+                        shadowRadius: 5.0,
+                        elevation: 1,
+                      }}
+                    />
+                  </VStack>
+                </Box>
+              )} */}
+          </>
+        )}
+      />
+      {/* )} */}
     </Box>
   );
 }
