@@ -208,12 +208,16 @@ function TransactionsScreen(props) {
                   </HStack>
                 </VStack>
               )}
+
               <TransactionCard
-                key={item._id}
-                date={new Date(item.date).toLocaleDateString("fr-FR", {
-                  hour: "numeric",
-                  minute: "numeric",
-                })}
+                key={item.id}
+                date={
+                  Platform.OS == "android"
+                    ? `${item.date.getDate()}/${
+                        item.date.getMonth() + 1
+                      }/${item.date.getFullYear()}    ${item.date.getHours()}:${item.date.getMinutes()}:${item.date.getSeconds()}`
+                    : item.date.toLocaleString("fr-FR", { timeZone: "UTC" })
+                }
                 type={item.type}
                 content={{
                   pair: item.pair,
