@@ -17,7 +17,7 @@ function TransactionCard(props) {
   if (props.type === "buy") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {Platform.OS === "ios" && (
+        {/* {Platform.OS === "ios" && (
           <Box
             h="100%"
             w="1"
@@ -35,7 +35,7 @@ function TransactionCard(props) {
               elevation: 1,
             }}
           />
-        )}
+        )} */}
 
         <Box
           ml="16"
@@ -135,7 +135,7 @@ function TransactionCard(props) {
   } else if (props.type === "sell") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {Platform.OS === "ios" && (
+        {/* {Platform.OS === "ios" && (
           <Box
             h="100%"
             w="1"
@@ -153,7 +153,7 @@ function TransactionCard(props) {
               elevation: 1,
             }}
           />
-        )}
+        )} */}
 
         <Box
           ml="16"
@@ -242,7 +242,7 @@ function TransactionCard(props) {
   } else if (props.type === "transfer") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {Platform.OS === "ios" && (
+        {/* {Platform.OS === "ios" && (
           <Box
             h="100%"
             w="1"
@@ -260,7 +260,7 @@ function TransactionCard(props) {
               elevation: 1,
             }}
           />
-        )}
+        )} */}
 
         <Box
           ml="16"
