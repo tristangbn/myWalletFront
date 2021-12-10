@@ -140,7 +140,7 @@ function App() {
               component={TransactionsScreen}
             />
             <Stack.Screen
-              name="BuyTransaction"
+              name="AddTransaction"
               component={AddTransactionsScreen}
             />
           </Stack.Navigator>

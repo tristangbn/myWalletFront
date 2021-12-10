@@ -8,7 +8,7 @@ import {
   Circle,
   Pressable,
 } from "native-base";
-// import { Platform } from "react-native";
+import { Platform } from "react-native";
 
 function TransactionCard(props) {
   const cardHeight = 150;
@@ -94,12 +94,12 @@ function TransactionCard(props) {
                         <Text fontWeight="light">Value</Text>
                         <Text fontWeight="bold">€ {props.content.value}</Text>
                       </Box>
-                      <Box w="33%" alignItems="center">
+                      {/* <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Variation</Text>
                         <Text fontWeight="bold">
                           {props.content.variation}%
                         </Text>
-                      </Box>
+                      </Box> */}
                     </HStack>
                   </VStack>
                 </Center>
@@ -120,13 +120,13 @@ function TransactionCard(props) {
             color: "#20BF55",
           }}
           shadow={{
-            shadowColor: "#000000",
+            shadowColor: "#20BF55",
             shadowOffset: {
-              width: -1,
-              height: 2,
+              width: 0,
+              height: 0,
             },
             shadowOpacity: 1,
-            shadowRadius: 1.0,
+            shadowRadius: 2.0,
             elevation: 1,
           }}
         >
@@ -229,13 +229,13 @@ function TransactionCard(props) {
             color: "#EF233C",
           }}
           shadow={{
-            shadowColor: "#000000",
+            shadowColor: "#EF233C",
             shadowOffset: {
-              width: -1,
-              height: 2,
+              width: 0,
+              height: 0,
             },
             shadowOpacity: 1,
-            shadowRadius: 1.0,
+            shadowRadius: 2.0,
             elevation: 1,
           }}
         >
@@ -314,7 +314,8 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Price</Text>
-                        <Text fontWeight="bold">€ {props.content.price}</Text>
+                        <Text fontWeight="bold">€ {props.content.fees}</Text>
+                        {/* Voir si on ne mettrait pas props.content.price */}
                       </Box>
                     </HStack>
                   </VStack>
@@ -327,22 +328,22 @@ function TransactionCard(props) {
           position="absolute"
           alignSelf="flex-end"
           _dark={{ bg: "blueGray.800" }}
-          borderColor={"blue.500"}
+          borderColor={"#3b82f6"}
           borderWidth={"2"}
           size={8}
           _text={{
             textAlign: "center",
             fontWeight: "bold",
-            color: "blue.500",
+            color: "#3b82f6",
           }}
           shadow={{
-            shadowColor: "#000000",
+            shadowColor: "#3b82f6",
             shadowOffset: {
-              width: -1,
-              height: 2,
+              width: 0,
+              height: 0,
             },
             shadowOpacity: 1,
-            shadowRadius: 1.0,
+            shadowRadius: 2.0,
             elevation: 1,
           }}
         >
