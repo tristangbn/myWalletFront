@@ -245,13 +245,16 @@ function TransactionsScreen(props) {
                   </HStack>
                 </VStack>
               )}
+
               <TransactionCard
                 key={item.id}
-                date={new Intl.DateTimeFormat("fr-FR", {
-                  // Conversion des dates en chaine de caractères au format désiré. Les éléments de type item.date doivent être des objets de type Date.
-                  dateStyle: "short",
-                  timeStyle: "short",
-                }).format(item.date)}
+                date={
+                  Platform.OS == "android"
+                    ? `${item.date.getDate()}/${
+                        item.date.getMonth() + 1
+                      }/${item.date.getFullYear()}    ${item.date.getHours()}:${item.date.getMinutes()}:${item.date.getSeconds()}`
+                    : item.date.toLocaleString("fr-FR", { timeZone: "UTC" })
+                }
                 type={item.type}
                 content={{
                   buy_price: item.buy_price,
