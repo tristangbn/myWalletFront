@@ -119,6 +119,8 @@ function HomeScreen(props) {
                   id: item.id,
                   symbol: item.symbol,
                   image: item.image,
+                  currentPrice: item.current_price,
+                  totalQuantity: item.totalQuantity,
                 })
               }
             >
@@ -141,9 +143,9 @@ function HomeScreen(props) {
                         symbol: item.symbol,
                         image: item.image,
                         name: item.name,
-                        totalQuantity: item.totalQuantity,
-                        current_price: item.current_price,
-                        totalInvestment: item.totalInvestment,
+                        totalQuantity:
+                          Math.round(item.totalQuantity * 100) / 100,
+                        currentPrice: item.current_price,
                       }}
                     />
                   </Box>

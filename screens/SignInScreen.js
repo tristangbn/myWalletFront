@@ -30,6 +30,7 @@ const SignInScreen = (props) => {
   };
 
   useEffect(() => {
+    console.log("-------LOGIN-------")
     AsyncStorage.getItem("userData", function (err, data) {
       let userData = JSON.parse(data);
       if (userData) {

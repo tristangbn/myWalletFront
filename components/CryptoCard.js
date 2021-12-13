@@ -41,7 +41,7 @@ function CryptoCard(props) {
             >
               {"€ " +
                 Math.round(
-                  props.crypto.totalQuantity * props.crypto.current_price * 100
+                  props.crypto.totalQuantity * props.crypto.currentPrice * 100
                 ) /
                   100}
             </Text>
@@ -50,7 +50,7 @@ function CryptoCard(props) {
             <Text fontSize="sm" fontWeight="light">
               {Math.round(props.crypto.totalQuantity * 100) / 100 +
                 " | € " +
-                props.crypto.current_price}
+                props.crypto.currentPrice}
             </Text>
             <Text
               fontSize="sm"

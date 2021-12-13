@@ -155,14 +155,23 @@ function AddTransactionScreen(props) {
         to,
       })
       .then(() => {
-        // console.log(response.data);
         props.navigation.navigate("ListTransactions", {
           id: props.route.params.id,
           symbol: props.route.params.symbol,
           image: props.route.params.image,
+          currentPrice: props.route.params.currentPrice,
+          totalQuantity:
+            type === "buy"
+              ? props.route.params.totalQuantity + Number(quantity)
+              : type === "sell"
+              ? props.route.params.totalQuantity - Number(quantity)
+              : props.route.params.totalQuantity - Number(fees),
         });
       });
   };
+
+  console.log(props.route.params.totalQuantity + Number(quantity))
+  console.log('totalQTY',props.route.params.totalQuantity)
 
   let inputs;
   if (type === "buy") {

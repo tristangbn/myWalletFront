@@ -13,6 +13,8 @@ import { Platform } from "react-native";
 function TransactionCard(props) {
   const cardHeight = 150;
 
+  let positive = props.content.variation >= 0;
+
   let transaction;
   if (props.type === "buy") {
     transaction = (
@@ -65,7 +67,9 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Buy Price</Text>
-                        <Text fontWeight="bold">€ {props.content.price}</Text>
+                        <Text fontWeight="bold">
+                          {Math.round(props.content.price * 100) / 100} €
+                        </Text>
                       </Box>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Pair</Text>
@@ -80,19 +84,39 @@ function TransactionCard(props) {
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Total Cost</Text>
                         <Text fontWeight="bold">
-                          € {Math.round(props.content.cost * 100) / 100}
+                          {Math.round(props.content.cost * 100) / 100} €
                         </Text>
                       </Box>
-                      {/* <Box w="33%" alignItems="center">
+                      <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Value</Text>
-                        <Text fontWeight="bold">€ {props.content.value}</Text>
-                      </Box> */}
-                      {/* <Box w="33%" alignItems="center">
-                        <Text fontWeight="light">Variation</Text>
                         <Text fontWeight="bold">
-                          {props.content.variation}%
+                          {Math.round(props.content.value * 100) / 100} €
                         </Text>
-                      </Box> */}
+                      </Box>
+                      <Box w="33%" alignItems="center">
+                        <Text fontWeight="light">Variation</Text>
+                        <Text
+                          fontWeight="bold"
+                          color={positive ? "#20BF55" : "#EF233C"}
+                          shadow={{
+                            shadowColor: positive ? "#20BF55" : "#EF233C",
+                            shadowOffset: {
+                              width: -1,
+                              height: 1,
+                            },
+                            shadowOpacity: 1,
+                            shadowRadius: 5.0,
+                            elevation: 1,
+                          }}
+                        >
+                          {positive
+                            ? `+${
+                                Math.round(props.content.variation * 100) / 100
+                              }`
+                            : Math.round(props.content.variation * 100) / 100}
+                          %
+                        </Text>
+                      </Box>
                     </HStack>
                   </VStack>
                 </Center>
@@ -184,7 +208,7 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Sell Price</Text>
-                        <Text fontWeight="bold">€ {props.content.price}</Text>
+                        <Text fontWeight="bold">{props.content.price} €</Text>
                       </Box>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Pair</Text>
@@ -198,7 +222,7 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Revenue</Text>
-                        <Text fontWeight="bold">€ {props.content.income}</Text>
+                        <Text fontWeight="bold">{props.content.income} €</Text>
                       </Box>
                     </HStack>
                   </VStack>
