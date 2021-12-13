@@ -129,11 +129,15 @@ function TransactionsScreen(props) {
           pair: item.pair,
           quantity: item.quantity,
           price: item.price,
-          // value: item.value,
+          value: item.quantity * props.route.params.currentPrice,
           cost: item.price * item.quantity + item.fees,
           income: item.price * item.quantity - item.fees,
           fees: item.fees,
-          // variation: item.variation,
+          variation:
+            ((item.quantity * props.route.params.currentPrice -
+              (item.price * item.quantity + item.fees)) *
+              100) /
+            (item.price * item.quantity + item.fees),
           from: item.from,
           to: item.to,
         }}
