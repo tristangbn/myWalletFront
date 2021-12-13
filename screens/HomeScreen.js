@@ -188,7 +188,7 @@ function HomeScreen(props) {
           {user + "'s Portfolio"}
         </Text>
         <Text fontSize="3xl" fontWeight="bold" textAlign="center">
-          {"€ " + Math.round(total * 100) / 100}
+          {Math.round(total * 100) / 100 + " €"}
         </Text>
         <Text
           fontSize="md"

@@ -39,18 +39,19 @@ function CryptoCard(props) {
               style={{ flex: 1 }}
               textAlign="right"
             >
-              {"€ " +
-                Math.round(
-                  props.crypto.totalQuantity * props.crypto.currentPrice * 100
-                ) /
-                  100}
+              {Math.round(
+                props.crypto.totalQuantity * props.crypto.currentPrice * 100
+              ) /
+                100 +
+                " €"}
             </Text>
           </HStack>
           <HStack>
             <Text fontSize="sm" fontWeight="light">
               {Math.round(props.crypto.totalQuantity * 100) / 100 +
-                " | € " +
-                props.crypto.currentPrice}
+                " | " +
+                props.crypto.currentPrice +
+                " €"}
             </Text>
             <Text
               fontSize="sm"
@@ -58,8 +59,18 @@ function CryptoCard(props) {
               style={{ flex: 1 }}
               textAlign="right"
               color={variationInFiat >= 0 ? "#20BF55" : "#EF233C"}
+              shadow={{
+                shadowColor: variationInFiat >= 0 ? "#20BF55" : "#EF233C",
+                shadowOffset: {
+                  width: -1,
+                  height: 1,
+                },
+                shadowOpacity: 1,
+                shadowRadius: 5.0,
+                elevation: 1,
+              }}
             >
-              {variationInFiat}{" "}
+              {variationInFiat + " € | "}
               {variationInPercent > 0
                 ? `+${variationInPercent}%`
                 : `${variationInPercent}%`}
