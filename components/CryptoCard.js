@@ -2,6 +2,17 @@ import React from "react";
 import { Center, Box, Text, HStack, VStack, Image } from "native-base";
 
 function CryptoCard(props) {
+  const variationInFiat =
+    Math.round(
+      (props.crypto.totalQuantity * props.crypto.current_price -
+        props.crypto.totalInvestment) *
+        100
+    ) / 100;
+
+  const variationInPercent =
+    Math.round(((variationInFiat * 100) / props.crypto.totalInvestment) * 100) /
+    100;
+
   const crypto = (
     <Box rounded="2xl" py="2" pr="3" my="1" ml="1">
       <HStack justifyContent="space-around" alignItems="center">
@@ -44,11 +55,14 @@ function CryptoCard(props) {
               fontWeight="light"
               style={{ flex: 1 }}
               textAlign="right"
-              color={
-                true ? "#20BF55" : "#EF233C"
-              } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
+              color={variationInFiat > 0 ? "#20BF55" : "#EF233C"}
             >
-              +300 +30.75%
+              {variationInFiat > 0
+                ? `${variationInFiat}€`
+                : `${variationInFiat}€`}{" "}
+              {variationInPercent > 0
+                ? `+${variationInPercent}%`
+                : `${variationInPercent}%`}
             </Text>
           </HStack>
         </VStack>
