@@ -16,7 +16,7 @@ import {
 import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
 
-function AddTransactionScreen(props) {
+function EditTransactionScreen(props) {
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
 
@@ -43,10 +43,6 @@ function AddTransactionScreen(props) {
     new Date(props.route.params.transaction.date)
   );
   const [mode, setMode] = useState("date");
-
-  // useEffect(() => {
-  //   setPrice(props.route.params.transaction.price);
-  // }, []);
 
   // Date Input
   const [show, setShow] = useState(false);
@@ -157,7 +153,7 @@ function AddTransactionScreen(props) {
       .put("/update-transaction", {
         _id: props.route.params.transaction._id,
         token,
-        type,
+        type: props.route.params.transaction.type,
         id: props.route.params.transaction.crypto,
         platform,
         pair,
@@ -179,7 +175,7 @@ function AddTransactionScreen(props) {
   };
 
   let inputs;
-  if (type === "buy") {
+  if (props.route.params.transaction.type === "buy") {
     // Initialisation des champs de sélection
     const exchanges = [
       "Binance",
@@ -266,7 +262,7 @@ function AddTransactionScreen(props) {
         {datePicker}
       </>
     );
-  } else if (type === "sell") {
+  } else if (props.route.params.transaction.type === "sell") {
     // Initialisation des champs de sélection
     const exchanges = [
       "Binance",
@@ -352,7 +348,7 @@ function AddTransactionScreen(props) {
         {datePicker}
       </>
     );
-  } else if (type === "transfer") {
+  } else if (props.route.params.transaction.type === "transfer") {
     // Initialisation des champs de sélection
     const exchanges = [
       "Binance",
@@ -442,32 +438,6 @@ function AddTransactionScreen(props) {
         // mx="2"
       >
         Edit transaction
-        <Button.Group colorScheme="blue" size="xs" mt="1">
-          <Button
-            w="25%"
-            variant={type === "buy" ? "active" : "inactive"}
-            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
-            onPress={() => setType("buy")}
-          >
-            Buy
-          </Button>
-          <Button
-            w="25%"
-            variant={type === "sell" ? "active" : "inactive"}
-            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
-            onPress={() => setType("sell")}
-          >
-            Sell
-          </Button>
-          <Button
-            w="25%"
-            variant={type === "transfer" ? "active" : "inactive"}
-            _text={{ fontWeight: "bold", fontSize: "md", px: "0" }}
-            onPress={() => setType("transfer")}
-          >
-            Transfer
-          </Button>
-        </Button.Group>
       </Center>
 
       <ScrollView>{inputs}</ScrollView>
@@ -499,4 +469,4 @@ function mapStateToProps(state) {
   return { authData: state.authData };
 }
 
-export default connect(mapStateToProps, null)(AddTransactionScreen);
+export default connect(mapStateToProps, null)(EditTransactionScreen);
