@@ -47,7 +47,7 @@ function HomeScreen(props) {
       if (response.data.ownedCryptos && response.data.ownedCryptos.length > 0) {
         for (let i = 0; i < response.data.ownedCryptos.length; i++) {
           total +=
-            response.data.ownedCryptos[i].current_price *
+            response.data.ownedCryptos[i].currentPrice *
             response.data.ownedCryptos[i].totalQuantity;
         }
       }
@@ -110,15 +110,17 @@ function HomeScreen(props) {
     return (
       <SwipeListView
         data={ownedCryptos}
-        renderItem={(item, index) => (
+        renderItem={({ item }) => (
           <>
             <Pressable
-              key={index}
+              key={item.id}
               onPress={() =>
                 props.navigation.navigate("ListTransactions", {
-                  id: item.item.id,
-                  symbol: item.item.symbol,
-                  image: item.item.image,
+                  id: item.id,
+                  symbol: item.symbol,
+                  image: item.image,
+                  currentPrice: item.currentPrice,
+                  totalQuantity: item.totalQuantity,
                 })
               }
             >
@@ -137,12 +139,13 @@ function HomeScreen(props) {
                   >
                     <CryptoCard
                       crypto={{
-                        id: item.item.id,
-                        symbol: item.item.symbol,
-                        image: item.item.image,
-                        name: item.item.name,
-                        totalQuantity: item.item.totalQuantity,
-                        current_price: item.item.current_price,
+                        id: item.id,
+                        symbol: item.symbol,
+                        image: item.image,
+                        name: item.name,
+                        totalQuantity:
+                          Math.round(item.totalQuantity * 100) / 100,
+                        currentPrice: item.currentPrice,
                       }}
                     />
                   </Box>

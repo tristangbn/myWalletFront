@@ -28,7 +28,7 @@ function CryptoCard(props) {
             >
               {"€ " +
                 Math.round(
-                  props.crypto.totalQuantity * props.crypto.current_price * 100
+                  props.crypto.totalQuantity * props.crypto.currentPrice * 100
                 ) /
                   100}
             </Text>
@@ -37,7 +37,7 @@ function CryptoCard(props) {
             <Text fontSize="sm" fontWeight="light">
               {props.crypto.totalQuantity +
                 " | € " +
-                props.crypto.current_price}
+                props.crypto.currentPrice}
             </Text>
             <Text
               fontSize="sm"
@@ -47,6 +47,16 @@ function CryptoCard(props) {
               color={
                 true ? "#20BF55" : "#EF233C"
               } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
+              shadow={{
+                shadowColor: true ? "#20BF55" : "#EF233C",
+                shadowOffset: {
+                  width: -1,
+                  height: 1,
+                },
+                shadowOpacity: 1,
+                shadowRadius: 5.0,
+                elevation: 1,
+              }}
             >
               +300 +30.75%
             </Text>

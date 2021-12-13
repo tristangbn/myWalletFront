@@ -25,6 +25,49 @@ function TransactionsScreen(props) {
   const token = props.authData[0].token;
   // console.log("PROPS", props.route.params);
   const [listTransactions, setListTransactions] = useState([]);
+
+  function headerData() {
+    let totalCosts = 0;
+    const value =
+      props.route.params.totalQuantity * props.route.params.currentPrice;
+
+    let averageBuyPrice = 0;
+    let averageSellPrice = 0;
+
+    let buyingPricesTotal = 0;
+    const buyTransactions = listTransactions.filter((e) => e.type === "buy");
+    for (let transaction of buyTransactions) {
+      totalCosts += transaction.price * transaction.quantity - transaction.fees;
+      buyingPricesTotal += transaction.price;
+    }
+
+    let sellingPricesTotal = 0;
+    const sellTransactions = listTransactions.filter((e) => e.type === "sell");
+    for (let transaction of sellTransactions) {
+      sellingPricesTotal += transaction.price;
+    }
+
+    if (buyTransactions.length !== 0) {
+      averageBuyPrice =
+        Math.round((buyingPricesTotal / buyTransactions.length) * 100) / 100;
+    }
+    if (sellTransactions.length !== 0) {
+      averageSellPrice =
+        Math.round((sellingPricesTotal / sellTransactions.length) * 100) / 100;
+    }
+    const benefits = Math.round((value - totalCosts) * 100) / 100;
+
+    return {
+      averageBuyPrice,
+      averageSellPrice,
+      benefits,
+      positive: benefits >= 0,
+    };
+  }
+
+  const { averageBuyPrice, averageSellPrice, benefits, positive } =
+    headerData();
+
   // console.log("listTransactions", listTransactions);
 
   // function dateSort(
@@ -46,6 +89,7 @@ function TransactionsScreen(props) {
 
   useEffect(() => {
     if (isFocused) {
+      console.log("----LISTTRANSACTIONS----");
       myWalletAPI
         .get(`/list-transactions/${token}/${props.route.params.id}`)
         .then((response) => {
@@ -87,16 +131,27 @@ function TransactionsScreen(props) {
             Transactions
           </Text>
         </HStack>
-        <HStack space={"15%"}>
+        <HStack space={"5%"}>
           <Center
             _text={{
               fontSize: "lg",
               fontWeight: "light",
             }}
           >
-            Average buy price
+            Average buy
             <Text fontWeight="bold" fontSize="md">
-              € 38 542
+              {averageBuyPrice} €
+            </Text>
+          </Center>
+          <Center
+            _text={{
+              fontSize: "lg",
+              fontWeight: "light",
+            }}
+          >
+            Average sell
+            <Text fontWeight="bold" fontSize="md">
+              {averageSellPrice} €
             </Text>
           </Center>
           <Center
@@ -106,8 +161,22 @@ function TransactionsScreen(props) {
             }}
           >
             Benefits
-            <Text fontWeight="bold" fontSize="md">
-              € 300.15
+            <Text
+              fontWeight="bold"
+              fontSize="md"
+              color={positive ? "#20BF55" : "#EF233C"}
+              shadow={{
+                shadowColor: positive ? "#20BF55" : "#EF233C",
+                shadowOffset: {
+                  width: -1,
+                  height: 1,
+                },
+                shadowOpacity: 1,
+                shadowRadius: 5.0,
+                elevation: 1,
+              }}
+            >
+              {positive ? `+${benefits}` : benefits} €
             </Text>
           </Center>
         </HStack>
@@ -130,6 +199,8 @@ function TransactionsScreen(props) {
                   props.navigation.navigate("AddTransaction", {
                     id: props.route.params.id,
                     symbol: props.route.params.symbol,
+                    currentPrice: props.route.params.currentPrice,
+                    totalQuantity: props.route.params.totalQuantity,
                   })
                 }
               />
@@ -227,11 +298,15 @@ function TransactionsScreen(props) {
                 pair: item.pair,
                 quantity: item.quantity,
                 price: item.price,
-                // value: item.value,
+                value: item.quantity * props.route.params.currentPrice,
                 cost: item.price * item.quantity + item.fees,
                 income: item.price * item.quantity - item.fees,
                 fees: item.fees,
-                // variation: item.variation,
+                variation:
+                  ((item.quantity * props.route.params.currentPrice -
+                    (item.price * item.quantity + item.fees)) *
+                    100) /
+                  (item.price * item.quantity + item.fees),
                 from: item.from,
                 to: item.to,
               }}
