@@ -10,14 +10,13 @@ import {
   Image,
   VStack,
   HStack,
-  FlatList,
   Pressable,
   Icon,
 } from "native-base";
+import { SwipeListView } from "react-native-swipe-list-view";
 
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
-import { SwipeListView } from "react-native-swipe-list-view";
 import { Platform } from "react-native";
 import myWalletAPI from "../api/myWallet";
 
