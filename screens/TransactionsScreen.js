@@ -102,9 +102,7 @@ function TransactionsScreen(props) {
     myWalletAPI
       .delete(`/delete-transaction/${token}/${crypto}/${id}`)
       .then((response) => {
-        if (response.data) {
-          setListTransactions(response.data.transactions);
-          console.log("deleteRow: " + id);
+        if (response.data.result) {
           myWalletAPI
             .get(`/list-transactions/${token}/${props.route.params.id}`)
             .then((response) => {
@@ -122,29 +120,37 @@ function TransactionsScreen(props) {
   const renderHiddenItem = (data) => (
     <HStack flex="1" pb="7" pt="6" mx="2">
       <Pressable
-        w="100%"
-        pl="75%"
-        bg="red.500"
-        rounded="3xl"
+        // w="70"
+        w="80%"
+        ml="auto"
+        // pl="75%"
+        bg="white"
         justifyContent="center"
-        onPress={() => deleteRow(data.item.crypto, data.item._id)}
+        pr="7%"
+        style={{ borderTopLeftRadius: 30, borderBottomLeftRadius: 30 }}
+        alignItems="flex-end"
+        onPress={() =>
+          props.navigation.navigate("EditTransaction", {
+            item: data.item,
+          })
+        }
         _pressed={{
           opacity: 0.5,
         }}
       >
         <VStack alignItems="center" space={2}>
-          <Icon as={<MaterialIcons name="delete" />} color="white" size="md" />
-          <Text color="white" fontSize="xs" fontWeight="medium">
-            Delete
+          <Entypo name="dots-three-horizontal" />
+          <Text color="black" fontSize="xs" fontWeight="medium">
+            Edit
           </Text>
         </VStack>
       </Pressable>
       <Pressable
-        w="100%"
-        pl="75%"
+        // w="70"
+        w="20%"
         bg="red.500"
-        rounded="3xl"
         justifyContent="center"
+        style={{ borderTopRightRadius: 30, borderBottomRightRadius: 30 }}
         onPress={() => deleteRow(data.item.crypto, data.item._id)}
         _pressed={{
           opacity: 0.5,
@@ -172,7 +178,7 @@ function TransactionsScreen(props) {
         data={listTransactions}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
-        rightOpenValue={-130}
+        rightOpenValue={-135}
         previewRowKey={"0"}
         previewOpenValue={-40}
         previewOpenDelay={3000}
