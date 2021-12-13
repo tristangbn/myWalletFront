@@ -126,7 +126,7 @@ function TransactionCard(props) {
         </Pressable>
         <Circle
           position="absolute"
-          alignSelf="flex-end"
+          alignSelf="flex-start"
           _dark={{ bg: "blueGray.800" }}
           borderColor={"#20BF55"}
           borderWidth={"2"}
@@ -195,13 +195,6 @@ function TransactionCard(props) {
                     : "blueGray.800"
                 }
                 rounded="3xl"
-                style={{
-                  transform: [
-                    {
-                      scale: isPressed ? 0.96 : 1,
-                    },
-                  ],
-                }}
               >
                 <Center position="relative" w="99%" py="2" rounded="3xl">
                   <VStack w="100%" space="1">
@@ -233,7 +226,7 @@ function TransactionCard(props) {
         </Pressable>
         <Circle
           position="absolute"
-          alignSelf="flex-end"
+          alignSelf="flex-start"
           _dark={{ bg: "blueGray.800" }}
           borderColor={"#EF233C"}
           borderWidth={"2"}
@@ -302,13 +295,6 @@ function TransactionCard(props) {
                     : "blueGray.800"
                 }
                 rounded="3xl"
-                style={{
-                  transform: [
-                    {
-                      scale: isPressed ? 0.96 : 1,
-                    },
-                  ],
-                }}
               >
                 <Center position="relative" w="99%" py="2" rounded="3xl">
                   <VStack w="100%" space="1">
@@ -341,7 +327,7 @@ function TransactionCard(props) {
         </Pressable>
         <Circle
           position="absolute"
-          alignSelf="flex-end"
+          alignSelf="flex-start"
           _dark={{ bg: "blueGray.800" }}
           borderColor={"#3b82f6"}
           borderWidth={"2"}
