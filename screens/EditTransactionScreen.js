@@ -137,20 +137,24 @@ function AddTransactionScreen(props) {
     </>
   );
 
-  const addTransaction = () => {
+  const editTransaction = () => {
     const regex = /,/g;
+    setQuantity(quantity.replace(regex, "."));
+    setPrice(price.replace(regex, "."));
+    setFees(fees.replace(regex, "."));
 
     myWalletAPI
-      .post("/add-transaction", {
+      .post("/update-transaction", {
+        _id,
         token,
         type,
         id: props.route.params.id,
         platform,
         pair,
         date,
-        price: price.replace(regex, "."),
-        quantity: quantity.replace(regex, "."),
-        fees: fees.replace(regex, "."),
+        price,
+        quantity,
+        fees,
         from,
         to,
       })
@@ -426,7 +430,7 @@ function AddTransactionScreen(props) {
         }}
         // mx="2"
       >
-        Add a transaction
+        Edit your transaction
         <Button.Group colorScheme="blue" size="xs" mt="1">
           <Button
             w="25%"
@@ -471,9 +475,9 @@ function AddTransactionScreen(props) {
             fontWeight: "medium",
             color: "#ffffff",
           }}
-          onPress={() => addTransaction()}
+          onPress={() => editTransaction()}
         >
-          Add transaction
+          Edit transaction
         </Button>
       </Center>
     </Box>

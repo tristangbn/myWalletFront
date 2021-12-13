@@ -86,7 +86,9 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Total Cost</Text>
-                        <Text fontWeight="bold">€ {props.content.cost}</Text>
+                        <Text fontWeight="bold">
+                          € {Math.round(props.content.cost * 100) / 100}
+                        </Text>
                       </Box>
                       {/* <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Value</Text>
