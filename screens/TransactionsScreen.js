@@ -119,10 +119,8 @@ function TransactionsScreen(props) {
   const renderHiddenItem = (data) => (
     <HStack flex="1" pb="7" pt="6" mx="2">
       <Pressable
-        // w="70"
         w="80%"
         ml="auto"
-        // pl="75%"
         bg="white"
         justifyContent="center"
         pr="7%"
@@ -130,7 +128,9 @@ function TransactionsScreen(props) {
         alignItems="flex-end"
         onPress={() =>
           props.navigation.navigate("EditTransaction", {
-            item: data.item,
+            transaction: data.item,
+            symbol: props.route.params.symbol,
+            image: props.route.params.image,
           })
         }
         _pressed={{
@@ -145,9 +145,10 @@ function TransactionsScreen(props) {
         </VStack>
       </Pressable>
       <Pressable
-        // w="70"
         w="20%"
+        ml="auto"
         bg="red.500"
+        pr="7%"
         justifyContent="center"
         style={{ borderTopRightRadius: 30, borderBottomRightRadius: 30 }}
         onPress={() => deleteRow(data.item.crypto, data.item._id)}
@@ -165,10 +166,6 @@ function TransactionsScreen(props) {
     </HStack>
   );
 
-  const onRowDidOpen = (rowKey) => {
-    console.log("This row opened", rowKey);
-  };
-
   function SwipeList() {
     return (
       <SwipeListView
@@ -181,7 +178,6 @@ function TransactionsScreen(props) {
         previewRowKey={"0"}
         previewOpenValue={-40}
         previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
       />
     );
   }
@@ -283,9 +279,8 @@ function TransactionsScreen(props) {
           </Text>
         </HStack>
       </VStack>
-      {/* ) : ( */}
+
       <SwipeList />
-      {/* )} */}
     </Box>
   );
 }

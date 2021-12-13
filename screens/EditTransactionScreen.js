@@ -11,6 +11,7 @@ import {
   VStack,
   Input,
   ScrollView,
+  NumberInput,
 } from "native-base";
 import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
@@ -19,19 +20,33 @@ function AddTransactionScreen(props) {
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
 
-  const [type, setType] = useState("buy");
+  const [type, setType] = useState(props.route.params.transaction.type);
 
-  const [platform, setPlatform] = useState("");
-  const [pair, setPair] = useState("BTC/EUR");
-  const [price, setPrice] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [fees, setFees] = useState("");
-  const [from, setFrom] = useState("");
-  const [to, setTo] = useState("");
-  const [date, setDate] = useState(new Date());
+  const [platform, setPlatform] = useState(
+    props.route.params.transaction.platform
+  );
+  const [pair, setPair] = useState(props.route.params.transaction.pair);
+  const [price, setPrice] = useState(
+    props.route.params.transaction.price !== null
+      ? props.route.params.transaction.price.toString()
+      : ""
+  );
+  const [quantity, setQuantity] = useState(
+    props.route.params.transaction.quantity.toString()
+  );
+  const [fees, setFees] = useState(
+    props.route.params.transaction.fees.toString()
+  );
+  const [from, setFrom] = useState(props.route.params.transaction.from);
+  const [to, setTo] = useState(props.route.params.transaction.to);
+  const [date, setDate] = useState(
+    new Date(props.route.params.transaction.date)
+  );
   const [mode, setMode] = useState("date");
 
-  // console.log(user, date);
+  // useEffect(() => {
+  //   setPrice(props.route.params.transaction.price);
+  // }, []);
 
   // Date Input
   const [show, setShow] = useState(false);
@@ -137,31 +152,29 @@ function AddTransactionScreen(props) {
 
   const editTransaction = () => {
     const regex = /,/g;
-    setQuantity(quantity.replace(regex, "."));
-    setPrice(price.replace(regex, "."));
-    setFees(fees.replace(regex, "."));
 
     myWalletAPI
       .put("/update-transaction", {
-        _id,
+        _id: props.route.params.transaction._id,
         token,
         type,
-        // id: props.route.params.id,
+        id: props.route.params.transaction.crypto,
         platform,
         pair,
         date,
-        price,
-        quantity,
-        fees,
+        price: price.replace(regex, "."),
+        quantity: quantity.replace(regex, "."),
+        fees: fees.replace(regex, "."),
         from,
         to,
       })
-      .then(() => {
+      .then((response) => {
         console.log(response.data);
-        // props.navigation.navigate("ListTransactions", {
-        //   id: props.route.params.id,
-        //   symbol: props.route.params.symbol,
-        //   image: props.route.params.image,
+        props.navigation.navigate("ListTransactions", {
+          id: props.route.params.transaction.crypto,
+          symbol: props.route.params.symbol,
+          image: props.route.params.image,
+        });
       });
   };
 
@@ -185,7 +198,7 @@ function AddTransactionScreen(props) {
       return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = ["BTC" + "/EUR"];
+    const paires = [props.route.params.symbol.toUpperCase() + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
@@ -226,6 +239,7 @@ function AddTransactionScreen(props) {
             placeholder="Buying Price"
             minW="100%"
             height="12"
+            type="number"
             value={price}
             onChangeText={(itemValue) => setPrice(itemValue)}
           />
@@ -271,7 +285,7 @@ function AddTransactionScreen(props) {
       return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = ["BTC/EUR"];
+    const paires = [props.route.params.symbol.toUpperCase() + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
