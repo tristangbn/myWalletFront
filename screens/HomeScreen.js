@@ -47,7 +47,7 @@ function HomeScreen(props) {
       if (response.data.ownedCryptos && response.data.ownedCryptos.length > 0) {
         for (let i = 0; i < response.data.ownedCryptos.length; i++) {
           total +=
-            response.data.ownedCryptos[i].currentPrice *
+            response.data.ownedCryptos[i].current_price *
             response.data.ownedCryptos[i].totalQuantity;
         }
       }
@@ -119,7 +119,7 @@ function HomeScreen(props) {
                   id: item.id,
                   symbol: item.symbol,
                   image: item.image,
-                  currentPrice: item.currentPrice,
+                  currentPrice: item.current_price,
                   totalQuantity: item.totalQuantity,
                 })
               }
@@ -145,7 +145,7 @@ function HomeScreen(props) {
                         name: item.name,
                         totalQuantity:
                           Math.round(item.totalQuantity * 100) / 100,
-                        currentPrice: item.currentPrice,
+                        currentPrice: item.current_price,
                       }}
                     />
                   </Box>
