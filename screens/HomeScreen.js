@@ -146,6 +146,7 @@ function HomeScreen(props) {
                         totalQuantity:
                           Math.round(item.totalQuantity * 100) / 100,
                         currentPrice: item.current_price,
+                        totalInvestment: item.totalInvestment,
                       }}
                     />
                   </Box>

@@ -4,7 +4,7 @@ import { Center, Box, Text, HStack, VStack, Image } from "native-base";
 function CryptoCard(props) {
   const variationInFiat =
     Math.round(
-      (props.crypto.totalQuantity * props.crypto.current_price -
+      (props.crypto.totalQuantity * props.crypto.currentPrice -
         props.crypto.totalInvestment) *
         100
     ) / 100;
@@ -59,9 +59,7 @@ function CryptoCard(props) {
               textAlign="right"
               color={variationInFiat >= 0 ? "#20BF55" : "#EF233C"}
             >
-              {variationInFiat > 0
-                ? `${variationInFiat}€`
-                : `${variationInFiat}€`}{" "}
+              {variationInFiat}{" "}
               {variationInPercent > 0
                 ? `+${variationInPercent}%`
                 : `${variationInPercent}%`}
