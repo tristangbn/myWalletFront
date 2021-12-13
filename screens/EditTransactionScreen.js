@@ -35,7 +35,9 @@ function EditTransactionScreen(props) {
     props.route.params.transaction.quantity.toString()
   );
   const [fees, setFees] = useState(
-    props.route.params.transaction.fees.toString()
+    props.route.params.transaction.fees !== null
+      ? props.route.params.transaction.fees.toString()
+      : ""
   );
   const [from, setFrom] = useState(props.route.params.transaction.from);
   const [to, setTo] = useState(props.route.params.transaction.to);
