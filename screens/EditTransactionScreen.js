@@ -144,7 +144,7 @@ function AddTransactionScreen(props) {
     setFees(fees.replace(regex, "."));
 
     myWalletAPI
-      .post("/update-transaction", {
+      .put("/update-transaction", {
         _id,
         token,
         type,
