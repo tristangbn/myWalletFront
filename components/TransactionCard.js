@@ -59,13 +59,6 @@ function TransactionCard(props) {
                     : "blueGray.800"
                 }
                 rounded="3xl"
-                style={{
-                  transform: [
-                    {
-                      scale: isPressed ? 0.96 : 1,
-                    },
-                  ],
-                }}
               >
                 <Center position="relative" w="99%" py="2" rounded="3xl">
                   <VStack w="100%" space="1">

@@ -118,7 +118,7 @@ function TransactionsScreen(props) {
   };
 
   const renderHiddenItem = (data) => (
-    <HStack flex="1" pb="7" pt="6" mx="2">
+    <HStack flex="1" py="6" mx="2">
       <Pressable
         // w="70"
         w="80%"

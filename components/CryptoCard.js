@@ -9,9 +9,11 @@ function CryptoCard(props) {
         100
     ) / 100;
 
-  const variationInPercent =
-    Math.round(((variationInFiat * 100) / props.crypto.totalInvestment) * 100) /
-    100;
+  const variationInPercent = props.crypto.totalInvestment
+    ? Math.round(
+        ((variationInFiat * 100) / props.crypto.totalInvestment) * 100
+      ) / 100
+    : 0;
 
   const crypto = (
     <Box rounded="2xl" py="2" pr="3" my="1" ml="1">
@@ -55,7 +57,7 @@ function CryptoCard(props) {
               fontWeight="light"
               style={{ flex: 1 }}
               textAlign="right"
-              color={variationInFiat > 0 ? "#20BF55" : "#EF233C"}
+              color={variationInFiat >= 0 ? "#20BF55" : "#EF233C"}
             >
               {variationInFiat > 0
                 ? `${variationInFiat}€`
