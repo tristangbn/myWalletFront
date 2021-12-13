@@ -31,7 +31,7 @@ function TransactionsScreen(props) {
   const [listTransactions, setListTransactions] = useState([]);
 
   function headerData() {
-    let totalCosts = 0;
+    let benefits = 0;
     const value =
       props.route.params.totalQuantity * props.route.params.currentPrice;
 
@@ -41,7 +41,9 @@ function TransactionsScreen(props) {
     let buyingPricesTotal = 0;
     const buyTransactions = listTransactions.filter((e) => e.type === "buy");
     for (let transaction of buyTransactions) {
-      totalCosts += transaction.price * transaction.quantity - transaction.fees;
+      benefits +=
+        transaction.quantity * props.route.params.currentPrice -
+        (transaction.price * transaction.quantity + transaction.fees);
       buyingPricesTotal += transaction.price;
     }
 
@@ -59,18 +61,20 @@ function TransactionsScreen(props) {
       averageSellPrice =
         Math.round((sellingPricesTotal / sellTransactions.length) * 100) / 100;
     }
-    const benefits = Math.round((value - totalCosts) * 100) / 100;
+    benefits = Math.round(benefits * 100) / 100;
 
     return {
       averageBuyPrice,
       averageSellPrice,
-      benefits,
-      positive: benefits >= 0,
+      benefits, 
+      positive : benefits >= 0
     };
   }
 
-  const { averageBuyPrice, averageSellPrice, benefits, positive } =
-    headerData();
+  const { averageBuyPrice, averageSellPrice, benefits, positive } = headerData();
+
+  // let benefits = 0;
+  // let positive = true;
 
   // console.log("listTransactions", listTransactions);
 
