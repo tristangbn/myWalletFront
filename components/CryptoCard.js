@@ -30,12 +30,12 @@ function CryptoCard(props) {
         </Center>
         <VStack w="80%">
           <HStack>
-            <Text fontSize="xl" fontWeight="medium">
+            <Text fontSize="xl" fontWeight="bold">
               {props.crypto.symbol.toUpperCase() + " " + props.crypto.name}
             </Text>
             <Text
               fontSize="xl"
-              fontWeight="medium"
+              fontWeight="bold"
               style={{ flex: 1 }}
               textAlign="right"
             >
