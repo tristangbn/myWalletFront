@@ -22,9 +22,7 @@ function AddTransactionScreen(props) {
   const [type, setType] = useState("buy");
 
   const [platform, setPlatform] = useState("");
-  const [pair, setPair] = useState(
-    props.route.params.symbol.toUpperCase() + "/EUR"
-  );
+  const [pair, setPair] = useState("BTC/EUR");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [fees, setFees] = useState("");
@@ -148,7 +146,7 @@ function AddTransactionScreen(props) {
         _id,
         token,
         type,
-        id: props.route.params.id,
+        // id: props.route.params.id,
         platform,
         pair,
         date,
@@ -159,12 +157,11 @@ function AddTransactionScreen(props) {
         to,
       })
       .then(() => {
-        // console.log(response.data);
-        props.navigation.navigate("ListTransactions", {
-          id: props.route.params.id,
-          symbol: props.route.params.symbol,
-          image: props.route.params.image,
-        });
+        console.log(response.data);
+        // props.navigation.navigate("ListTransactions", {
+        //   id: props.route.params.id,
+        //   symbol: props.route.params.symbol,
+        //   image: props.route.params.image,
       });
   };
 
@@ -188,7 +185,7 @@ function AddTransactionScreen(props) {
       return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = [props.route.params.symbol.toUpperCase() + "/EUR"];
+    const paires = ["BTC" + "/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
@@ -274,7 +271,7 @@ function AddTransactionScreen(props) {
       return <Select.Item key={i} label={exchange} value={exchange} />;
     });
 
-    const paires = [props.route.params.symbol.toUpperCase() + "/EUR"];
+    const paires = ["BTC/EUR"];
 
     const listPaires = paires.map((pair, i) => {
       return <Select.Item key={i} label={pair} value={pair} />;
@@ -430,7 +427,7 @@ function AddTransactionScreen(props) {
         }}
         // mx="2"
       >
-        Edit your transaction
+        Edit transaction
         <Button.Group colorScheme="blue" size="xs" mt="1">
           <Button
             w="25%"

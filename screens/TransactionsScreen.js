@@ -10,10 +10,12 @@ import {
   Image,
   VStack,
   HStack,
-  FlatList,
+  Pressable,
+  Icon,
 } from "native-base";
+import { SwipeListView } from "react-native-swipe-list-view";
 
-import { Entypo } from "@expo/vector-icons";
+import { MaterialIcons, Entypo } from "@expo/vector-icons";
 import { Platform } from "react-native";
 import myWalletAPI from "../api/myWallet";
 
@@ -157,146 +159,91 @@ function TransactionsScreen(props) {
         </HStack>
       </VStack>
       {/* ) : ( */}
-      <FlatList
+
+      <SwipeListView
         keyExtractor={(item) => item._id}
         px="2"
         data={listTransactions}
         renderItem={({ item }) => (
-          <>
-            {/* {item._id === listTransactions[0]._id && ( // Avant le premier élément de la liste, on affiche le bouton Add Transaction
-                <VStack alignItems="center" w="100%">
-                  <HStack mt="4" w="100%">
-                    <Button
-                      variant="addBtn"
-                      px="1"
-                      py="1"
-                      mr="3"
-                      ml="3.5%"
-                      leftIcon={
-                        <Entypo
-                          name="plus"
-                          size={50}
-                          color="white"
-                          onPress={() =>
-                            props.navigation.navigate("AddTransaction", {
-                              id: props.route.params.id,
-                              symbol: props.route.params.symbol,
-                            })
-                          }
-                        />
-                      }
-                      shadow={{
-                        shadowColor: "#5b21b6",
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 1,
-                        shadowRadius: 5.0,
-                        elevation: 1,
-                      }}
-                    />
-                    <Text
-                      fontSize="md"
-                      fontWeight="medium"
-                      textAlign="center"
-                      my="auto"
-                      mr="20"
-                    >
-                      Add transaction
-                    </Text>
-                  </HStack>
-                </VStack>
-              )} */}
-            <TransactionCard
-              date={
-                Platform.OS === "android"
-                  ? `${new Date(item.date).getDate()}/${
-                      new Date(item.date).getMonth() + 1
-                    }/${new Date(item.date).getFullYear()} ${new Date(
-                      item.date
-                    ).getHours()}:${new Date(
-                      item.date
-                    ).getMinutes()}:${new Date(item.date).getSeconds()}`
-                  : new Date(item.date).toLocaleString("fr-FR", {
-                      timeZone: "UTC",
-                    })
-              }
-              type={item.type}
-              content={{
-                pair: item.pair,
-                quantity: item.quantity,
-                price: item.price,
-                // value: item.value,
-                cost: item.price * item.quantity + item.fees,
-                income: item.price * item.quantity - item.fees,
-                fees: item.fees,
-                // variation: item.variation,
-                from: item.from,
-                to: item.to,
-              }}
-            />
-            {/* {item._id === listTransactions[listTransactions.length - 1]._id && // Petit effet graphique en fin de liste
-              Platform.OS === "ios" && (
-                <Box w="100%" h={10}>
-                  <VStack space={1}>
-                    <Box
-                      h="2"
-                      w="1"
-                      rounded="full"
-                      _dark={{ bg: "violet.800" }}
-                      ml="10"
-                      mt="-1"
-                      shadow={{
-                        shadowColor: "#5b21b6",
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 1,
-                        shadowRadius: 5.0,
-                        elevation: 1,
-                      }}
-                    />
-                    <Box
-                      h="2"
-                      w="1"
-                      rounded="full"
-                      _dark={{ bg: "violet.800" }}
-                      ml="10"
-                      shadow={{
-                        shadowColor: "#5b21b6",
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 1,
-                        shadowRadius: 5.0,
-                        elevation: 1,
-                      }}
-                    />
-                    <Box
-                      h="2"
-                      w="1"
-                      rounded="full"
-                      _dark={{ bg: "violet.800" }}
-                      ml="10"
-                      shadow={{
-                        shadowColor: "#5b21b6",
-                        shadowOffset: {
-                          width: 0,
-                          height: 0,
-                        },
-                        shadowOpacity: 1,
-                        shadowRadius: 5.0,
-                        elevation: 1,
-                      }}
-                    />
-                  </VStack>
-                </Box>
-              )} */}
-          </>
+          <TransactionCard
+            date={
+              Platform.OS === "android"
+                ? `${new Date(item.date).getDate()}/${
+                    new Date(item.date).getMonth() + 1
+                  }/${new Date(item.date).getFullYear()} ${new Date(
+                    item.date
+                  ).getHours()}:${new Date(item.date).getMinutes()}:${new Date(
+                    item.date
+                  ).getSeconds()}`
+                : new Date(item.date).toLocaleString("fr-FR", {
+                    timeZone: "UTC",
+                  })
+            }
+            type={item.type}
+            content={{
+              pair: item.pair,
+              quantity: item.quantity,
+              price: item.price,
+              // value: item.value,
+              cost: item.price * item.quantity + item.fees,
+              income: item.price * item.quantity - item.fees,
+              fees: item.fees,
+              // variation: item.variation,
+              from: item.from,
+              to: item.to,
+            }}
+          />
         )}
+        renderHiddenItem={({ item }) => (
+          <HStack flex="1" pb="7" pt="6" mx="2">
+            <Pressable
+              w="70"
+              ml="auto"
+              bg="coolGray.200"
+              justifyContent="center"
+              alignItems="center"
+              _pressed={{
+                opacity: 0.5,
+              }}
+            >
+              <VStack alignItems="center" space={2}>
+                <Icon
+                  as={<Entypo name="dots-three-horizontal" />}
+                  size="xs"
+                  color="coolGray.800"
+                />
+                <Text fontSize="xs" fontWeight="medium" color="coolGray.800">
+                  Edit
+                </Text>
+              </VStack>
+            </Pressable>
+            <Pressable
+              w="70"
+              bg="red.500"
+              justifyContent="center"
+              alignItems="center"
+              style={{ borderBottomRightRadius: 30, borderTopRightRadius: 30 }}
+              _pressed={{
+                opacity: 0.5,
+              }}
+            >
+              <VStack alignItems="center" space={2}>
+                <Icon
+                  as={<MaterialIcons name="delete" />}
+                  color="white"
+                  size="xs"
+                />
+                <Text color="white" fontSize="xs" fontWeight="medium">
+                  Delete
+                </Text>
+              </VStack>
+            </Pressable>
+          </HStack>
+        )}
+        rightOpenValue={-135}
+        previewRowKey={"0"}
+        previewOpenValue={-50}
+        previewOpenDelay={3000}
       />
       {/* )} */}
     </Box>
