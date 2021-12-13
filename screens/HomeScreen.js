@@ -110,15 +110,15 @@ function HomeScreen(props) {
     return (
       <SwipeListView
         data={ownedCryptos}
-        renderItem={(item, index) => (
+        renderItem={({ item }) => (
           <>
             <Pressable
-              key={index}
+              key={item.id}
               onPress={() =>
                 props.navigation.navigate("ListTransactions", {
-                  id: item.item.id,
-                  symbol: item.item.symbol,
-                  image: item.item.image,
+                  id: item.id,
+                  symbol: item.symbol,
+                  image: item.image,
                 })
               }
             >
@@ -137,12 +137,13 @@ function HomeScreen(props) {
                   >
                     <CryptoCard
                       crypto={{
-                        id: item.item.id,
-                        symbol: item.item.symbol,
-                        image: item.item.image,
-                        name: item.item.name,
-                        totalQuantity: item.item.totalQuantity,
-                        current_price: item.item.current_price,
+                        id: item.id,
+                        symbol: item.symbol,
+                        image: item.image,
+                        name: item.name,
+                        totalQuantity: item.totalQuantity,
+                        current_price: item.current_price,
+                        totalInvestment: item.totalInvestment,
                       }}
                     />
                   </Box>
