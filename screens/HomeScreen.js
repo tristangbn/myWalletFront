@@ -44,7 +44,7 @@ function HomeScreen(props) {
   function LoadCryptoList() {
     myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
       let total = 0;
-      if (response.data.ownedCryptos && response.data.ownedCryptos.length > 0) {
+      if (response.data.ownedCryptos.length > 0 && response.data.ownedCryptos) {
         for (let i = 0; i < response.data.ownedCryptos.length; i++) {
           total +=
             response.data.ownedCryptos[i].current_price *
