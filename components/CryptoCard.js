@@ -1,6 +1,9 @@
 import React from "react";
 import { Center, Box, Text, HStack, VStack, Image } from "native-base";
 
+import numeral from "numeral";
+import "numeral/locales/fr";
+
 function CryptoCard(props) {
   const variationInFiat =
     Math.round(
@@ -39,19 +42,18 @@ function CryptoCard(props) {
               style={{ flex: 1 }}
               textAlign="right"
             >
-              {Math.round(
-                props.crypto.totalQuantity * props.crypto.currentPrice * 100
-              ) /
-                100 +
-                " €"}
+              {numeral(
+                Math.round(
+                  props.crypto.totalQuantity * props.crypto.currentPrice * 100
+                ) / 100
+              ).format("0,0[.]00 $")}
             </Text>
           </HStack>
           <HStack>
             <Text fontSize="sm" fontWeight="light">
               {Math.round(props.crypto.totalQuantity * 100) / 100 +
                 " | " +
-                props.crypto.currentPrice +
-                " €"}
+                numeral(props.crypto.currentPrice).format("0,0[.]00 $")}
             </Text>
             <Text
               fontSize="sm"
@@ -70,8 +72,8 @@ function CryptoCard(props) {
                 elevation: 1,
               }}
             >
-              {variationInFiat + " € | "}
-              {variationInPercent > 0
+              {numeral(variationInFiat).format("0,0[.]00 $") + " | "}
+              {numeral(variationInPercent).format("0 %") > 0
                 ? `+${variationInPercent}%`
                 : `${variationInPercent}%`}
             </Text>

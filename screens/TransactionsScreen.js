@@ -22,6 +22,9 @@ import myWalletAPI from "../api/myWallet";
 
 import TransactionCard from "../components/TransactionCard";
 
+import numeral from "numeral";
+import "numeral/locales/fr";
+
 function TransactionsScreen(props) {
   const isFocused = useIsFocused();
   // const [refreshing, setRefreshing] = React.useState(false);
@@ -259,7 +262,7 @@ function TransactionsScreen(props) {
           >
             Average buy
             <Text fontWeight="bold" fontSize="md">
-              {averageBuyPrice} €
+              {numeral(averageBuyPrice).format("0,0[.]00 $")}
             </Text>
           </Center>
           <Center
@@ -270,7 +273,7 @@ function TransactionsScreen(props) {
           >
             Average sell
             <Text fontWeight="bold" fontSize="md">
-              {averageSellPrice} €
+              {numeral(averageSellPrice).format("0,0[.]00 $")}
             </Text>
           </Center>
           <Center
@@ -295,7 +298,9 @@ function TransactionsScreen(props) {
                 elevation: 1,
               }}
             >
-              {benefits >= 0 ? `+${benefits}` : benefits} €
+              {benefits >= 0
+                ? `+${numeral(benefits).format("0,0[.]00 $")}`
+                : numeral(benefits).format("0,0[.]00 $")}{" "}
             </Text>
           </Center>
         </HStack>
