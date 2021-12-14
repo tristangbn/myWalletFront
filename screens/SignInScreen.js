@@ -31,19 +31,19 @@ const SignInScreen = (props) => {
 
   useEffect(() => {
     console.log("<-----------LOGIN----------->");
-    // AsyncStorage.getItem("userData", function (err, data) {
-    //   let userData = JSON.parse(data);
-    //   if (userData) {
-    //     if (props.authData.length === 0) props.onLogin(userData);
+    AsyncStorage.getItem("userData", function (err, data) {
+      let userData = JSON.parse(data);
+      if (userData) {
+        if (props.authData.length === 0) props.onLogin(userData);
 
-    //     myWalletAPI
-    //       .post("/sign-in-token", { token: userData.token })
-    //       .then((response) => {
-    //         if (response.data.result) props.navigation.navigate("bottomNav");
-    //       });
-    //   }
-    // });
-    AsyncStorage.clear();
+        myWalletAPI
+          .post("/sign-in-token", { token: userData.token })
+          .then((response) => {
+            if (response.data.result) props.navigation.navigate("bottomNav");
+          });
+      }
+    });
+    // AsyncStorage.clear();
   }, []);
 
   const login = () => {

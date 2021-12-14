@@ -28,26 +28,27 @@ const AddCryptoScreen = (props) => {
         params: {
           vs_currency: "eur",
           order: "market_cap_desc",
-          per_page: 100,
-          page: 1,
+          per_page: 500,
+          // page: 1,
           sparkline: false,
         },
       })
       .then((response) => {
         setCoinList(response.data);
+        setFilteredList(response.data);
       });
   }, []);
 
   const handleSearch = (query) => {
     const formattedQuery = query.toLowerCase();
     let filteredData = [];
-    if (query === "") {
-      filteredData = [];
-    } else {
-      filteredData = coinList.filter((crypto) => {
-        return crypto.id.includes(formattedQuery);
-      });
-    }
+    // if (query === "") {
+    //   filteredData = [];
+    // } else {
+    filteredData = coinList.filter((crypto) => {
+      return crypto.id.includes(formattedQuery);
+    });
+    // }
 
     setFilteredList(filteredData);
     setQuery(query);
