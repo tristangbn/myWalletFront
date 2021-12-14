@@ -174,7 +174,8 @@ function TransactionsScreen(props) {
           props.navigation.navigate("EditTransaction", {
             transaction: data.item,
             symbol: props.route.params.symbol,
-            image: props.route.params.image,
+            currentPrice: props.route.params.currentPrice,
+            totalQuantity: props.route.params.totalQuantity,
           })
         }
         _pressed={{

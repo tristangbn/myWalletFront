@@ -11,7 +11,6 @@ import {
   VStack,
   Input,
   ScrollView,
-  NumberInput,
 } from "native-base";
 import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
@@ -171,7 +170,19 @@ function EditTransactionScreen(props) {
         props.navigation.navigate("ListTransactions", {
           id: props.route.params.transaction.crypto,
           symbol: props.route.params.symbol,
-          image: props.route.params.image,
+          currentPrice: props.route.params.currentPrice,
+          totalQuantity:
+            type === "buy"
+              ? props.route.params.totalQuantity -
+                Number(props.route.params.transaction.quantity) +
+                Number(quantity)
+              : type === "sell"
+              ? props.route.params.totalQuantity +
+                Number(props.route.params.transaction.quantity) -
+                Number(quantity)
+              : props.route.params.totalQuantity +
+                Number(props.route.params.transaction.fees) -
+                Number(fees),
         });
       });
   };
