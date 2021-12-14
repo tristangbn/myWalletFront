@@ -33,11 +33,17 @@ function TransactionsScreen(props) {
   // console.log("PROPS", props.route.params);
   const [listTransactions, setListTransactions] = useState([]);
   // console.log("ListTransactions", listTransactions);
-  const [benefits, setBenefits] = useState(0);
-  const [averageBuyPrice, setAverageBuyPrice] = useState(0);
-  const [averageSellPrice, setAverageSellPrice] = useState(0);
+  const [header, setHeader] = useState({
+    benefits: 0,
+    averageBuyPrice: 0,
+    averageSellPrice: 0,
+  });
 
-  function headerData() {
+  const benefits = header.benefits;
+  const averageBuyPrice = header.averageBuyPrice;
+  const averageSellPrice = header.averageSellPrice;
+
+  function headerData(transactions) {
     let totalCosts = 0;
     const value =
       props.route.params.totalQuantity * props.route.params.currentPrice;
@@ -46,14 +52,14 @@ function TransactionsScreen(props) {
     let averageSell = 0;
 
     let buyingPricesTotal = 0;
-    const buyTransactions = listTransactions.filter((e) => e.type === "buy");
+    const buyTransactions = transactions.filter((e) => e.type === "buy");
     for (let transaction of buyTransactions) {
       totalCosts += transaction.price * transaction.quantity + transaction.fees;
       buyingPricesTotal += transaction.price;
     }
 
     let sellingPricesTotal = 0;
-    const sellTransactions = listTransactions.filter((e) => e.type === "sell");
+    const sellTransactions = transactions.filter((e) => e.type === "sell");
     for (let transaction of sellTransactions) {
       sellingPricesTotal += transaction.price;
     }
@@ -66,9 +72,12 @@ function TransactionsScreen(props) {
       averageSell =
         Math.round((sellingPricesTotal / sellTransactions.length) * 100) / 100;
     }
-    setBenefits(Math.round((value - totalCosts) * 100) / 100);
-    setAverageBuyPrice(averageBuy);
-    setAverageSellPrice(averageSell);
+
+    setHeader({
+      benefits: Math.round((value - totalCosts) * 100) / 100,
+      averageBuyPrice: averageBuy,
+      averageSellPrice: averageSell,
+    });
   }
 
   // function dateSort(
@@ -94,13 +103,14 @@ function TransactionsScreen(props) {
       myWalletAPI
         .get(`/list-transactions/${token}/${props.route.params.id}`)
         .then((response) => {
-          if (response.data.result)
+          if (response.data.result) {
             setListTransactions(response.data.transactions);
+            headerData(response.data.transactions);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
-      headerData();
     }
   }, [isFocused]);
 
