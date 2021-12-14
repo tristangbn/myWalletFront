@@ -25,10 +25,6 @@ const LogOutScreen = (props) => {
 
         <Center justifyContent="space-around" height="25%">
           <Text fontSize="xl">This is {user}'s account</Text>
-
-          <Text fontSize="xl">Email: </Text>
-
-          <Text fontSize="xl">Total account: </Text>
         </Center>
 
         <Center>

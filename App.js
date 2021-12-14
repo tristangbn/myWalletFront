@@ -15,7 +15,6 @@ import AddTransactionsScreen from "./screens/AddTransactionScreen";
 import EditTransactionScreen from "./screens/EditTransactionScreen";
 import LogOutScreen from "./screens/LogOutScreen";
 
-import { connect } from "react-redux";
 import authData from "./reducers/auth.reducer";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
@@ -28,22 +27,18 @@ const bottomNav = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
+        tabBarIcon: ({ color, focused }) => {
           let iconName;
           if (route.name === "Wallet") {
-            iconName = "wallet";
-            // } else if (route.name === "AddCrypto") {
-            //   iconName = "ios-options";
-          } else if (route.name === "EditTransaction") {
-            iconName = "ios-options";
-          } else if (route.name === "LogOut") {
-            iconName = "ios-settings-outline";
+            iconName = focused ? "wallet" : "wallet-outline";
+          } else if (route.name === "Settings") {
+            iconName = focused ? "settings" : "settings-outline";
           }
           return <Ionicons name={iconName} size={25} color={color} />;
         },
 
         tabBarActiveTintColor: "#FFFFFF",
-        tabBarInactiveTintColor: "#3E363F",
+        tabBarInactiveTintColor: "#6c757d",
         tabBarStyle: {
           backgroundColor: "#0f172a",
           borderTopWidth: 3,
@@ -53,7 +48,7 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
-      <Tab.Screen name="LogOut" component={LogOutScreen} />
+      <Tab.Screen name="Settings" component={LogOutScreen} />
     </Tab.Navigator>
   );
 };
