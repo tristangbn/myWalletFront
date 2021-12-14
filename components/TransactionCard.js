@@ -17,7 +17,16 @@ numeral.locale("fr");
 function TransactionCard(props) {
   const cardHeight = 150;
 
-  let positive = props.content.variation >= 0;
+  const positive =
+    Math.round(
+      (((props.content.quantity * props.content.currentPrice -
+        (props.content.price * props.content.quantity + props.content.fees)) *
+        100) /
+        (props.content.price * props.content.quantity + props.content.fees)) *
+        100
+    ) /
+      100 >=
+    0;
 
   let transaction;
   if (props.type === "buy") {
@@ -99,7 +108,11 @@ function TransactionCard(props) {
                         <Text fontWeight="light">Value</Text>
                         <Text fontWeight="bold">
                           {numeral(
-                            Math.round(props.content.value * 100) / 100
+                            Math.round(
+                              props.content.quantity *
+                                props.content.currentPrice *
+                                100
+                            ) / 100
                           ).format("0,0[.]00 $")}
                         </Text>
                       </Box>
@@ -120,12 +133,34 @@ function TransactionCard(props) {
                           }}
                         >
                           {positive
-                            ? `+${numeral(
-                                Math.round(props.content.variation * 100) / 100
-                              ).format("0,0.00")}%`
+                            ? `${numeral(
+                                Math.round(
+                                  (((props.content.quantity *
+                                    props.content.currentPrice -
+                                    (props.content.price *
+                                      props.content.quantity +
+                                      props.content.fees)) *
+                                    100) /
+                                    (props.content.price *
+                                      props.content.quantity +
+                                      props.content.fees)) *
+                                    100
+                                ) / 100
+                              ).format("+0,0.00")} %`
                             : `${numeral(
-                                Math.round(props.content.variation * 100) / 100
-                              ).format("0,0.00")}%`}
+                                Math.round(
+                                  (((props.content.quantity *
+                                    props.content.currentPrice -
+                                    (props.content.price *
+                                      props.content.quantity +
+                                      props.content.fees)) *
+                                    100) /
+                                    (props.content.price *
+                                      props.content.quantity +
+                                      props.content.fees)) *
+                                    100
+                                ) / 100
+                              ).format("0,0.00")} %`}
                         </Text>
                       </Box>
                     </HStack>
