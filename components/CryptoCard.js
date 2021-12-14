@@ -7,11 +7,8 @@ numeral.locale("fr");
 
 function CryptoCard(props) {
   const variationInFiat =
-    Math.round(
-      (props.crypto.totalQuantity * props.crypto.currentPrice -
-        props.crypto.totalInvestment) *
-        100
-    ) / 100;
+    props.crypto.totalQuantity * props.crypto.currentPrice -
+    props.crypto.totalInvestment;
 
   const variationInPercent = props.crypto.totalInvestment
     ? Math.round(
@@ -52,7 +49,7 @@ function CryptoCard(props) {
           </HStack>
           <HStack>
             <Text fontSize="sm" fontWeight="light">
-              {Math.round(props.crypto.totalQuantity * 100) / 100 +
+              {props.crypto.totalQuantity +
                 " | " +
                 numeral(props.crypto.currentPrice).format("0,0[.]00 $")}
             </Text>
@@ -74,9 +71,9 @@ function CryptoCard(props) {
               }}
             >
               {numeral(variationInFiat).format("0,0[.]00 $") + " | "}
-              {numeral(variationInPercent).format("0 %") > 0
-                ? `+${variationInPercent}%`
-                : `${variationInPercent}%`}
+              {variationInPercent > 0
+                ? `${numeral(variationInPercent).format("+0.00")}%`
+                : `${numeral(variationInPercent).format("0.00")}%`}
             </Text>
           </HStack>
         </VStack>
