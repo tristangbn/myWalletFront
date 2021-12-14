@@ -13,6 +13,7 @@ import AddCryptoScreen from "./screens/AddCryptoScreen";
 import TransactionsScreen from "./screens/TransactionsScreen";
 import AddTransactionsScreen from "./screens/AddTransactionScreen";
 import EditTransactionScreen from "./screens/EditTransactionScreen";
+import LogOutScreen from "./screens/LogOutScreen";
 
 import { connect } from "react-redux";
 import authData from "./reducers/auth.reducer";
@@ -35,6 +36,8 @@ const bottomNav = () => {
             //   iconName = "ios-options";
           } else if (route.name === "EditTransaction") {
             iconName = "ios-options";
+          } else if (route.name === "LogOut") {
+            iconName = "ios-settings-outline";
           }
           return <Ionicons name={iconName} size={25} color={color} />;
         },
@@ -50,8 +53,7 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
-
-      {/* <Tab.Screen name="ListTransactions" component={TransactionsScreen} /> */}
+      <Tab.Screen name="LogOut" component={LogOutScreen} />
     </Tab.Navigator>
   );
 };

@@ -122,10 +122,10 @@ function TransactionCard(props) {
                           {positive
                             ? `+${numeral(
                                 Math.round(props.content.variation * 100) / 100
-                              ).format("0 %")}`
-                            : numeral(
+                              ).format("0,0.00")}%`
+                            : `${numeral(
                                 Math.round(props.content.variation * 100) / 100
-                              ).format("0 %")}
+                              ).format("0,0.00")}%`}
                         </Text>
                       </Box>
                     </HStack>

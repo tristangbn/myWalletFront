@@ -73,10 +73,10 @@ function CryptoCard(props) {
                 elevation: 1,
               }}
             >
-              {numeral(variationInFiat).format("0,0[.]00 $") + " | "}
-              {numeral(variationInPercent).format("0 %") > 0
-                ? `+${variationInPercent}%`
-                : `${variationInPercent}%`}
+              {variationInFiat + " | "}
+              {variationInPercent > 0
+                ? `${numeral(variationInPercent).format("+0.00")}%`
+                : `${numeral(variationInPercent).format("0.00")}%`}
             </Text>
           </HStack>
         </VStack>

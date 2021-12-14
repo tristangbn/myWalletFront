@@ -61,6 +61,8 @@ const SignInScreen = (props) => {
             token: response.data.userToken,
           };
           AsyncStorage.setItem("userData", JSON.stringify(userData));
+          setEmail("");
+          setPassword("");
           if (props.authData.length === 0) props.onLogin(userData);
           props.navigation.navigate("bottomNav");
         }
