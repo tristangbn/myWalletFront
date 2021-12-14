@@ -126,7 +126,7 @@ function TransactionCard(props) {
         </Pressable>
         <Circle
           position="absolute"
-          alignSelf="flex-start"
+          alignSelf="flex-end"
           _dark={{ bg: "blueGray.800" }}
           borderColor={"#20BF55"}
           borderWidth={"2"}
@@ -226,7 +226,7 @@ function TransactionCard(props) {
         </Pressable>
         <Circle
           position="absolute"
-          alignSelf="flex-start"
+          alignSelf="flex-end"
           _dark={{ bg: "blueGray.800" }}
           borderColor={"#EF233C"}
           borderWidth={"2"}
@@ -327,7 +327,7 @@ function TransactionCard(props) {
         </Pressable>
         <Circle
           position="absolute"
-          alignSelf="flex-start"
+          alignSelf="flex-end"
           _dark={{ bg: "blueGray.800" }}
           borderColor={"#3b82f6"}
           borderWidth={"2"}

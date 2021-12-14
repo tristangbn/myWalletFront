@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {
@@ -16,8 +16,8 @@ import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
 
 function AddTransactionScreen(props) {
+  console.log("<------ADD TRANSACTION------>")
   const token = props.authData[0].token;
-  const user = props.authData[0].firstName;
 
   const [type, setType] = useState("buy");
 
@@ -169,9 +169,6 @@ function AddTransactionScreen(props) {
         });
       });
   };
-
-  console.log(props.route.params.totalQuantity + Number(quantity))
-  console.log('totalQTY',props.route.params.totalQuantity)
 
   let inputs;
   if (type === "buy") {
