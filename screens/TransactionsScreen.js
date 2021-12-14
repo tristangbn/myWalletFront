@@ -33,14 +33,17 @@ function TransactionsScreen(props) {
   // console.log("PROPS", props.route.params);
   const [listTransactions, setListTransactions] = useState([]);
   // console.log("ListTransactions", listTransactions);
+  const [benefits, setBenefits] = useState(0);
+  const [averageBuyPrice, setAverageBuyPrice] = useState(0);
+  const [averageSellPrice, setAverageSellPrice] = useState(0);
 
   function headerData() {
     let totalCosts = 0;
     const value =
       props.route.params.totalQuantity * props.route.params.currentPrice;
 
-    let averageBuyPrice = 0;
-    let averageSellPrice = 0;
+    let averageBuy = 0;
+    let averageSell = 0;
 
     let buyingPricesTotal = 0;
     const buyTransactions = listTransactions.filter((e) => e.type === "buy");
@@ -56,25 +59,17 @@ function TransactionsScreen(props) {
     }
 
     if (buyTransactions.length !== 0) {
-      averageBuyPrice =
+      averageBuy =
         Math.round((buyingPricesTotal / buyTransactions.length) * 100) / 100;
     }
     if (sellTransactions.length !== 0) {
-      averageSellPrice =
+      averageSell =
         Math.round((sellingPricesTotal / sellTransactions.length) * 100) / 100;
     }
-    const benefits = Math.round((value - totalCosts) * 100) / 100;
-
-    return {
-      averageBuyPrice,
-      averageSellPrice,
-      benefits,
-      positive: benefits >= 0,
-    };
+    setBenefits(Math.round((value - totalCosts) * 100) / 100);
+    setAverageBuyPrice(averageBuy);
+    setAverageSellPrice(averageSell);
   }
-
-  const { averageBuyPrice, averageSellPrice, benefits, positive } =
-    headerData();
 
   // function dateSort(
   //   path = [],
@@ -105,6 +100,7 @@ function TransactionsScreen(props) {
         .catch((err) => {
           console.log(err);
         });
+      headerData();
     }
   }, [isFocused, refreshing]);
 
@@ -165,10 +161,10 @@ function TransactionsScreen(props) {
   };
 
   const renderHiddenItem = (data) => (
-    <HStack flex="1" height="100%" py="6" mb="1" rounded={"3xl"}>
+    <HStack flex="1" height="100%" py="6" mb="1" rounded="3xl">
       <Pressable
         w="80%"
-        bg="white"
+        bg="coolGray.200"
         justifyContent="center"
         pr="7%"
         borderLeftRadius="3xl"
@@ -177,7 +173,8 @@ function TransactionsScreen(props) {
           props.navigation.navigate("EditTransaction", {
             transaction: data.item,
             symbol: props.route.params.symbol,
-            image: props.route.params.image,
+            currentPrice: props.route.params.currentPrice,
+            totalQuantity: props.route.params.totalQuantity,
           })
         }
         _pressed={{
@@ -203,7 +200,7 @@ function TransactionsScreen(props) {
         }}
       >
         <VStack alignItems="center" space={2}>
-          <Icon as={<MaterialIcons name="delete" />} color="white" size="md" />
+          <Icon as={<MaterialIcons name="delete" />} color="white" />
           <Text color="white" fontSize="xs" fontWeight="medium">
             Delete
           </Text>
@@ -289,9 +286,9 @@ function TransactionsScreen(props) {
             <Text
               fontWeight="bold"
               fontSize="md"
-              color={positive ? "#20BF55" : "#EF233C"}
+              color={benefits >= 0 ? "#20BF55" : "#EF233C"}
               shadow={{
-                shadowColor: positive ? "#20BF55" : "#EF233C",
+                shadowColor: benefits >= 0 ? "#20BF55" : "#EF233C",
                 shadowOffset: {
                   width: -1,
                   height: 1,
