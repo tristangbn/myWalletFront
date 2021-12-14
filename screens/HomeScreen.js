@@ -37,6 +37,8 @@ function HomeScreen(props) {
   const [ownedCryptos, setOwnedCryptos] = useState([]);
   const [total, setTotal] = useState(0);
   const [portfolioVariationInFiat, setPortfolioVariationInFiat] = useState(0);
+  const [portfolioVariationInPercent, setPortfolioVariationInPercent] =
+    useState(0);
 
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
@@ -60,6 +62,9 @@ function HomeScreen(props) {
         setOwnedCryptos(response.data.ownedCryptos);
         setPortfolioVariationInFiat(
           total - response.data.totalPortfolioInvestment
+        );
+        setPortfolioVariationInPercent(
+          response.data.portfolioVariationInPercent
         );
       })
       .then(() => setRefreshing(false));
@@ -144,8 +149,7 @@ function HomeScreen(props) {
                         symbol: item.symbol,
                         image: item.image,
                         name: item.name,
-                        totalQuantity:
-                          Math.round(item.totalQuantity * 100) / 100,
+                        totalQuantity: item.totalQuantity,
                         currentPrice: item.currentPrice,
                         totalInvestment: item.totalInvestment,
                       }}
@@ -195,7 +199,7 @@ function HomeScreen(props) {
           fontWeight="light"
           textAlign="center"
           color={
-            true ? "#20BF55" : "#EF233C"
+            portfolioVariationInFiat >= 0 ? "#20BF55" : "#EF233C"
           } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
           shadow={{
             shadowColor: true ? "#20BF55" : "#EF233C",
@@ -208,7 +212,14 @@ function HomeScreen(props) {
             elevation: 1,
           }}
         >
-          {Math.round(portfolioVariationInFiat * 100) / 100}€ |
+          {numeral(Math.round(portfolioVariationInFiat * 100) / 100).format(
+            "0,0[.]00 $"
+          )}{" "}
+          |{" "}
+          {numeral(Math.round(portfolioVariationInPercent * 100) / 100).format(
+            "+0.00"
+          )}
+          %
         </Text>
       </Box>
       <Box flex="1">

@@ -44,10 +44,12 @@ function TransactionsScreen(props) {
   const averageBuyPrice = header.averageBuyPrice;
   const averageSellPrice = header.averageSellPrice;
 
-  function headerData(transactions) {
+  function headerData(
+    transactions,
+    totalQuantity = props.route.params.totalQuantity
+  ) {
     let totalCosts = 0;
-    const value =
-      props.route.params.totalQuantity * props.route.params.currentPrice;
+    const value = totalQuantity * props.route.params.currentPrice;
 
     let averageBuy = 0;
     let averageSell = 0;
@@ -134,18 +136,13 @@ function TransactionsScreen(props) {
         }
         type={item.type}
         content={{
+          currentPrice: props.route.params.currentPrice,
           pair: item.pair,
           quantity: item.quantity,
           price: item.price,
-          value: item.quantity * props.route.params.currentPrice,
           cost: item.price * item.quantity + item.fees,
           income: item.price * item.quantity - item.fees,
           fees: item.fees,
-          variation:
-            ((item.quantity * props.route.params.currentPrice -
-              (item.price * item.quantity + item.fees)) *
-              100) /
-            (item.price * item.quantity + item.fees),
           from: item.from,
           to: item.to,
         }}
@@ -157,12 +154,15 @@ function TransactionsScreen(props) {
     myWalletAPI
       .delete(`/delete-transaction/${token}/${crypto}/${id}`)
       .then((response) => {
+        const totalQuantity = response.data.totalQuantity;
         if (response.data.result) {
           myWalletAPI
             .get(`/list-transactions/${token}/${props.route.params.id}`)
             .then((response) => {
-              if (response.data.result)
+              if (response.data.result) {
                 setListTransactions(response.data.transactions);
+                headerData(response.data.transactions, totalQuantity);
+              }
             })
             .catch((err) => {
               console.log(err);
