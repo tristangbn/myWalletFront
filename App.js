@@ -32,12 +32,13 @@ const bottomNav = () => {
           let iconName;
           if (route.name === "Wallet") {
             iconName = "wallet";
+            return <Ionicons name={iconName} size={25} color={color} />;
           } else if (route.name === "Settings") {
             iconName = "ios-settings-outline";
             return <Ionicons name={iconName} size={25} color={color} />;
-          } else if (route.name === "Wallet") {
+          } else if (route.name === "Stock") {
             iconName = "linechart";
-            return <AntDesign name={iconName} size={24} color={color} />;
+            return <AntDesign name={iconName} size={25} color={color} />;
           }
         },
 
@@ -52,8 +53,8 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={LogOutScreen} />
       <Tab.Screen name="Stock" component={StocksScreen} />
+      <Tab.Screen name="Settings" component={LogOutScreen} />
     </Tab.Navigator>
   );
 };
