@@ -22,6 +22,30 @@ import CryptoCard from "../components/CryptoCard";
 
 import myWalletAPI from "../api/myWallet";
 
+import numeral from "numeral";
+import "numeral/locales/fr";
+
+// const numeral = require("numeral");
+
+// numeral.register("locale", "fr", {
+//   delimiters: {
+//     thousands: " ",
+//     decimal: ",",
+//   },
+//   abbreviations: {
+//     thousand: "k",
+//     million: "m",
+//     billion: "b",
+//     trillion: "t",
+//   },
+//   ordinal: function (number) {
+//     return number === 1 ? "er" : "ème";
+//   },
+//   currency: {
+//     symbol: "€",
+//   },
+// });
+
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));
 };
@@ -188,7 +212,7 @@ function HomeScreen(props) {
           {user + "'s Portfolio"}
         </Text>
         <Text fontSize="3xl" fontWeight="bold" textAlign="center">
-          {Math.round(total * 100) / 100 + " €"}
+          {numeral(Math.round(total * 100) / 100).format("0,0[.]00 €")}
         </Text>
         <Text
           fontSize="md"
