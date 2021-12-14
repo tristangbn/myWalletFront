@@ -51,7 +51,7 @@ const wait = (timeout) => {
 };
 
 function HomeScreen(props) {
-  const [refreshing, setRefreshing] = React.useState(false);
+  const [refreshing, setRefreshing] = useState(false);
   const isFocused = useIsFocused();
 
   const [ownedCryptos, setOwnedCryptos] = useState([]);
@@ -60,40 +60,35 @@ function HomeScreen(props) {
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
 
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
-
   function LoadCryptoList() {
-    myWalletAPI.get(`/list-crypto/${token}`).then((response) => {
-      let total = 0;
-      if (response.data.ownedCryptos.length > 0 && response.data.ownedCryptos) {
-        for (let i = 0; i < response.data.ownedCryptos.length; i++) {
-          total +=
-            response.data.ownedCryptos[i].current_price *
-            response.data.ownedCryptos[i].totalQuantity;
+    myWalletAPI
+      .get(`/list-crypto/${token}`)
+      .then((response) => {
+        let total = 0;
+        if (
+          response.data.ownedCryptos.length > 0 &&
+          response.data.ownedCryptos
+        ) {
+          for (let i = 0; i < response.data.ownedCryptos.length; i++) {
+            total +=
+              response.data.ownedCryptos[i].currentPrice *
+              response.data.ownedCryptos[i].totalQuantity;
+          }
         }
-      }
-      setTotal(total);
-      setOwnedCryptos(response.data.ownedCryptos);
-    });
+        setTotal(total);
+        setOwnedCryptos(response.data.ownedCryptos);
+      })
+      .then(() => setRefreshing(false));
   }
 
   useEffect(() => {
     if (isFocused) {
-      console.log("------------HOME-----------");
+      console.log("<------------HOME----------->");
       LoadCryptoList();
     }
-  }, [isFocused, refreshing]);
+  }, [isFocused]);
 
   function SwipeableList() {
-    // const closeRow = (rowMap, rowKey) => {
-    //   if (rowMap[rowKey]) {
-    //     rowMap[rowKey].closeRow();
-    //   }
-    // };
-
     const deleteRow = (id) => {
       myWalletAPI.delete(`/delete-crypto/${id}/${token}`).then((response) => {
         if (response.data) {
@@ -101,8 +96,6 @@ function HomeScreen(props) {
         }
       });
     };
-
-    const onRowDidOpen = () => {};
 
     const renderHiddenItem = (data) => (
       <HStack flex="1" py="1" mx="2">
@@ -143,7 +136,7 @@ function HomeScreen(props) {
                   id: item.id,
                   symbol: item.symbol,
                   image: item.image,
-                  currentPrice: item.current_price,
+                  currentPrice: item.currentPrice,
                   totalQuantity: item.totalQuantity,
                 })
               }
@@ -169,7 +162,7 @@ function HomeScreen(props) {
                         name: item.name,
                         totalQuantity:
                           Math.round(item.totalQuantity * 100) / 100,
-                        currentPrice: item.current_price,
+                        currentPrice: item.currentPrice,
                         totalInvestment: item.totalInvestment,
                       }}
                     />
@@ -184,16 +177,15 @@ function HomeScreen(props) {
         previewRowKey={"0"}
         previewOpenValue={-40}
         previewOpenDelay={3000}
-        onRowDidOpen={onRowDidOpen}
-        // refreshControl={
-        //   <RefreshControl
-        //     refreshing={refreshing}
-        //     onRefresh={onRefresh}
-        //     tintcolor="#ffffff"
-        //     title="Slide to refresh"
-        //     titleColor="#ffffff"
-        //   />
-        // }
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={LoadCryptoList}
+            tintcolor="white"
+            title="Pull down to refresh"
+            titleColor="#ffffff"
+          />
+        }
       />
     );
   }

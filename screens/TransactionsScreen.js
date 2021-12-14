@@ -29,6 +29,7 @@ function TransactionsScreen(props) {
   const token = props.authData[0].token;
   // console.log("PROPS", props.route.params);
   const [listTransactions, setListTransactions] = useState([]);
+  // console.log("ListTransactions", listTransactions);
 
   function headerData() {
     let totalCosts = 0;
@@ -41,7 +42,7 @@ function TransactionsScreen(props) {
     let buyingPricesTotal = 0;
     const buyTransactions = listTransactions.filter((e) => e.type === "buy");
     for (let transaction of buyTransactions) {
-      totalCosts += (transaction.price * transaction.quantity + transaction.fees);
+      totalCosts += transaction.price * transaction.quantity + transaction.fees;
       buyingPricesTotal += transaction.price;
     }
 
@@ -72,11 +73,6 @@ function TransactionsScreen(props) {
   const { averageBuyPrice, averageSellPrice, benefits, positive } =
     headerData();
 
-  // let benefits = 0;
-  // let positive = true;
-
-  // console.log("listTransactions", listTransactions);
-
   // function dateSort(
   //   path = [],
   //   comparator = (a, b) => b.getTime() - a.getTime()
@@ -96,11 +92,10 @@ function TransactionsScreen(props) {
 
   useEffect(() => {
     if (isFocused) {
-      console.log("----LISTTRANSACTIONS----");
+      console.log("<-----LIST TRANSACTIONS----->");
       myWalletAPI
         .get(`/list-transactions/${token}/${props.route.params.id}`)
         .then((response) => {
-          console.log(response.data.transactions);
           if (response.data.result)
             setListTransactions(response.data.transactions);
         })
@@ -156,7 +151,6 @@ function TransactionsScreen(props) {
           myWalletAPI
             .get(`/list-transactions/${token}/${props.route.params.id}`)
             .then((response) => {
-              console.log(response.data.transactions);
               if (response.data.result)
                 setListTransactions(response.data.transactions);
             })
@@ -168,14 +162,13 @@ function TransactionsScreen(props) {
   };
 
   const renderHiddenItem = (data) => (
-    <HStack flex="1" py="6" mx="2">
+    <HStack flex="1" height="100%" py="6" mb="1" rounded={"3xl"}>
       <Pressable
         w="80%"
-        ml="auto"
         bg="white"
         justifyContent="center"
         pr="7%"
-        style={{ borderTopLeftRadius: 30, borderBottomLeftRadius: 30 }}
+        borderLeftRadius="3xl"
         alignItems="flex-end"
         onPress={() =>
           props.navigation.navigate("EditTransaction", {
@@ -197,11 +190,10 @@ function TransactionsScreen(props) {
       </Pressable>
       <Pressable
         w="20%"
-        ml="auto"
+        mx="auto"
         bg="red.500"
-        pr="7%"
         justifyContent="center"
-        style={{ borderTopRightRadius: 30, borderBottomRightRadius: 30 }}
+        borderRightRadius="3xl"
         onPress={() => deleteRow(data.item.crypto, data.item._id)}
         _pressed={{
           opacity: 0.5,
@@ -225,7 +217,7 @@ function TransactionsScreen(props) {
         data={listTransactions}
         renderItem={renderItem}
         renderHiddenItem={renderHiddenItem}
-        rightOpenValue={-135}
+        rightOpenValue={-145}
         previewRowKey={"0"}
         previewOpenValue={-40}
         previewOpenDelay={3000}
