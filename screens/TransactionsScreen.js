@@ -298,7 +298,7 @@ function TransactionsScreen(props) {
                 elevation: 1,
               }}
             >
-              {positive
+              {benefits >= 0
                 ? `+${numeral(benefits).format("0,0[.]00 $")}`
                 : numeral(benefits).format("0,0[.]00 $")}{" "}
             </Text>
