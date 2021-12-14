@@ -12,12 +12,27 @@ import {
 } from "native-base";
 import { Platform } from "react-native";
 
+import {
+  LineChart,
+  // BarChart,
+  // PieChart,
+  // ProgressChart,
+  // ContributionGraph
+} from "expo-chart-kit";
+
 import numeral from "numeral";
 import "numeral/locales";
 numeral.locale("fr");
 
 function StockCard(props) {
-  // console.log("props", props.data);
+  const xAbs = props.data.prices.map((e) => e[0]);
+  const yAbs = props.data.prices.map((e) => e[1]);
+
+  const data = {
+    labels: xAbs,
+    datasets: [{ data: yAbs }],
+  };
+
   return (
     <Box _dark={{ bg: "blueGray.800" }} rounded="2xl" my="2" p="2">
       <HStack space="3" my="auto" alignItems="center">
@@ -34,8 +49,6 @@ function StockCard(props) {
             {props.data.name}
           </Text>
           <Text>{numeral(props.data.currentPrice).format("0,0[.]00 $")}</Text>
-        </VStack>
-        <Flex>
           <Text
             color={props.data.price_change_24h > 0 ? "#20BF55" : "#EF233C"}
             shadow={{
@@ -52,6 +65,29 @@ function StockCard(props) {
           >
             {`${numeral(props.data.price_change_24h).format("+0,0[.]00")}%`}
           </Text>
+        </VStack>
+        <Flex>
+          <LineChart
+            data={data}
+            width={230}
+            height={150}
+            chartConfig={{
+              backgroundGradientFrom: "#1e293b",
+              backgroundGradientTo: "#1e293b",
+              color: () =>
+                props.data.price_change_24h >= 0
+                  ? `rgba(32, 191, 85, 0.8)`
+                  : `rgba(239, 35, 60, 0.8)`,
+              style: {
+                borderRadius: 0,
+              },
+            }}
+            bezier
+            style={{
+              marginVertical: 0,
+              borderRadius: 0,
+            }}
+          />
         </Flex>
       </HStack>
     </Box>

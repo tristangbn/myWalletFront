@@ -32,14 +32,12 @@ const bottomNav = () => {
           let iconName;
           if (route.name === "Wallet") {
             iconName = focused ? "wallet" : "wallet-outline";
-            return <Ionicons name={iconName} size={24} color={color} />;
           } else if (route.name === "Settings") {
             iconName = focused ? "settings" : "settings-outline";
-            return <Ionicons name={iconName} size={24} color={color} />;
           } else if (route.name === "Stock") {
-            iconName = "linechart";
-            return <AntDesign name={iconName} size={25} color={color} />;
+            iconName = focused ? "bar-chart" : "bar-chart-outline";
           }
+          return <Ionicons name={iconName} size={24} color={color} />;
         },
 
         tabBarActiveTintColor: "#FFFFFF",
@@ -52,8 +50,8 @@ const bottomNav = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Wallet" component={HomeScreen} />
       <Tab.Screen name="Stock" component={StocksScreen} />
+      <Tab.Screen name="Wallet" component={HomeScreen} />
       <Tab.Screen name="Settings" component={LogOutScreen} />
     </Tab.Navigator>
   );
