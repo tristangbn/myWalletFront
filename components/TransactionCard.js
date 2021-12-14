@@ -10,6 +10,10 @@ import {
 } from "native-base";
 import { Platform } from "react-native";
 
+import numeral from "numeral";
+import "numeral/locales";
+numeral.locale("fr");
+
 function TransactionCard(props) {
   const cardHeight = 150;
 
@@ -68,7 +72,9 @@ function TransactionCard(props) {
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Buy Price</Text>
                         <Text fontWeight="bold">
-                          {Math.round(props.content.price * 100) / 100} €
+                          {numeral(
+                            Math.round(props.content.price * 100) / 100
+                          ).format("0,0[.]00 $")}
                         </Text>
                       </Box>
                       <Box w="33%" alignItems="center">
@@ -84,13 +90,17 @@ function TransactionCard(props) {
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Total Cost</Text>
                         <Text fontWeight="bold">
-                          {Math.round(props.content.cost * 100) / 100} €
+                          {numeral(
+                            Math.round(props.content.cost * 100) / 100
+                          ).format("0,0[.]00 $")}{" "}
                         </Text>
                       </Box>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Value</Text>
                         <Text fontWeight="bold">
-                          {Math.round(props.content.value * 100) / 100} €
+                          {numeral(
+                            Math.round(props.content.value * 100) / 100
+                          ).format("0,0[.]00 $")}
                         </Text>
                       </Box>
                       <Box w="33%" alignItems="center">
@@ -110,11 +120,12 @@ function TransactionCard(props) {
                           }}
                         >
                           {positive
-                            ? `+${
+                            ? `+${numeral(
                                 Math.round(props.content.variation * 100) / 100
-                              }`
-                            : Math.round(props.content.variation * 100) / 100}
-                          %
+                              ).format("0 %")}`
+                            : numeral(
+                                Math.round(props.content.variation * 100) / 100
+                              ).format("0 %")}
                         </Text>
                       </Box>
                     </HStack>
@@ -201,7 +212,9 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Sell Price</Text>
-                        <Text fontWeight="bold">{props.content.price} €</Text>
+                        <Text fontWeight="bold">
+                          {numeral(props.content.price).format("0,0[.]00 $")}
+                        </Text>
                       </Box>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Pair</Text>
@@ -215,7 +228,9 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Revenue</Text>
-                        <Text fontWeight="bold">{props.content.income} €</Text>
+                        <Text fontWeight="bold">
+                          {numeral(props.content.income).format("0,0[.]00 $")}
+                        </Text>
                       </Box>
                     </HStack>
                   </VStack>
@@ -315,7 +330,9 @@ function TransactionCard(props) {
                     <HStack>
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Fees</Text>
-                        <Text fontWeight="bold">{props.content.fees} </Text>
+                        <Text fontWeight="bold">
+                          {numeral(props.content.fees).format("0,0[.]00 $")}{" "}
+                        </Text>
                         {/* Voir si on ne mettrait pas props.content.price */}
                       </Box>
                     </HStack>

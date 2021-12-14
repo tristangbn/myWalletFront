@@ -22,56 +22,64 @@ import myWalletAPI from "../api/myWallet";
 
 import TransactionCard from "../components/TransactionCard";
 
+import numeral from "numeral";
+import "numeral/locales";
+numeral.locale("fr");
+
 function TransactionsScreen(props) {
   const isFocused = useIsFocused();
-  const [refreshing, setRefreshing] = React.useState(false);
+  // const [refreshing, setRefreshing] = React.useState(false);
 
   const token = props.authData[0].token;
   // console.log("PROPS", props.route.params);
   const [listTransactions, setListTransactions] = useState([]);
   // console.log("ListTransactions", listTransactions);
+  const [header, setHeader] = useState({
+    benefits: 0,
+    averageBuyPrice: 0,
+    averageSellPrice: 0,
+  });
 
-  function headerData() {
+  const benefits = header.benefits;
+  const averageBuyPrice = header.averageBuyPrice;
+  const averageSellPrice = header.averageSellPrice;
+
+  function headerData(transactions) {
     let totalCosts = 0;
     const value =
       props.route.params.totalQuantity * props.route.params.currentPrice;
 
-    let averageBuyPrice = 0;
-    let averageSellPrice = 0;
+    let averageBuy = 0;
+    let averageSell = 0;
 
     let buyingPricesTotal = 0;
-    const buyTransactions = listTransactions.filter((e) => e.type === "buy");
+    const buyTransactions = transactions.filter((e) => e.type === "buy");
     for (let transaction of buyTransactions) {
       totalCosts += transaction.price * transaction.quantity + transaction.fees;
       buyingPricesTotal += transaction.price;
     }
 
     let sellingPricesTotal = 0;
-    const sellTransactions = listTransactions.filter((e) => e.type === "sell");
+    const sellTransactions = transactions.filter((e) => e.type === "sell");
     for (let transaction of sellTransactions) {
       sellingPricesTotal += transaction.price;
     }
 
     if (buyTransactions.length !== 0) {
-      averageBuyPrice =
+      averageBuy =
         Math.round((buyingPricesTotal / buyTransactions.length) * 100) / 100;
     }
     if (sellTransactions.length !== 0) {
-      averageSellPrice =
+      averageSell =
         Math.round((sellingPricesTotal / sellTransactions.length) * 100) / 100;
     }
-    const benefits = Math.round((value - totalCosts) * 100) / 100;
 
-    return {
-      averageBuyPrice,
-      averageSellPrice,
-      benefits,
-      positive: benefits >= 0,
-    };
+    setHeader({
+      benefits: Math.round((value - totalCosts) * 100) / 100,
+      averageBuyPrice: averageBuy,
+      averageSellPrice: averageSell,
+    });
   }
-
-  const { averageBuyPrice, averageSellPrice, benefits, positive } =
-    headerData();
 
   // function dateSort(
   //   path = [],
@@ -96,14 +104,16 @@ function TransactionsScreen(props) {
       myWalletAPI
         .get(`/list-transactions/${token}/${props.route.params.id}`)
         .then((response) => {
-          if (response.data.result)
+          if (response.data.result) {
             setListTransactions(response.data.transactions);
+            headerData(response.data.transactions);
+          }
         })
         .catch((err) => {
           console.log(err);
         });
     }
-  }, [isFocused, refreshing]);
+  }, [isFocused]);
 
   const renderItem = ({ item, index }) => (
     <>
@@ -162,10 +172,10 @@ function TransactionsScreen(props) {
   };
 
   const renderHiddenItem = (data) => (
-    <HStack flex="1" height="100%" py="6" mb="1" rounded={"3xl"}>
+    <HStack flex="1" height="100%" py="6" mb="1" rounded="3xl">
       <Pressable
         w="80%"
-        bg="white"
+        bg="coolGray.200"
         justifyContent="center"
         pr="7%"
         borderLeftRadius="3xl"
@@ -201,7 +211,7 @@ function TransactionsScreen(props) {
         }}
       >
         <VStack alignItems="center" space={2}>
-          <Icon as={<MaterialIcons name="delete" />} color="white" size="md" />
+          <Icon as={<MaterialIcons name="delete" />} color="white" />
           <Text color="white" fontSize="xs" fontWeight="medium">
             Delete
           </Text>
@@ -263,7 +273,7 @@ function TransactionsScreen(props) {
           >
             Average buy
             <Text fontWeight="bold" fontSize="md">
-              {averageBuyPrice} €
+              {numeral(averageBuyPrice).format("0,0[.]00 $")}
             </Text>
           </Center>
           <Center
@@ -274,7 +284,7 @@ function TransactionsScreen(props) {
           >
             Average sell
             <Text fontWeight="bold" fontSize="md">
-              {averageSellPrice} €
+              {numeral(averageSellPrice).format("0,0[.]00 $")}
             </Text>
           </Center>
           <Center
@@ -287,9 +297,9 @@ function TransactionsScreen(props) {
             <Text
               fontWeight="bold"
               fontSize="md"
-              color={positive ? "#20BF55" : "#EF233C"}
+              color={benefits >= 0 ? "#20BF55" : "#EF233C"}
               shadow={{
-                shadowColor: positive ? "#20BF55" : "#EF233C",
+                shadowColor: benefits >= 0 ? "#20BF55" : "#EF233C",
                 shadowOffset: {
                   width: -1,
                   height: 1,
@@ -299,7 +309,9 @@ function TransactionsScreen(props) {
                 elevation: 1,
               }}
             >
-              {positive ? `+${benefits}` : benefits} €
+              {benefits >= 0
+                ? `+${numeral(benefits).format("0,0[.]00 $")}`
+                : numeral(benefits).format("0,0[.]00 $")}{" "}
             </Text>
           </Center>
         </HStack>
