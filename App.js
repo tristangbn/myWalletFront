@@ -28,21 +28,22 @@ const bottomNav = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
+        tabBarIcon: ({ color, focused }) => {
           let iconName;
           if (route.name === "Wallet") {
-            iconName = "wallet";
+            iconName = focused ? "wallet" : "wallet-outline";
+            return <Ionicons name={iconName} size={24} color={color} />;
           } else if (route.name === "Settings") {
-            iconName = "ios-settings-outline";
-            return <Ionicons name={iconName} size={25} color={color} />;
-          } else if (route.name === "Wallet") {
+            iconName = focused ? "settings" : "settings-outline";
+            return <Ionicons name={iconName} size={24} color={color} />;
+          } else if (route.name === "Stock") {
             iconName = "linechart";
             return <AntDesign name={iconName} size={24} color={color} />;
           }
         },
 
         tabBarActiveTintColor: "#FFFFFF",
-        tabBarInactiveTintColor: "#3E363F",
+        tabBarInactiveTintColor: "#6c757d",
         tabBarStyle: {
           backgroundColor: "#0f172a",
           borderTopWidth: 3,
