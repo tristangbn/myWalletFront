@@ -24,7 +24,7 @@ import TransactionCard from "../components/TransactionCard";
 
 function TransactionsScreen(props) {
   const isFocused = useIsFocused();
-  const [refreshing, setRefreshing] = React.useState(false);
+  // const [refreshing, setRefreshing] = React.useState(false);
 
   const token = props.authData[0].token;
   // console.log("PROPS", props.route.params);
@@ -99,7 +99,7 @@ function TransactionsScreen(props) {
         });
       headerData();
     }
-  }, [isFocused, refreshing]);
+  }, [isFocused]);
 
   const renderItem = ({ item, index }) => (
     <>
