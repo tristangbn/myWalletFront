@@ -38,7 +38,7 @@ const bottomNav = () => {
             return <Ionicons name={iconName} size={24} color={color} />;
           } else if (route.name === "Stock") {
             iconName = "linechart";
-            return <AntDesign name={iconName} size={24} color={color} />;
+            return <AntDesign name={iconName} size={25} color={color} />;
           }
         },
 

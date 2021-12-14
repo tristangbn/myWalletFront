@@ -2,8 +2,16 @@ import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { Box } from "native-base";
 
+import coinGeckoAPI from "../api/coinGecko";
+
 function StocksScreen(props) {
-  useEffect(() => {}, []);
+  useEffect(() => {
+    coinGeckoAPI
+      .get(
+        `/coins/markets?vs_currency=eur&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+      )
+      .then((response) => console.log(response.data));
+  }, []);
 
   return (
     <Box
