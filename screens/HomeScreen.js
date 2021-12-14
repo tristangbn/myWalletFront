@@ -32,6 +32,7 @@ function HomeScreen(props) {
 
   const [ownedCryptos, setOwnedCryptos] = useState([]);
   const [total, setTotal] = useState(0);
+  const [portfolioVariationInFiat, setPortfolioVariationInFiat] = useState(0);
 
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
@@ -53,6 +54,9 @@ function HomeScreen(props) {
         }
         setTotal(total);
         setOwnedCryptos(response.data.ownedCryptos);
+        setPortfolioVariationInFiat(
+          total - response.data.totalPortfolioInvestment
+        );
       })
       .then(() => setRefreshing(false));
   }
@@ -200,7 +204,7 @@ function HomeScreen(props) {
             elevation: 1,
           }}
         >
-          {"+550,09 +44,12%"}
+          {Math.round(portfolioVariationInFiat * 100) / 100}€ |
         </Text>
       </Box>
       <Box flex="1">
