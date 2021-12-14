@@ -2,7 +2,8 @@ import React from "react";
 import { Center, Box, Text, HStack, VStack, Image } from "native-base";
 
 import numeral from "numeral";
-import "numeral/locales/fr";
+import "numeral/locales";
+numeral.locale("fr");
 
 function CryptoCard(props) {
   const variationInFiat =

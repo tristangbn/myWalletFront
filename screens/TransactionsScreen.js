@@ -23,7 +23,8 @@ import myWalletAPI from "../api/myWallet";
 import TransactionCard from "../components/TransactionCard";
 
 import numeral from "numeral";
-import "numeral/locales/fr";
+import "numeral/locales";
+numeral.locale("fr");
 
 function TransactionsScreen(props) {
   const isFocused = useIsFocused();
