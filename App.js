@@ -53,8 +53,8 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
-      <Tab.Screen name="Settings" component={LogOutScreen} />
       <Tab.Screen name="Stock" component={StocksScreen} />
+      <Tab.Screen name="Settings" component={LogOutScreen} />
     </Tab.Navigator>
   );
 };
