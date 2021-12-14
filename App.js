@@ -50,7 +50,7 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
-      <Tab.Screen name="EditTransaction" component={EditTransactionScreen} />
+
       {/* <Tab.Screen name="ListTransactions" component={TransactionsScreen} /> */}
     </Tab.Navigator>
   );
@@ -144,6 +144,10 @@ function App() {
             <Stack.Screen
               name="AddTransaction"
               component={AddTransactionsScreen}
+            />
+            <Stack.Screen
+              name="EditTransaction"
+              component={EditTransactionScreen}
             />
           </Stack.Navigator>
         </NavigationContainer>
