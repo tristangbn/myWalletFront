@@ -23,7 +23,8 @@ import CryptoCard from "../components/CryptoCard";
 import myWalletAPI from "../api/myWallet";
 
 import numeral from "numeral";
-import "numeral/locales/fr";
+import "numeral/locales";
+numeral.locale("fr");
 
 const wait = (timeout) => {
   return new Promise((resolve) => setTimeout(resolve, timeout));

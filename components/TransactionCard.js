@@ -11,7 +11,8 @@ import {
 import { Platform } from "react-native";
 
 import numeral from "numeral";
-import "numeral/locales/fr";
+import "numeral/locales";
+numeral.locale("fr");
 
 function TransactionCard(props) {
   const cardHeight = 150;
