@@ -189,7 +189,7 @@ function HomeScreen(props) {
             true ? "#20BF55" : "#EF233C"
           } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
           shadow={{
-            shadowColor: true ? "#20BF55" : "#EF233C",
+            shadowColor: portfolioVariationInFiat >= 0 ? "#20BF55" : "#EF233C",
             shadowOffset: {
               width: -1,
               height: 1,
