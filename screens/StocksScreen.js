@@ -50,10 +50,9 @@ function StocksScreen(props) {
       <FlatList
         data={cryptoStocks}
         renderItem={({ item }) => (
-          <StockCard data={item} prices={item.prices} />
+          <StockCard data={item} prices={item.prices} mode={interval} />
         )}
         keyExtractor={(item) => item.id}
-        mb="32"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -112,9 +111,9 @@ function StocksScreen(props) {
           <Text>Follow owned cryptos</Text>
         </HStack>
       </Box>
-      <Flex>
+      <Box style={{ flex: 1 }}>
         <FlatListElements />
-      </Flex>
+      </Box>
     </Box>
   );
 }

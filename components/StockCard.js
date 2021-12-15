@@ -16,6 +16,13 @@ function StockCard(props) {
     datasets: [{ data: yAbs }],
   };
 
+  let price_variation;
+  if (props.mode === 7) {
+    price_variation = props.data.price_change_7d;
+  } else if (props.mode === 1) {
+    price_variation = props.data.price_change_24h;
+  }
+
   return (
     <Box _dark={{ bg: "blueGray.800" }} rounded="3xl" my="2" p="2">
       <HStack space="1" justifyContent="space-around" alignItems="center">
@@ -35,10 +42,9 @@ function StockCard(props) {
         <VStack>
           <Text>{numeral(props.data.currentPrice).format("0,0[.]00 $")}</Text>
           <Text
-            color={props.data.price_change_24h > 0 ? "#20BF55" : "#EF233C"}
+            color={price_variation > 0 ? "#20BF55" : "#EF233C"}
             shadow={{
-              shadowColor:
-                props.data.price_change_24h >= 0 ? "#20BF55" : "#EF233C",
+              shadowColor: price_variation >= 0 ? "#20BF55" : "#EF233C",
               shadowOffset: {
                 width: -1,
                 height: 1,
@@ -48,7 +54,7 @@ function StockCard(props) {
               elevation: 1,
             }}
           >
-            {`${numeral(props.data.price_change_24h).format("+0,0[.]00")}%`}
+            {`${numeral(price_variation).format("+0,0[.]00")}%`}
           </Text>
         </VStack>
         <Box pt="1">
@@ -60,7 +66,7 @@ function StockCard(props) {
               backgroundGradientFrom: "#1e293b",
               backgroundGradientTo: "#1e293b",
               color: () =>
-                props.data.price_change_24h >= 0
+                price_variation >= 0
                   ? `rgba(32, 191, 85, 0.8)`
                   : `rgba(239, 35, 60, 0.8)`,
               propsForBackgroundLines: {
