@@ -84,22 +84,42 @@ function TransactionsScreen(props) {
     });
   }
 
-  // function dateSort(
-  //   path = [],
-  //   comparator = (a, b) => b.getTime() - a.getTime()
-  // ) {
-  //   return (a, b) => {
-  //     let _a = a;
-  //     let _b = b;
-  //     for (let key of path) {
-  //       _a = _a[key];
-  //       _b = _b[key];
-  //     }
-  //     return comparator(_a, _b);
-  //   };
-  // }
+  function dateSort(
+    path = [],
+    comparator = (a, b) => new Date(b).getTime() - new Date(a).getTime()
+  ) {
+    return (a, b) => {
+      let _a = a;
+      let _b = b;
+      for (let key of path) {
+        _a = _a[key];
+        _b = _b[key];
+      }
+      return comparator(_a, _b);
+    };
+  }
 
-  // listTransactions.sort(dateSort(["date"]));
+  listTransactions.sort(dateSort(["date"]));
+
+  const dateFormat = (date) => {
+    if (Number(date.getMinutes()) < 10 && Number(date.getHours()) < 10) {
+      return `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()} at 0${date.getHours()}:0${date.getMinutes()}`;
+    } else if (Number(date.getMinutes() < 10)) {
+      return `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()} at ${date.getHours()}:0${date.getMinutes()}`;
+    } else if (Number(date.getHours() < 10)) {
+      return `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()} at 0${date.getHours()}:${date.getMinutes()}`;
+    } else {
+      return `${date.getDate()}/${
+        date.getMonth() + 1
+      }/${date.getFullYear()} at ${date.getHours()}:${date.getMinutes()}`;
+    }
+  };
 
   useEffect(() => {
     if (isFocused) {
@@ -122,19 +142,7 @@ function TransactionsScreen(props) {
     <>
       <TransactionCard
         key={index}
-        date={
-          Platform.OS === "android"
-            ? `${new Date(item.date).getDate()}/${
-                new Date(item.date).getMonth() + 1
-              }/${new Date(item.date).getFullYear()} ${new Date(
-                item.date
-              ).getHours()}:${new Date(item.date).getMinutes()}:${new Date(
-                item.date
-              ).getSeconds()}`
-            : new Date(item.date).toLocaleString("fr-FR", {
-                timeZone: "UTC",
-              })
-        }
+        date={dateFormat(new Date(item.date))}
         type={item.type}
         content={{
           currentPrice: props.route.params.currentPrice,
