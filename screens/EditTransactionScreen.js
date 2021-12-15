@@ -11,6 +11,8 @@ import {
   VStack,
   Input,
   ScrollView,
+  FormControl,
+  WarningOutlineIcon,
 } from "native-base";
 import { connect } from "react-redux";
 import myWalletAPI from "../api/myWallet";
@@ -44,6 +46,7 @@ function EditTransactionScreen(props) {
     new Date(props.route.params.transaction.date)
   );
   const [mode, setMode] = useState("date");
+  const [errorMessage, setErrorMessage] = useState([]);
 
   // Date Input
   const [show, setShow] = useState(false);
@@ -57,6 +60,12 @@ function EditTransactionScreen(props) {
     } else if (event.type === "set" && mode === "time") {
       setShow(false);
     }
+  };
+
+  const handleErrorMessage = (field, errorArray) => {
+    return errorArray.length > 0 && errorArray.find((el) => el.param === field)
+      ? errorArray.find((el) => el.param === field).msg
+      : null;
   };
 
   const showMode = (currentMode) => {
@@ -156,34 +165,36 @@ function EditTransactionScreen(props) {
         token,
         type: props.route.params.transaction.type,
         id: props.route.params.transaction.crypto,
-        platform,
+        platform: type !== "transfer" ? platform : "0",
         pair,
         date,
-        price: price.replace(regex, "."),
+        price: type !== "transfer" ? price.replace(regex, ".") : "0",
         quantity: quantity.replace(regex, "."),
         fees: fees.replace(regex, "."),
-        from,
-        to,
+        from: type === "transfer" ? from : "0",
+        to: type === "transfer" ? to : "0",
       })
       .then((response) => {
-        console.log(response.data);
-        props.navigation.navigate("ListTransactions", {
-          id: props.route.params.transaction.crypto,
-          symbol: props.route.params.symbol,
-          currentPrice: props.route.params.currentPrice,
-          totalQuantity:
-            type === "buy"
-              ? props.route.params.totalQuantity -
-                Number(props.route.params.transaction.quantity) +
-                Number(quantity)
-              : type === "sell"
-              ? props.route.params.totalQuantity +
-                Number(props.route.params.transaction.quantity) -
-                Number(quantity)
-              : props.route.params.totalQuantity +
-                Number(props.route.params.transaction.fees) -
-                Number(fees),
-        });
+        if (response.data.errors) setErrorMessage(response.data.errors);
+        else {
+          props.navigation.navigate("ListTransactions", {
+            id: props.route.params.transaction.crypto,
+            symbol: props.route.params.symbol,
+            currentPrice: props.route.params.currentPrice,
+            totalQuantity:
+              type === "buy"
+                ? props.route.params.totalQuantity -
+                  Number(props.route.params.transaction.quantity) +
+                  Number(quantity)
+                : type === "sell"
+                ? props.route.params.totalQuantity +
+                  Number(props.route.params.transaction.quantity) -
+                  Number(quantity)
+                : props.route.params.totalQuantity +
+                  Number(props.route.params.transaction.fees) -
+                  Number(fees),
+          });
+        }
       });
   };
 
@@ -216,52 +227,93 @@ function EditTransactionScreen(props) {
     inputs = (
       <>
         <VStack mt="20px" alignItems="center" px="2" space={4}>
-          <Select
-            selectedValue={platform}
-            minW="100%"
-            height="12"
-            placeholder="Platform"
-            _selectedItem={{
-              bg: "violet.900",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setPlatform(itemValue)}
+          <FormControl
+            isRequired
+            isInvalid={
+              handleErrorMessage("platform", errorMessage) ? true : false
+            }
           >
-            {listExchanges}
-          </Select>
-          <Select
-            selectedValue={pair}
-            minW="100%"
-            height="12"
-            placeholder="Exchange pair"
-            _selectedItem={{
-              bg: "violet.900",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setPair(itemValue)}
+            <Select
+              selectedValue={platform}
+              minW="100%"
+              height="12"
+              placeholder="Platform"
+              _selectedItem={{
+                bg: "violet.900",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              onValueChange={(itemValue) => setPlatform(itemValue)}
+            >
+              {listExchanges}
+            </Select>
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("platform", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("pair", errorMessage) ? true : false}
           >
-            {listPaires}
-          </Select>
-
-          <Input
-            _focus={{ borderColor: "violet.900" }}
-            placeholder="Buying Price"
-            minW="100%"
-            height="12"
-            type="number"
-            value={price}
-            onChangeText={(itemValue) => setPrice(itemValue)}
-          />
-
-          <Input
-            _focus={{ borderColor: "violet.900" }}
-            placeholder="Quantity"
-            minW="100%"
-            height="12"
-            value={quantity}
-            onChangeText={(itemValue) => setQuantity(itemValue)}
-          />
-
+            <Select
+              selectedValue={pair}
+              minW="100%"
+              height="12"
+              placeholder="Exchange pair"
+              _selectedItem={{
+                bg: "violet.900",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              onValueChange={(itemValue) => setPair(itemValue)}
+            >
+              {listPaires}
+            </Select>
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("pair", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("price", errorMessage) ? true : false}
+          >
+            <Input
+              _focus={{ borderColor: "violet.900" }}
+              placeholder="Buying Price"
+              minW="100%"
+              height="12"
+              type="number"
+              value={price}
+              onChangeText={(itemValue) => setPrice(itemValue)}
+            />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("price", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={
+              handleErrorMessage("quantity", errorMessage) ? true : false
+            }
+          >
+            <Input
+              _focus={{ borderColor: "violet.900" }}
+              placeholder="Quantity"
+              minW="100%"
+              height="12"
+              value={quantity}
+              onChangeText={(itemValue) => setQuantity(itemValue)}
+            />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("quantity", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
@@ -303,51 +355,92 @@ function EditTransactionScreen(props) {
     inputs = (
       <>
         <VStack mt="20px" alignItems="center" px="2" space={4}>
-          <Select
-            selectedValue={platform}
-            minW="100%"
-            height="12"
-            placeholder="Platform"
-            _selectedItem={{
-              bg: "violet.900",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setPlatform(itemValue)}
+          <FormControl
+            isRequired
+            isInvalid={
+              handleErrorMessage("platform", errorMessage) ? true : false
+            }
           >
-            {listExchanges}
-          </Select>
-          <Select
-            selectedValue={pair}
-            minW="100%"
-            height="12"
-            placeholder="Exchange pair"
-            _selectedItem={{
-              bg: "violet.900",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setPair(itemValue)}
+            <Select
+              selectedValue={platform}
+              minW="100%"
+              height="12"
+              placeholder="Platform"
+              _selectedItem={{
+                bg: "violet.900",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              onValueChange={(itemValue) => setPlatform(itemValue)}
+            >
+              {listExchanges}
+            </Select>
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("platform", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("pair", errorMessage) ? true : false}
           >
-            {listPaires}
-          </Select>
-
-          <Input
-            _focus={{ borderColor: "violet.900" }}
-            placeholder="Selling Price"
-            minW="100%"
-            height="12"
-            value={price}
-            onChangeText={(itemValue) => setPrice(itemValue)}
-          />
-
-          <Input
-            _focus={{ borderColor: "violet.900" }}
-            placeholder="Quantity"
-            minW="100%"
-            height="12"
-            value={quantity}
-            onChangeText={(itemValue) => setQuantity(itemValue)}
-          />
-
+            <Select
+              selectedValue={pair}
+              minW="100%"
+              height="12"
+              placeholder="Exchange pair"
+              _selectedItem={{
+                bg: "violet.900",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              onValueChange={(itemValue) => setPair(itemValue)}
+            >
+              {listPaires}
+            </Select>
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("pair", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("price", errorMessage) ? true : false}
+          >
+            <Input
+              _focus={{ borderColor: "violet.900" }}
+              placeholder="Selling Price"
+              minW="100%"
+              height="12"
+              value={price}
+              onChangeText={(itemValue) => setPrice(itemValue)}
+            />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("price", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={
+              handleErrorMessage("quantity", errorMessage) ? true : false
+            }
+          >
+            <Input
+              _focus={{ borderColor: "violet.900" }}
+              placeholder="Quantity"
+              minW="100%"
+              height="12"
+              value={quantity}
+              onChangeText={(itemValue) => setQuantity(itemValue)}
+            />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("quantity", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"
@@ -384,42 +477,72 @@ function EditTransactionScreen(props) {
     inputs = (
       <>
         <VStack mt="20px" alignItems="center" px="2" space={4}>
-          <Select
-            selectedValue={from}
-            minW="100%"
-            height="12"
-            placeholder="From"
-            _selectedItem={{
-              bg: "violet.900",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setFrom(itemValue)}
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("from", errorMessage) ? true : false}
           >
-            {listExchanges}
-          </Select>
-          <Select
-            selectedValue={to}
-            minW="100%"
-            height="12"
-            placeholder="To"
-            _selectedItem={{
-              bg: "violet.900",
-              endIcon: <CheckIcon size="5" />,
-            }}
-            onValueChange={(itemValue) => setTo(itemValue)}
+            <Select
+              selectedValue={from}
+              minW="100%"
+              height="12"
+              placeholder="From"
+              _selectedItem={{
+                bg: "violet.900",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              onValueChange={(itemValue) => setFrom(itemValue)}
+            >
+              {listExchanges}
+            </Select>
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("from", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={handleErrorMessage("to", errorMessage) ? true : false}
           >
-            {listExchanges}
-          </Select>
-
-          <Input
-            _focus={{ borderColor: "violet.900" }}
-            placeholder="Quantity"
-            minW="100%"
-            height="12"
-            value={quantity}
-            onChangeText={(itemValue) => setQuantity(itemValue)}
-          />
-
+            <Select
+              selectedValue={to}
+              minW="100%"
+              height="12"
+              placeholder="To"
+              _selectedItem={{
+                bg: "violet.900",
+                endIcon: <CheckIcon size="5" />,
+              }}
+              onValueChange={(itemValue) => setTo(itemValue)}
+            >
+              {listExchanges}
+            </Select>
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("to", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
+          <FormControl
+            isRequired
+            isInvalid={
+              handleErrorMessage("quantity", errorMessage) ? true : false
+            }
+          >
+            <Input
+              _focus={{ borderColor: "violet.900" }}
+              placeholder="Quantity"
+              minW="100%"
+              height="12"
+              value={quantity}
+              onChangeText={(itemValue) => setQuantity(itemValue)}
+            />
+            <FormControl.ErrorMessage
+              leftIcon={<WarningOutlineIcon size="xs" />}
+            >
+              {handleErrorMessage("quantity", errorMessage)}
+            </FormControl.ErrorMessage>
+          </FormControl>
           <Input
             _focus={{ borderColor: "violet.900" }}
             placeholder="Platform fees"

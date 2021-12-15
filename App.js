@@ -18,6 +18,7 @@ import LogOutScreen from "./screens/LogOutScreen";
 import authData from "./reducers/auth.reducer";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
+import StocksScreen from "./screens/StocksScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,6 +34,8 @@ const bottomNav = () => {
             iconName = focused ? "wallet" : "wallet-outline";
           } else if (route.name === "Settings") {
             iconName = focused ? "settings" : "settings-outline";
+          } else if (route.name === "Stocks") {
+            iconName = focused ? "bar-chart" : "bar-chart-outline";
           }
           return <Ionicons name={iconName} size={25} color={color} />;
         },
@@ -48,6 +51,7 @@ const bottomNav = () => {
       })}
     >
       <Tab.Screen name="Wallet" component={HomeScreen} />
+      <Tab.Screen name="Stocks" component={StocksScreen} />
       <Tab.Screen name="Settings" component={LogOutScreen} />
     </Tab.Navigator>
   );
