@@ -53,7 +53,6 @@ function StocksScreen(props) {
           <StockCard data={item} prices={item.prices} />
         )}
         keyExtractor={(item) => item.id}
-        mb="32"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -112,9 +111,9 @@ function StocksScreen(props) {
           <Text>Follow owned cryptos</Text>
         </HStack>
       </Box>
-      <Flex>
+      <Box flex="1">
         <FlatListElements />
-      </Flex>
+      </Box>
     </Box>
   );
 }
