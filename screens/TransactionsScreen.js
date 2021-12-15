@@ -13,15 +13,13 @@ import {
   Pressable,
   Icon,
 } from "native-base";
+
 import { SwipeListView } from "react-native-swipe-list-view";
-
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
-
 import { Platform } from "react-native";
 import myWalletAPI from "../api/myWallet";
 
 import TransactionCard from "../components/TransactionCard";
-
 import numeral from "numeral";
 import "numeral/locales";
 numeral.locale("fr");
@@ -64,6 +62,7 @@ function TransactionsScreen(props) {
     let sellingPricesTotal = 0;
     const sellTransactions = transactions.filter((e) => e.type === "sell");
     for (let transaction of sellTransactions) {
+      totalCosts -= transaction.price * transaction.quantity + transaction.fees;
       sellingPricesTotal += transaction.price;
     }
 
@@ -129,7 +128,7 @@ function TransactionsScreen(props) {
                 item.date
               ).getHours()}:${new Date(item.date).getMinutes()}:${new Date(
                 item.date
-              ).getSeconds()}`
+              )}`
             : new Date(item.date).toLocaleString("fr-FR", {
                 timeZone: "UTC",
               })

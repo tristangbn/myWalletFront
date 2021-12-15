@@ -24,6 +24,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "axios": "^0.24.0",
     "expo": "~42.0.0",
+    "expo-chart-kit": "^1.2.4",
     "expo-status-bar": "~1.0.4",
     "native-base": "3.2.1",
     "numeral": "^2.0.6",
