@@ -16,15 +16,18 @@ function StocksScreen(props) {
   const [cryptoStocks1, setCryptoStocks1] = useState([]);
   const [interval, setInterval] = useState(7);
   const [refreshing, setRefreshing] = useState(false);
+  const [toggle, setToggle] = useState(false);
 
   function LoadData() {
-    myWalletAPI.get(`/stocks/${token}/${interval}`).then((response) => {
-      if (interval === 7) {
-        setCryptoStocks7(response.data.cryptos);
-      } else if (interval === 1) {
-        setCryptoStocks1(response.data.cryptos);
-      }
-    });
+    myWalletAPI
+      .get(`/stocks/${token}/${interval}/${toggle}`)
+      .then((response) => {
+        if (interval === 7) {
+          setCryptoStocks7(response.data.cryptos);
+        } else if (interval === 1) {
+          setCryptoStocks1(response.data.cryptos);
+        }
+      });
     wait(2000).then(() => setRefreshing(false));
   }
 
@@ -33,7 +36,7 @@ function StocksScreen(props) {
       console.log("<--------STOCKSCREEN-------->");
       LoadData();
     }
-  }, [interval]);
+  }, [interval, toggle]);
 
   function FlatListElements() {
     let cryptoStocks;
@@ -99,6 +102,15 @@ function StocksScreen(props) {
             7 days
           </Button>
         </Button.Group>
+        <HStack alignItems="center" mt="2">
+          <Switch
+            size="sm"
+            onToggle={() => setToggle(!toggle)}
+            isChecked={toggle}
+            onTrackColor="violet.800"
+          />
+          <Text>Follow owned cryptos</Text>
+        </HStack>
       </Box>
       <Flex>
         <FlatListElements />
