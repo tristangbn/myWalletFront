@@ -17,7 +17,7 @@ import myWalletAPI from "../api/myWallet";
 
 function EditTransactionScreen(props) {
   const token = props.authData[0].token;
-  const user = props.authData[0].firstName;
+  // const user = props.authData[0].firstName;
 
   const [type, setType] = useState(props.route.params.transaction.type);
 

@@ -50,8 +50,8 @@ const bottomNav = () => {
         headerShown: false,
       })}
     >
-      <Tab.Screen name="Stock" component={StocksScreen} />
       <Tab.Screen name="Wallet" component={HomeScreen} />
+      <Tab.Screen name="Stock" component={StocksScreen} />
       <Tab.Screen name="Settings" component={LogOutScreen} />
     </Tab.Navigator>
   );

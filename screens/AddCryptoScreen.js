@@ -9,11 +9,10 @@ import {
   Input,
   Icon,
   Pressable,
-  ScrollView,
 } from "native-base";
 import { connect } from "react-redux";
 import coinGeckoAPI from "../api/coinGecko";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import myWalletAPI from "../api/myWallet";
 
 const AddCryptoScreen = (props) => {

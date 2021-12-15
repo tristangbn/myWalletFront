@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Text,
@@ -8,7 +8,6 @@ import {
   Circle,
   Pressable,
 } from "native-base";
-import { Platform } from "react-native";
 
 import numeral from "numeral";
 import "numeral/locales";
@@ -132,35 +131,18 @@ function TransactionCard(props) {
                             elevation: 1,
                           }}
                         >
-                          {positive
-                            ? `${numeral(
-                                Math.round(
-                                  (((props.content.quantity *
-                                    props.content.currentPrice -
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100) /
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100
-                                ) / 100
-                              ).format("+0,0.00")} %`
-                            : `${numeral(
-                                Math.round(
-                                  (((props.content.quantity *
-                                    props.content.currentPrice -
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100) /
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100
-                                ) / 100
-                              ).format("0,0.00")} %`}
+                          {`${numeral(
+                            Math.round(
+                              (((props.content.quantity *
+                                props.content.currentPrice -
+                                (props.content.price * props.content.quantity +
+                                  props.content.fees)) *
+                                100) /
+                                (props.content.price * props.content.quantity +
+                                  props.content.fees)) *
+                                100
+                            ) / 100
+                          ).format("+0,0.00")} %`}
                         </Text>
                       </Box>
                     </HStack>
