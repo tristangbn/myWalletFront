@@ -16,7 +16,6 @@ function StocksScreen(props) {
   const [cryptoStocks1, setCryptoStocks1] = useState([]);
   const [interval, setInterval] = useState(7);
   const [refreshing, setRefreshing] = useState(false);
-  const [toggleState, setToggleState] = useState(true);
 
   function LoadData() {
     myWalletAPI.get(`/stocks/${token}/${interval}`).then((response) => {
@@ -48,10 +47,10 @@ function StocksScreen(props) {
       <FlatList
         data={cryptoStocks}
         renderItem={({ item }) => (
-          <StockCard data={item} prices={item.prices} mode={toggleState} />
+          <StockCard data={item} prices={item.prices} />
         )}
         keyExtractor={(item) => item.id}
-        // mb="60"
+        mb="32"
         refreshControl={
           <RefreshControl
             refreshing={refreshing}
@@ -78,14 +77,6 @@ function StocksScreen(props) {
           <Text fontSize="3xl" fontWeight="bold" mx="6">
             Stocks
           </Text>
-          <Switch
-            size="sm"
-            onToggle={() => setToggleState(!toggleState)}
-            isChecked={toggleState}
-            onTrackColor="violet.700"
-            // onThumbColor="violet.900"
-          />
-          <Text>Price values {toggleState ? "shown" : "hidden"}</Text>
         </HStack>
         <Text>
           Variations during {interval === 7 ? `last 7 days` : `last 24 hours`}
