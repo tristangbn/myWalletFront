@@ -64,6 +64,7 @@ function TransactionsScreen(props) {
     let sellingPricesTotal = 0;
     const sellTransactions = transactions.filter((e) => e.type === "sell");
     for (let transaction of sellTransactions) {
+      totalCosts -= transaction.price * transaction.quantity + transaction.fees;
       sellingPricesTotal += transaction.price;
     }
 
