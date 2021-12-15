@@ -49,8 +49,8 @@ function HomeScreen(props) {
       .then((response) => {
         let total = 0;
         if (
-          response.data.ownedCryptos.length > 0 &&
-          response.data.ownedCryptos
+          response.data.ownedCryptos &&
+          response.data.ownedCryptos.length > 0
         ) {
           for (let i = 0; i < response.data.ownedCryptos.length; i++) {
             total +=
