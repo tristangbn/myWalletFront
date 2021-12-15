@@ -17,9 +17,9 @@ function StockCard(props) {
   };
 
   let price_variation;
-  if (props.mode === 7) {
+  if (props.days === 7) {
     price_variation = props.data.price_change_7d;
-  } else if (props.mode === 1) {
+  } else if (props.days === 1) {
     price_variation = props.data.price_change_24h;
   }
 

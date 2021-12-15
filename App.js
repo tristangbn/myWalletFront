@@ -1,3 +1,6 @@
+import { LogBox } from "react-native";
+LogBox.ignoreLogs(["Warning: ..."]);
+
 import React, { useEffect } from "react";
 import { NativeBaseProvider, extendTheme, StatusBar } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
