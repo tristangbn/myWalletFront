@@ -111,7 +111,7 @@ function StocksScreen(props) {
           <Text>Follow owned cryptos</Text>
         </HStack>
       </Box>
-      <Box style={{ flex: 1 }}>
+      <Box flex="1">
         <FlatListElements />
       </Box>
     </Box>
