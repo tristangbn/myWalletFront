@@ -19,11 +19,16 @@ import { Platform } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 import CryptoCard from "../components/CryptoCard";
+
 import myWalletAPI from "../api/myWallet";
 
-// const wait = (timeout) => {
-//   return new Promise((resolve) => setTimeout(resolve, timeout));
-// };
+import numeral from "numeral";
+import "numeral/locales";
+numeral.locale("fr");
+
+const wait = (timeout) => {
+  return new Promise((resolve) => setTimeout(resolve, timeout));
+};
 
 function HomeScreen(props) {
   const [refreshing, setRefreshing] = useState(false);
@@ -31,6 +36,9 @@ function HomeScreen(props) {
 
   const [ownedCryptos, setOwnedCryptos] = useState([]);
   const [total, setTotal] = useState(0);
+  const [portfolioVariationInFiat, setPortfolioVariationInFiat] = useState(0);
+  const [portfolioVariationInPercent, setPortfolioVariationInPercent] =
+    useState(0);
 
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
@@ -52,6 +60,12 @@ function HomeScreen(props) {
         }
         setTotal(total);
         setOwnedCryptos(response.data.ownedCryptos);
+        setPortfolioVariationInFiat(
+          total - response.data.totalPortfolioInvestment
+        );
+        setPortfolioVariationInPercent(
+          response.data.portfolioVariationInPercent
+        );
       })
       .then(() => setRefreshing(false));
   }
@@ -135,8 +149,7 @@ function HomeScreen(props) {
                         symbol: item.symbol,
                         image: item.image,
                         name: item.name,
-                        totalQuantity:
-                          Math.round(item.totalQuantity * 100) / 100,
+                        totalQuantity: item.totalQuantity,
                         currentPrice: item.currentPrice,
                         totalInvestment: item.totalInvestment,
                       }}
@@ -179,14 +192,14 @@ function HomeScreen(props) {
           {user + "'s Portfolio"}
         </Text>
         <Text fontSize="3xl" fontWeight="bold" textAlign="center">
-          {Math.round(total * 100) / 100 + " €"}
+          {numeral(Math.round(total * 100) / 100).format("0,0[.]00 $")}
         </Text>
         <Text
           fontSize="md"
           fontWeight="light"
           textAlign="center"
           color={
-            true ? "#20BF55" : "#EF233C"
+            portfolioVariationInFiat >= 0 ? "#20BF55" : "#EF233C"
           } /* Condition à remplacer [true] pour changer la couleur du texte (selon le signe de l'array affichée en dessous) */
           shadow={{
             shadowColor: portfolioVariationInFiat >= 0 ? "#20BF55" : "#EF233C",
@@ -199,7 +212,14 @@ function HomeScreen(props) {
             elevation: 1,
           }}
         >
-          {"+550,09 +44,12%"}
+          {numeral(Math.round(portfolioVariationInFiat * 100) / 100).format(
+            "0,0[.]00 $"
+          )}{" "}
+          |{" "}
+          {numeral(Math.round(portfolioVariationInPercent * 100) / 100).format(
+            "+0.00"
+          )}
+          %
         </Text>
       </Box>
       <Box flex="1">

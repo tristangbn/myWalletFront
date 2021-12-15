@@ -128,7 +128,7 @@ function TransactionsScreen(props) {
                 item.date
               ).getHours()}:${new Date(item.date).getMinutes()}:${new Date(
                 item.date
-              ).getSeconds()}`
+              )}`
             : new Date(item.date).toLocaleString("fr-FR", {
                 timeZone: "UTC",
               })

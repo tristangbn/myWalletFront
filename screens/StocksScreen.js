@@ -85,7 +85,7 @@ function StocksScreen(props) {
             onTrackColor="violet.700"
             // onThumbColor="violet.900"
           />
-          <Text>Show price values</Text>
+          <Text>Price values {toggleState ? "shown" : "hidden"}</Text>
         </HStack>
         <Text>
           Variations during {interval === 7 ? `last 7 days` : `last 24 hours`}
