@@ -125,6 +125,7 @@ function HomeScreen(props) {
                   image: item.image,
                   currentPrice: item.currentPrice,
                   totalQuantity: item.totalQuantity,
+                  name: item.name,
                 })
               }
             >
@@ -214,7 +215,20 @@ function HomeScreen(props) {
         </Text>
       </Box>
       <Box flex="1">
-        <SwipeableList />
+        {ownedCryptos.length !== 0 ? (
+          <SwipeableList />
+        ) : (
+          <Box
+            style={{ flex: 1 }}
+            alignSelf="center"
+            justifyContent="center"
+            w="64"
+          >
+            <Text textAlign="center" fontSize="xl">
+              Hit + to add a crypto to your portfolio
+            </Text>
+          </Box>
+        )}
         <Flex justifyContent="flex-end">
           <Button
             bottom="3"

@@ -49,7 +49,7 @@ const bottomNav = () => {
           backgroundColor: "#0f172a",
           borderTopWidth: 3,
           borderTopColor: "#1e293b",
-          paddingBottom: 4,
+          // paddingBottom: 4,
         },
         headerShown: false,
       })}
@@ -127,10 +127,7 @@ function App() {
   return (
     <Provider store={store}>
       <NativeBaseProvider theme={customTheme}>
-        <StatusBar
-          barStyle={Platform.OS === "android" && "light-content"}
-          backgroundColor={"#0f172a"}
-        />
+        <StatusBar barStyle="light-content" backgroundColor={"#0f172a"} />
         <NavigationContainer>
           <Stack.Navigator
             screenOptions={{

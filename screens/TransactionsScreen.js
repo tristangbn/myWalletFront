@@ -378,7 +378,20 @@ function TransactionsScreen(props) {
         </HStack>
       </VStack>
 
-      <SwipeList />
+      {listTransactions.length !== 0 ? (
+        <SwipeList />
+      ) : (
+        <Box
+          style={{ flex: 1 }}
+          alignSelf="center"
+          justifyContent="center"
+          w="64"
+        >
+          <Text textAlign="center" fontSize="xl">
+            Hit + to add a transaction for {props.route.params.name}
+          </Text>
+        </Box>
+      )}
     </Box>
   );
 }
