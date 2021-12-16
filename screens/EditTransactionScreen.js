@@ -160,7 +160,7 @@ function EditTransactionScreen(props) {
     const regex = /,/g;
 
     myWalletAPI
-      .put("/update-transaction", {
+      .put("/transactions/update-transaction", {
         _id: props.route.params.transaction._id,
         token,
         type: props.route.params.transaction.type,

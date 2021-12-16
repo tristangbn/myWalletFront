@@ -37,7 +37,7 @@ const SignInScreen = (props) => {
         if (props.authData.length === 0) props.onLogin(userData);
 
         myWalletAPI
-          .post("/sign-in-token", { token: userData.token })
+          .post("/users/sign-in-token", { token: userData.token })
           .then((response) => {
             if (response.data.result) props.navigation.navigate("bottomNav");
           });
@@ -48,7 +48,7 @@ const SignInScreen = (props) => {
 
   const login = () => {
     myWalletAPI
-      .post("/sign-in", {
+      .post("/users/sign-in", {
         email: email,
         password: password,
       })

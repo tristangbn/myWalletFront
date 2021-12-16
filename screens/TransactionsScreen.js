@@ -125,7 +125,9 @@ function TransactionsScreen(props) {
     if (isFocused) {
       console.log("<-----LIST TRANSACTIONS----->");
       myWalletAPI
-        .get(`/list-transactions/${token}/${props.route.params.id}`)
+        .get(
+          `/transactions/list-transactions/${token}/${props.route.params.id}`
+        )
         .then((response) => {
           if (response.data.result) {
             setListTransactions(response.data.transactions);
@@ -161,12 +163,14 @@ function TransactionsScreen(props) {
 
   const deleteRow = (crypto, id) => {
     myWalletAPI
-      .delete(`/delete-transaction/${token}/${crypto}/${id}`)
+      .delete(`/transactions/delete-transaction/${token}/${crypto}/${id}`)
       .then((response) => {
         const totalQuantity = response.data.totalQuantity;
         if (response.data.result) {
           myWalletAPI
-            .get(`/list-transactions/${token}/${props.route.params.id}`)
+            .get(
+              `/transactions/list-transactions/${token}/${props.route.params.id}`
+            )
             .then((response) => {
               if (response.data.result) {
                 setListTransactions(response.data.transactions);

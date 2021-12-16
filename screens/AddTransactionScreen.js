@@ -155,7 +155,7 @@ function AddTransactionScreen(props) {
     const regex = /,/g;
 
     myWalletAPI
-      .post("/add-transaction", {
+      .post("/transactions/add-transaction", {
         token,
         type,
         id: props.route.params.id,

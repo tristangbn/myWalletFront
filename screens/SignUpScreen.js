@@ -35,7 +35,7 @@ const SignUpScreen = (props) => {
 
   const signUp = () => {
     myWalletAPI
-      .post("/sign-up", {
+      .post("/users/sign-up", {
         firstName: firstName,
         lastName: lastName,
         email: email,

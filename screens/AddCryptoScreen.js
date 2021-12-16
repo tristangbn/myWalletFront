@@ -56,7 +56,7 @@ const AddCryptoScreen = (props) => {
 
   const addCrypto = (id) => {
     myWalletAPI
-      .post("/add-crypto", {
+      .post("/cryptos/add-crypto", {
         id: id,
         token,
       })

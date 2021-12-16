@@ -45,7 +45,7 @@ function HomeScreen(props) {
 
   function LoadCryptoList() {
     myWalletAPI
-      .get(`/list-crypto/${token}`)
+      .get(`/cryptos/list-crypto/${token}`)
       .then((response) => {
         let total = 0;
         if (
@@ -79,11 +79,13 @@ function HomeScreen(props) {
 
   function SwipeableList() {
     const deleteRow = (id) => {
-      myWalletAPI.delete(`/delete-crypto/${id}/${token}`).then((response) => {
-        if (response.data) {
-          LoadCryptoList();
-        }
-      });
+      myWalletAPI
+        .delete(`/cryptos/delete-crypto/${id}/${token}`)
+        .then((response) => {
+          if (response.data) {
+            LoadCryptoList();
+          }
+        });
     };
 
     const renderHiddenItem = (data) => (

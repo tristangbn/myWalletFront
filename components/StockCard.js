@@ -24,7 +24,7 @@ function StockCard(props) {
   }
 
   return (
-    <Box _dark={{ bg: "blueGray.800" }} rounded="3xl" my="2" p="2">
+    <Box _dark={{ bg: "blueGray.800" }} rounded="3xl" my="1" p="2">
       <HStack space="1" justifyContent="space-around" alignItems="center">
         <HStack space="4">
           <Image
