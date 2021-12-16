@@ -22,10 +22,12 @@ function StocksScreen(props) {
     myWalletAPI
       .get(`/stocks/${token}/${interval}/${toggle}`)
       .then((response) => {
-        if (interval === 7) {
-          setCryptoStocks7(response.data.cryptos);
-        } else if (interval === 1) {
-          setCryptoStocks1(response.data.cryptos);
+        if (response.data.result) {
+          if (interval === 7) {
+            setCryptoStocks7(response.data.cryptos);
+          } else if (interval === 1) {
+            setCryptoStocks1(response.data.cryptos);
+          }
         }
       });
     wait(2000).then(() => setRefreshing(false));
