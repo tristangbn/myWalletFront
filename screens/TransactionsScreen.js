@@ -28,12 +28,10 @@ numeral.locale("fr");
 
 function TransactionsScreen(props) {
   const isFocused = useIsFocused();
-  // const [refreshing, setRefreshing] = React.useState(false);
-
   const token = props.authData[0].token;
-  // console.log("PROPS", props.route.params);
+
   const [listTransactions, setListTransactions] = useState([]);
-  // console.log("ListTransactions", listTransactions);
+
   const [header, setHeader] = useState({
     benefits: 0,
     averageBuyPrice: 0,
@@ -144,7 +142,11 @@ function TransactionsScreen(props) {
     <>
       <TransactionCard
         key={index}
-        date={dateFormat(new Date(item.date))}
+        date={
+          Platform === "android"
+            ? dateFormat(new Date(item.date))
+            : new Date(item.date).toLocaleString("en-GB")
+        }
         type={item.type}
         content={{
           currentPrice: props.route.params.currentPrice,
@@ -329,7 +331,7 @@ function TransactionsScreen(props) {
           </Center>
         </HStack>
       </Center>
-      {/* {listTransactions.length === 0 ? ( */}
+
       <VStack alignItems="center" px="3" w="100%">
         <HStack mt="4" mb="4" w="100%">
           <Button

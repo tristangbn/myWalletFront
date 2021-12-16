@@ -49,6 +49,7 @@ const bottomNav = () => {
           backgroundColor: "#0f172a",
           borderTopWidth: 3,
           borderTopColor: "#1e293b",
+          paddingBottom: 4,
         },
         headerShown: false,
       })}

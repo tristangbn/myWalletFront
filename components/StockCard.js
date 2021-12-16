@@ -78,7 +78,6 @@ function StockCard(props) {
             withVerticalLabels={false}
             withDots={false}
             style={{ paddingRight: 0, paddingTop: 2, paddingBottom: -3 }}
-            // paddingLeft={"-10"}
           />
         </Box>
       </HStack>

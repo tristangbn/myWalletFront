@@ -56,8 +56,6 @@ const SignUpScreen = (props) => {
       });
   };
 
-  // console.log(errorMessage);
-
   return (
     <Center
       flex={1}

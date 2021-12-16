@@ -13,7 +13,7 @@ import {
 } from "native-base";
 import { connect } from "react-redux";
 import coinGeckoAPI from "../api/coinGecko";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import myWalletAPI from "../api/myWallet";
 
 const AddCryptoScreen = (props) => {
@@ -29,7 +29,6 @@ const AddCryptoScreen = (props) => {
           vs_currency: "eur",
           order: "market_cap_desc",
           per_page: 500,
-          // page: 1,
           sparkline: false,
         },
       })
@@ -42,13 +41,9 @@ const AddCryptoScreen = (props) => {
   const handleSearch = (query) => {
     const formattedQuery = query.toLowerCase();
     let filteredData = [];
-    // if (query === "") {
-    //   filteredData = [];
-    // } else {
     filteredData = coinList.filter((crypto) => {
       return crypto.id.includes(formattedQuery);
     });
-    // }
 
     setFilteredList(filteredData);
     setQuery(query);
@@ -61,7 +56,9 @@ const AddCryptoScreen = (props) => {
         token,
       })
       .then((response) => {
-        props.navigation.navigate("bottomNav");
+        if (response.data.result) {
+          props.navigation.navigate("bottomNav");
+        }
       });
   };
 
@@ -74,10 +71,8 @@ const AddCryptoScreen = (props) => {
           placeholder="Search"
           variant="filled"
           size="xl"
-          // width="100%"
           bg="blueGray.800"
           borderRadius="10"
-          // py="1"
           px="2"
           placeholderTextColor="white"
           _hover={{ bg: "gray.200", borderWidth: 0 }}
@@ -105,14 +100,10 @@ const AddCryptoScreen = (props) => {
       h="100%"
       flex={1}
       px="3"
-      // width="100%"
       _dark={{ bg: "blueGray.900" }}
     >
       <Box
         p="10"
-        // pt="10"
-        // mt="5"
-        // placement="top"
         justifyContent="center"
         alignItems="center"
         rounded="2xl"
@@ -123,7 +114,6 @@ const AddCryptoScreen = (props) => {
           fontSize: "2xl",
           fontWeight: "bold",
           color: "#ffffff",
-          // letterSpacing: "lg",
         }}
       >
         Add a crypto
