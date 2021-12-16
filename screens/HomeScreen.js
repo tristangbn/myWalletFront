@@ -15,7 +15,6 @@ import {
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
 
 import { connect } from "react-redux";
-import { Platform } from "react-native";
 import { SwipeListView } from "react-native-swipe-list-view";
 
 import CryptoCard from "../components/CryptoCard";
@@ -180,14 +179,7 @@ function HomeScreen(props) {
 
   return (
     <Box flex="1" _dark={{ bg: "blueGray.900" }} px="2" safeArea>
-      <Box
-        _dark={{ bg: "blueGray.800" }}
-        w="100%"
-        rounded="xl"
-        p="5"
-        mb="2"
-        // pt={Platform.OS === "ios" ? "10" : "5"}
-      >
+      <Box _dark={{ bg: "blueGray.800" }} w="100%" rounded="xl" p="5" mb="2">
         <Text fontSize="4xl" fontWeight="bold" textAlign="center">
           {user + "'s Portfolio"}
         </Text>

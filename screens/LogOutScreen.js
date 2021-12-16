@@ -33,7 +33,7 @@ const LogOutScreen = (props) => {
             leftIcon={<AntDesign name="logout" size={24} color="red" />}
             rounded="xl"
             height="30%"
-            w="40%"
+            w="35%"
             onPress={() => logOut()}
           >
             Log out

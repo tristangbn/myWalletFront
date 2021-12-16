@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import {
@@ -35,16 +35,8 @@ function AddTransactionScreen(props) {
   const [mode, setMode] = useState("date");
   const [errorMessage, setErrorMessage] = useState([]);
 
-  // console.log(user, date);
-
   // Date Input
   const [show, setShow] = useState(false);
-
-  useEffect(() => {
-    // if (isFocused) {
-    console.log("<------ADD TRANSACTION------>");
-    // }
-  }, []);
 
   const handleErrorMessage = (field, errorArray) => {
     return errorArray.length > 0 && errorArray.find((el) => el.param === field)

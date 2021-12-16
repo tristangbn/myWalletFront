@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Box,
   Text,
@@ -8,7 +8,6 @@ import {
   Circle,
   Pressable,
 } from "native-base";
-import { Platform } from "react-native";
 
 import numeral from "numeral";
 import "numeral/locales";
@@ -32,26 +31,6 @@ function TransactionCard(props) {
   if (props.type === "buy") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {/* {Platform.OS === "ios" && (
-          <Box
-            h="100%"
-            w="1"
-            _dark={{ bg: "violet.800" }}
-            position="absolute"
-            ml="10"
-            shadow={{
-              shadowColor: "#5b21b6",
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 5.0,
-              elevation: 1,
-            }}
-          />
-        )} */}
-
         <Box
           ml="16"
           _text={{
@@ -200,26 +179,6 @@ function TransactionCard(props) {
   } else if (props.type === "sell") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {/* {Platform.OS === "ios" && (
-          <Box
-            h="100%"
-            w="1"
-            _dark={{ bg: "violet.800" }}
-            position="absolute"
-            ml="10"
-            shadow={{
-              shadowColor: "#5b21b6",
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 5.0,
-              elevation: 1,
-            }}
-          />
-        )} */}
-
         <Box
           ml="16"
           _text={{
@@ -304,26 +263,6 @@ function TransactionCard(props) {
   } else if (props.type === "transfer") {
     transaction = (
       <Box w="100%" h={cardHeight}>
-        {/* {Platform.OS === "ios" && (
-          <Box
-            h="100%"
-            w="1"
-            _dark={{ bg: "violet.800" }}
-            position="absolute"
-            ml="10"
-            shadow={{
-              shadowColor: "#5b21b6",
-              shadowOffset: {
-                width: 0,
-                height: 0,
-              },
-              shadowOpacity: 1,
-              shadowRadius: 5.0,
-              elevation: 1,
-            }}
-          />
-        )} */}
-
         <Box
           ml="16"
           _text={{
@@ -366,9 +305,8 @@ function TransactionCard(props) {
                       <Box w="33%" alignItems="center">
                         <Text fontWeight="light">Fees</Text>
                         <Text fontWeight="bold">
-                          {numeral(props.content.fees).format("0,0[.]00 $")}{" "}
+                          {numeral(props.content.fees).format("0,0[.]00 ")}{" "}
                         </Text>
-                        {/* Voir si on ne mettrait pas props.content.price */}
                       </Box>
                     </HStack>
                   </VStack>
