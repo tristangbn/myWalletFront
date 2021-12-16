@@ -48,10 +48,7 @@ function HomeScreen(props) {
       .get(`/list-crypto/${token}`)
       .then((response) => {
         let total = 0;
-        if (
-          response.data.ownedCryptos &&
-          response.data.ownedCryptos.length > 0
-        ) {
+        if (response.data.result && response.data.ownedCryptos.length > 0) {
           for (let i = 0; i < response.data.ownedCryptos.length; i++) {
             total +=
               response.data.ownedCryptos[i].currentPrice *
@@ -80,7 +77,7 @@ function HomeScreen(props) {
   function SwipeableList() {
     const deleteRow = (id) => {
       myWalletAPI.delete(`/delete-crypto/${id}/${token}`).then((response) => {
-        if (response.data) {
+        if (response.data.result) {
           LoadCryptoList();
         }
       });
