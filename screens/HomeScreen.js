@@ -39,6 +39,14 @@ function HomeScreen(props) {
   const [portfolioVariationInPercent, setPortfolioVariationInPercent] =
     useState(0);
 
+  // console.log(
+  //   ownedCryptos.sort((a, b) =>
+  //     a.currentPrice * a.totalQuantity > b.currentPrice * b.totalQuantity
+  //       ? 1
+  //       : -1
+  //   )
+  // );
+
   const token = props.authData[0].token;
   const user = props.authData[0].firstName;
 
@@ -55,7 +63,13 @@ function HomeScreen(props) {
           }
         }
         setTotal(total);
-        setOwnedCryptos(response.data.ownedCryptos);
+        setOwnedCryptos(
+          response.data.ownedCryptos.sort((a, b) =>
+            a.currentPrice * a.totalQuantity > b.currentPrice * b.totalQuantity
+              ? -1
+              : 1
+          )
+        );
         setPortfolioVariationInFiat(
           total - response.data.totalPortfolioInvestment
         );

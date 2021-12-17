@@ -187,7 +187,7 @@ function TransactionsScreen(props) {
   };
 
   const renderHiddenItem = (data) => (
-    <HStack flex="1" height="100%" py="6" mb="1" rounded="3xl">
+    <HStack flex="1" height="100%" py="6" my="1" rounded="3xl">
       <Pressable
         w="80%"
         bg="coolGray.200"
@@ -238,6 +238,7 @@ function TransactionsScreen(props) {
   function SwipeList() {
     return (
       <SwipeListView
+        // mt="3"
         keyExtractor={(item) => item._id}
         px="2"
         data={listTransactions}
@@ -332,7 +333,7 @@ function TransactionsScreen(props) {
         </HStack>
       </Center>
 
-      <VStack alignItems="center" px="3" w="100%">
+      <VStack alignItems="center" px="3" mb="3" w="100%">
         <HStack mt="4" mb="4" w="100%">
           <Button
             variant="addBtn"

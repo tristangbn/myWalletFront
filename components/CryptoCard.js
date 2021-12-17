@@ -49,7 +49,7 @@ function CryptoCard(props) {
           </HStack>
           <HStack>
             <Text fontSize="sm" fontWeight="light">
-              {props.crypto.totalQuantity +
+              {Math.round(props.crypto.totalQuantity * 1000) / 1000 +
                 " | " +
                 numeral(props.crypto.currentPrice).format("0,0[.]00 $")}
             </Text>
