@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { NativeBaseProvider, extendTheme, StatusBar } from "native-base";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -7,13 +7,14 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignInScreen from "./screens/SignInScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import { Platform } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
 import HomeScreen from "./screens/HomeScreen";
 import AddCryptoScreen from "./screens/AddCryptoScreen";
 import TransactionsScreen from "./screens/TransactionsScreen";
 import AddTransactionsScreen from "./screens/AddTransactionScreen";
 import EditTransactionScreen from "./screens/EditTransactionScreen";
 import LogOutScreen from "./screens/LogOutScreen";
+import StocksScreen from "./screens/StocksScreen";
 
 import authData from "./reducers/auth.reducer";
 import { Provider } from "react-redux";
@@ -37,7 +38,7 @@ const bottomNav = () => {
           } else if (route.name === "Stocks") {
             iconName = focused ? "bar-chart" : "bar-chart-outline";
           }
-          return <Ionicons name={iconName} size={25} color={color} />;
+          return <Ionicons name={iconName} size={24} color={color} />;
         },
 
         tabBarActiveTintColor: "#FFFFFF",

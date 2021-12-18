@@ -9,11 +9,10 @@ import {
   Input,
   Icon,
   Pressable,
-  ScrollView,
 } from "native-base";
 import { connect } from "react-redux";
 import coinGeckoAPI from "../api/coinGecko";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import myWalletAPI from "../api/myWallet";
 
 const AddCryptoScreen = (props) => {
@@ -105,14 +104,10 @@ const AddCryptoScreen = (props) => {
       h="100%"
       flex={1}
       px="3"
-      // width="100%"
       _dark={{ bg: "blueGray.900" }}
     >
       <Box
         p="10"
-        // pt="10"
-        // mt="5"
-        // placement="top"
         justifyContent="center"
         alignItems="center"
         rounded="2xl"
@@ -123,7 +118,6 @@ const AddCryptoScreen = (props) => {
           fontSize: "2xl",
           fontWeight: "bold",
           color: "#ffffff",
-          // letterSpacing: "lg",
         }}
       >
         Add a crypto
