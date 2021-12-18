@@ -111,35 +111,18 @@ function TransactionCard(props) {
                             elevation: 1,
                           }}
                         >
-                          {positive
-                            ? `${numeral(
-                                Math.round(
-                                  (((props.content.quantity *
-                                    props.content.currentPrice -
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100) /
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100
-                                ) / 100
-                              ).format("+0,0.00")} %`
-                            : `${numeral(
-                                Math.round(
-                                  (((props.content.quantity *
-                                    props.content.currentPrice -
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100) /
-                                    (props.content.price *
-                                      props.content.quantity +
-                                      props.content.fees)) *
-                                    100
-                                ) / 100
-                              ).format("0,0.00")} %`}
+                          {`${numeral(
+                            Math.round(
+                              (((props.content.quantity *
+                                props.content.currentPrice -
+                                (props.content.price * props.content.quantity +
+                                  props.content.fees)) *
+                                100) /
+                                (props.content.price * props.content.quantity +
+                                  props.content.fees)) *
+                                100
+                            ) / 100
+                          ).format("+0,0.00")} %`}
                         </Text>
                       </Box>
                     </HStack>

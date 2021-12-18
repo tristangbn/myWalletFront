@@ -13,15 +13,13 @@ import {
   Pressable,
   Icon,
 } from "native-base";
+
 import { SwipeListView } from "react-native-swipe-list-view";
-
 import { MaterialIcons, Entypo } from "@expo/vector-icons";
-
 import { Platform } from "react-native";
 import myWalletAPI from "../api/myWallet";
 
 import TransactionCard from "../components/TransactionCard";
-
 import numeral from "numeral";
 import "numeral/locales";
 numeral.locale("fr");
@@ -143,9 +141,17 @@ function TransactionsScreen(props) {
       <TransactionCard
         key={index}
         date={
-          Platform === "android"
-            ? dateFormat(new Date(item.date))
-            : new Date(item.date).toLocaleString("en-GB")
+          Platform.OS === "android"
+            ? `${new Date(item.date).getDate()}/${
+                new Date(item.date).getMonth() + 1
+              }/${new Date(item.date).getFullYear()} ${new Date(
+                item.date
+              ).getHours()}:${new Date(item.date).getMinutes()}:${new Date(
+                item.date
+              )}`
+            : new Date(item.date).toLocaleString("fr-FR", {
+                timeZone: "UTC",
+              })
         }
         type={item.type}
         content={{

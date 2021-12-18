@@ -9,7 +9,6 @@ import {
   Input,
   Icon,
   Pressable,
-  ScrollView,
 } from "native-base";
 import { connect } from "react-redux";
 import coinGeckoAPI from "../api/coinGecko";
