@@ -22,7 +22,6 @@ import StocksScreen from "./screens/StocksScreen";
 import authData from "./reducers/auth.reducer";
 import { Provider } from "react-redux";
 import { createStore, combineReducers } from "redux";
-import StocksScreen from "./screens/StocksScreen";
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
