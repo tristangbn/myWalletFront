@@ -39,7 +39,7 @@ const SignInScreen = (props) => {
         myWalletAPI
           .post("/users/sign-in-token", { token: userData.token })
           .then((response) => {
-            if (response.data.result) props.navigation.navigate("bottomNav");
+            if (response.data.result) props.navigation.navigate("BottomNav");
           });
       }
     });
@@ -64,7 +64,7 @@ const SignInScreen = (props) => {
           setEmail("");
           setPassword("");
           if (props.authData.length === 0) props.onLogin(userData);
-          props.navigation.navigate("bottomNav");
+          props.navigation.navigate("BottomNav");
         }
       });
   };

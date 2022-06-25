@@ -56,7 +56,7 @@ const AddCryptoScreen = (props) => {
       })
       .then((response) => {
         if (response.data.result) {
-          props.navigation.navigate("bottomNav");
+          props.navigation.navigate("BottomNav");
         }
       });
   };

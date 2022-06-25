@@ -27,7 +27,7 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 const store = createStore(combineReducers({ authData }));
 
-const bottomNav = () => {
+const BottomNav = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -137,7 +137,7 @@ function App() {
           >
             <Stack.Screen name="Sign-in" component={SignInScreen} />
             <Stack.Screen name="Sign-up" component={SignUpScreen} />
-            <Stack.Screen name="bottomNav" component={bottomNav} />
+            <Stack.Screen name="BottomNav" component={BottomNav} />
             <Stack.Screen name="AddCrypto" component={AddCryptoScreen} />
             <Stack.Screen
               name="ListTransactions"

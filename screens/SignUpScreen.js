@@ -51,7 +51,7 @@ const SignUpScreen = (props) => {
           });
           AsyncStorage.setItem("userData", userData);
           props.onLogin(JSON.parse(userData));
-          props.navigation.navigate("bottomNav");
+          props.navigation.navigate("BottomNav");
         }
       });
   };
